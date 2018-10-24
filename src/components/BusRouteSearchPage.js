@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
-import { Search } from 'semantic-ui-react'
+import Search from 'react-search-input'
 
 class BusRouteSearchPage extends Component {
 
   constructor () {
     super()
     this.state = {
-      isLoading: false,
       value: '',
       results: [],
       selectedBusRoute: null,
     }
-  }
-
-  handleSearchChange = (e, { value }) => {
-    this.setState({ isLoading: true})
-
-
   }
 
   handleResultSelect = (e, { result }) => this.setState({ value: result.title })
@@ -27,10 +20,8 @@ class BusRouteSearchPage extends Component {
     return (
       <>
         <Search
-          loading={isLoading}
-          onResultSelect={this.handleResultSelect}
-          onSearchChange={this.handleSearchChange}
-          results={results}
+          className='search-input'
+          onChange={this.handleChange}
           value={value}
         />
         <BusRouteOverview route={selectedBusRoute}/>
