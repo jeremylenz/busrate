@@ -10,7 +10,7 @@ const StyledSpan = styled.span`
   border-style: solid;
   display: inline-block;
   text-align: center;
-  font-size: 4em;
+  font-size: 2em;
 `
 
 const StyledDiv = styled.div`

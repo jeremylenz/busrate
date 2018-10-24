@@ -7,12 +7,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <BusStopDetail
-          routeName='Q39'
-          routeDirection='Cooper Av / Ridgewood'
-          stopNum='19126'
-          stopName='27th St & Queens Plz S'
-        />
+        <div className='container'>
+          <BusStopDetail
+            routeName='M101-SBS'
+            routeDirection='Cooper Av / Ridgewood'
+            stopNum='19126'
+            stopName='27th St & Queens Plz S'
+          />
+        </div>
       </div>
     );
   }

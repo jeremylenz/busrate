@@ -1,5 +1,46 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+}
+
+.App {
+}
+
+.container {
+  width: 700px;
+  display: inline-grid;
+  grid-template-columns: 175px auto 175px;
+  grid-template-rows: 175px auto;
+  grid-template-areas:
+    "bubble header header"
+    "main main main"
+}
+
+.bus-stop-detail {
+  grid-area: 1 / 1 / -1 / -1
+}
+
+.bus-route-name {
+  grid-area: bubble;
+}
+
+.bus-route-header {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 175px auto 175px;
+  grid-template-rows: 175px;
+  grid-template-areas: "bubble header header";
+  place-items: center;
+}
+
+.bus-route-info {
+  grid-area: header;
+  justify-self: left;
+  padding-left: 15px;
+}
+
+.bus-departure-details {
+  grid-area: main;
+  text-align: left;
 }
