@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment'
+import BusRouteHeader from './BusRouteHeader.js'
+import BusDepartureDetails from './BusDepartureDetails.js'
 
 class BusStopDetail extends Component {
 
@@ -19,19 +21,19 @@ class BusStopDetail extends Component {
     const minutesAway = 4
 
     const recents = [
-      moment().subtract(43, 'minutes').fromNow(),
-      moment().subtract(34, 'minutes').fromNow(),
-      moment().subtract(10, 'minutes').fromNow(),
-      moment().subtract(2, 'minutes').fromNow(),
+      moment().subtract(43, 'minutes').format('LT'),
+      moment().subtract(34, 'minutes').format('LT'),
+      moment().subtract(10, 'minutes').format('LT'),
+      moment().subtract(2, 'minutes').format('LT'),
     ]
 
     const yesterday = [
-      moment().subtract(57, 'minutes').fromNow(),
-      moment().subtract(29, 'minutes').fromNow(),
-      moment().subtract(8, 'minutes').fromNow(),
-      moment().subtract(4, 'minutes').fromNow(),
+      moment().subtract(1497, 'minutes').format('LT'),
+      moment().subtract(1469, 'minutes').format('LT'),
+      moment().subtract(1448, 'minutes').format('LT'),
+      moment().subtract(1444, 'minutes').format('LT'),
     ]
-    
+
     this.setState({
       stopsAway,
       minutesAway,
@@ -41,12 +43,12 @@ class BusStopDetail extends Component {
   }
 
   render() {
-    const { routeName } = this.props
+    const { routeName, routeDirection, stopNum, stopName } = this.props
     const { stopsAway, minutesAway, recents, yesterday } = this.state
 
     return (
       <div className='bus-stop-detail'>
-        <BusRouteHeader routeName={routeName} />
+        <BusRouteHeader routeName={routeName} routeDirection={routeDirection} stopNum={stopNum} stopName={stopName} />
         <BusDepartureDetails stopsAway={stopsAway} minutesAway={minutesAway} recents={recents} yesterday={yesterday} />
       </div>
     );
