@@ -1,30 +1,64 @@
 import React, { Component } from 'react';
-import Search from 'react-search-input'
+import Search, { createFilter } from 'react-search-input'
 
 class BusRouteSearchPage extends Component {
 
   constructor () {
     super()
     this.state = {
-      value: '',
-      results: [],
+      searchTerm: '',
       selectedBusRoute: null,
+      routeList: [],
     }
   }
 
-  handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+  componentDidMount() {
+    // mock API call
+    this.setState({
+      routeList: [
+        {
+          routeName: 'Q39',
+          routeDescription: 'Long Island City to Ridgewood',
+        },
+        {
+          routeName: 'M15-SBS',
+          routeDescription: 'Second Avenue Select Bus Service',
+        },
+      ]
+    })
+  }
+
+  handleChange = (searchTerm) => {
+    this.setState({
+      searchTerm
+    })
+  }
+
 
   render() {
-    const { isLoading, value, results, selectedBusRoute } = this.state
+    const { isLoading, searchTerm, selectedBusRoute, routeList } = this.state
+    const results = routeList.filter(createFilter(searchTerm, ['routeName']))
 
     return (
       <>
         <Search
           className='search-input'
           onChange={this.handleChange}
-          value={value}
+          value={searchTerm}
         />
-        <BusRouteOverview route={selectedBusRoute}/>
+        <div className='search-results'>
+          {results.length > 0 &&
+            results.map((result) =>
+            (
+              <div className='search-result'>
+                <p>{result.routeName}
+                  <span> - {result.routeDescription}</span>
+                </p>
+              </div>
+            )
+          )}
+        </div>
+        {/* <BusRouteOverview route={selectedBusRoute}/> */}
       </>
     );
   }
