@@ -5,13 +5,14 @@ const SearchResultsList = (props) => {
   const handleClick = (routeName) => {
     console.log(routeName)
   };
-  const { results } = props;
+  const { results, display } = props;
+  if (display === false) return null;
   return (
     <div className='search-results'>
-      {results.length > 0 &&
+      {display &&
         results.map((result, index) =>
         (
-          <div className='search-result' onClick={() => handleClick(result.routeName)}>
+          <div className='search-result' key={result.routeName} onClick={() => handleClick(result.routeName)}>
             <br></br>
             <p>{result.routeName}
               <span> - {result.routeDescription}</span>

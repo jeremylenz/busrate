@@ -38,7 +38,8 @@ class BusRouteSearchPage extends Component {
 
   render() {
     const { isLoading, searchTerm, selectedBusRoute, routeList } = this.state
-    const results = routeList.filter(createFilter(searchTerm, ['routeName']))
+    const results = routeList.filter(createFilter(searchTerm, ['routeName', 'routeDescription']))
+    const display = (results.length > 0 && !!searchTerm)
 
     return (
       <>
@@ -49,7 +50,7 @@ class BusRouteSearchPage extends Component {
           throttle={10}
           placeholder='enter bus route...'
         />
-        <SearchResultsList results={results} />
+        <SearchResultsList results={results} display={display}/>
         {/* <BusRouteOverview route={selectedBusRoute}/> */}
       </>
     );

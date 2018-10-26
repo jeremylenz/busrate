@@ -76,9 +76,10 @@ body {
 /* Search input  */
 
 .search-input {
+  grid-column: 1 / -1;
+  align-self: center;
   padding: 10px 10px;
   height: 50px;
-  grid-column: 1 / -1;
   border: 3px solid;
   border-radius: 16px;
   border-color: #d46060;
