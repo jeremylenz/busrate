@@ -48,6 +48,29 @@ body {
 
 .search-results {
   grid-column: 1 / -1;
+  border: 3px solid;
+  border-radius: 16px;
+  border-color: #ffee43;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.search-result {
+  font-size: 2em;
+  padding-left: 10px;
+}
+
+.search-result:hover {
+  background-color: #f0f8ff;
+  cursor: pointer;
+}
+
+.search-result > p, .search-result > hr {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Search input  */

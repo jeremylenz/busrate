@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Search, { createFilter } from 'react-search-input'
+import SearchResultsList from './SearchResultsList'
 
 class BusRouteSearchPage extends Component {
 
@@ -45,19 +46,10 @@ class BusRouteSearchPage extends Component {
           className='search-input'
           onChange={this.handleChange}
           value={searchTerm}
+          throttle={10}
+          placeholder='enter bus route...'
         />
-        <div className='search-results'>
-          {results.length > 0 &&
-            results.map((result) =>
-            (
-              <div className='search-result'>
-                <p>{result.routeName}
-                  <span> - {result.routeDescription}</span>
-                </p>
-              </div>
-            )
-          )}
-        </div>
+        <SearchResultsList results={results} />
         {/* <BusRouteOverview route={selectedBusRoute}/> */}
       </>
     );
