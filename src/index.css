@@ -26,7 +26,7 @@ body {
   grid-area: bubble;
 }
 
-.bus-route-header {
+.bus-route-header, .bus-route-overview {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 175px auto 175px;
@@ -52,15 +52,16 @@ body {
   border-radius: 16px;
   border-color: #ffee43;
   text-align: left;
-  padding-left: 10px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .search-result {
   font-size: 2em;
   padding-left: 10px;
+  border-radius: 8px;
 }
 
 .search-result:hover {
@@ -96,8 +97,7 @@ input[type="search"] {
   box-sizing: content-box;
   width: 95%;
   font-size: 3em;
-  /* background: aliceblue; */
-  line-height: 22px;
+  /* line-height: 1; */
   padding: 5px 10px 5px 25px;
   height: 40px;
   position: relative;

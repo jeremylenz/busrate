@@ -51,7 +51,6 @@ class BusRouteSearchPage extends Component {
           placeholder='enter bus route...'
         />
         <SearchResultsList results={results} display={display}/>
-        {/* <BusRouteOverview route={selectedBusRoute}/> */}
       </>
     );
   }
