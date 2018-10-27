@@ -4,20 +4,21 @@ import './App.css';
 import BusStopDetail from './components/BusStopDetail.js'
 import BusRouteSearchPage from './components/BusRouteSearchPage.js'
 import BusRouteOverview from './components/BusRouteOverview.js'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <div className='container'>
-          {/* <BusRouteSearchPage /> */}
+          <BusRouteSearchPage />
           {/* <BusStopDetail
             routeName='M101-SBS'
             routeDirection='Cooper Av / Ridgewood'
             stopNum='19126'
             stopName='27th St & Queens Plz S'
           /> */}
-          <BusRouteOverview
+          {/* <BusRouteOverview
             routeName='Q39'
             routeDescription='Long Island City to Ridgewood'
             stopLists={[
@@ -31,7 +32,7 @@ class App extends Component {
               }
             ]
             }
-          />
+          /> */}
         </div>
       </div>
     );
