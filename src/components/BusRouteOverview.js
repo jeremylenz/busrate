@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BusRouteHeader from './BusRouteHeader'
 import BusStopList from './BusStopList'
+import TerminalChooser from './TerminalChooser'
 
 class BusRouteOverview extends Component {
 
@@ -9,6 +10,14 @@ class BusRouteOverview extends Component {
     this.state = {
       selectedDirection: 0
     }
+  }
+
+  handleTerminalSelection = (terminalName) => {
+    const terminals = this.props.stopLists.map((stopList) => stopList.direction)
+    let newTerminal = terminals.indexOf(terminalName)
+    this.setState({
+      selectedDirection: newTerminal,
+    })
   }
 
   render() {
@@ -32,7 +41,7 @@ class BusRouteOverview extends Component {
       <div className='bus-route-overview'>
         <BusRouteHeader routeName={routeName} routeDescription={routeDescription} />
         <div className='bus-stop-list-container'>
-          {/* <TerminalChooser terminals={terminals} /> */}
+          <TerminalChooser terminals={terminals} selected={selectedDirectionName} handleTerminalSelection={this.handleTerminalSelection} />
           <BusStopList stopList={stopList} />
         </div>
       </div>
