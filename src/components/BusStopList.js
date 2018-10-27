@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom'
 
 const BusStopList = (props) => {
   const handleClick = (busStop) => {
     console.log(busStop)
+    console.log(props)
+
+    const routeName = props.match.params.id
+    props.history.push(`/buses/${routeName}/stops/${busStop}`)
   };
 
   const { stopList, display } = props;
@@ -26,4 +31,4 @@ const BusStopList = (props) => {
   );
 };
 
-export default BusStopList;
+export default withRouter(BusStopList);

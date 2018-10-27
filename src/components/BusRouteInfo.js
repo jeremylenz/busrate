@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const StyledDiv = styled.div`
   text-align: left;
@@ -19,13 +20,14 @@ const BusRouteInfo = (props) => {
       {routeDirection && stopNum &&
         <>
           <p>Toward {routeDirection}</p>
-          <p>Stop # {stopNum}</p>
-          <p>{stopName}</p>
+          <p>Stop # {stopNum} - {stopName}</p>
+          <Link to='/'>{'<< Back'}</Link>
         </>
       }
       {routeDescription &&
         <StyledP>{routeDescription}</StyledP>
       }
+
     </StyledDiv>
   )
 }

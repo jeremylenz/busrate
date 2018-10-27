@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom'
 
 const SearchResultsList = (props) => {
   const handleClick = (routeName) => {
     console.log(routeName)
+    props.history.push(`/buses/${routeName}`)
   };
   const { results, display } = props;
   if (display === false) return null;
@@ -28,4 +30,4 @@ const SearchResultsList = (props) => {
   );
 }
 
-export default SearchResultsList;
+export default withRouter(SearchResultsList);

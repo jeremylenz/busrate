@@ -10,7 +10,7 @@ class App extends Component {
   render() {
 
     const StopDetail = () => (<BusStopDetail
-      routeName='M101-SBS'
+      routeName='Q39'
       routeDirection='Cooper Av / Ridgewood'
       stopNum='19126'
       stopName='27th St & Queens Plz S'

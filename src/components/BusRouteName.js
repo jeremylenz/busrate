@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const StyledSpan = styled.span`
   height: 150px;
@@ -20,7 +21,7 @@ const StyledDiv = styled.div`
 const BusRouteName = (props) => (
   <StyledSpan className='bus-route-name'>
     <StyledDiv classname='bus-route-name-text'>
-      {props.routeName}
+      <Link to={`/buses/${props.routeName}`}>{props.routeName}</Link>
     </StyledDiv>
   </StyledSpan>
 );
