@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import BusRouteName from './BusRouteName'
+import BusRouteHeader from './BusRouteHeader'
+import BusStopList from './BusStopList'
 
 class BusRouteOverview extends Component {
 
@@ -29,9 +30,10 @@ class BusRouteOverview extends Component {
 
     return (
       <div className='bus-route-overview'>
-        <BusRouteName routeName={routeName} />
-        <div>
-          {routeDescription}
+        <BusRouteHeader routeName={routeName} routeDescription={routeDescription} />
+        <div className='bus-stop-list-container'>
+          {/* <TerminalChooser terminals={terminals} /> */}
+          <BusStopList stopList={stopList} />
         </div>
       </div>
     );

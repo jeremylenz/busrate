@@ -18,15 +18,37 @@ body {
     "main main main"
 }
 
-.bus-stop-detail {
+.bus-stop-detail, .bus-route-overview {
   grid-area: 1 / 1 / -1 / -1
+}
+
+.bus-stop-list-container {
+  grid-column: 1 / -1;
+  border: 3px solid;
+  border-radius: 16px;
+  border-color: #ffee43;
+  text-align: left;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.bus-stop-list li {
+  font-size: 1.5em;
+  list-style-type: none;
+}
+
+.bus-stop-list li:hover {
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .bus-route-name {
   grid-area: bubble;
 }
 
-.bus-route-header, .bus-route-overview {
+.bus-route-header {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 175px auto 175px;
