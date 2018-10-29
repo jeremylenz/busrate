@@ -1,6 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+
+const StyledDiv = styled.div`
+  border: 3px solid;
+  border-radius: 16px;
+  border-color: #ffee43;
+  text-align: left;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+`
+
+const SearchResult = styled.div`
+  font-size: 2em;
+  padding-left: 10px;
+  border-radius: 8px;
+  &:hover {
+    background-color: #f0f8ff;
+    cursor: pointer;
+  }
+
+  & > p, & > hr {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+`
+
 
 const SearchResultsList = (props) => {
   const handleClick = (routeName) => {
@@ -10,11 +39,11 @@ const SearchResultsList = (props) => {
   const { results, display } = props;
   if (display === false) return null;
   return (
-    <div className='search-results'>
+    <StyledDiv className='search-results'>
       {display &&
         results.map((result, index) =>
         (
-          <div className='search-result' key={result.routeName} onClick={() => handleClick(result.routeName)}>
+          <SearchResult className='search-result' key={result.routeName} onClick={() => handleClick(result.routeName)}>
             <br></br>
             <p>{result.routeName}
               <span> - {result.routeDescription}</span>
@@ -23,10 +52,10 @@ const SearchResultsList = (props) => {
             {index < results.length - 1 &&
               <hr></hr>
             }
-          </div>
+          </SearchResult>
         )
       )}
-    </div>
+    </StyledDiv>
   );
 }
 

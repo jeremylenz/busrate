@@ -13,6 +13,8 @@ a {
   text-decoration: none;
 }
 
+/* This file is primarily just for CSS Grid-related styles.  All other styles should be handled via styled-components. */
+
 .container {
   width: 700px;
   margin-top: 10px;
@@ -30,24 +32,6 @@ a {
 
 .bus-stop-list-container {
   grid-column: 1 / -1;
-  border: 3px solid;
-  border-radius: 16px;
-  border-color: #ffee43;
-  text-align: left;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-
-.bus-stop-list li {
-  font-size: 1.5em;
-  list-style-type: none;
-}
-
-.bus-stop-list li:hover {
-  font-weight: bold;
-  cursor: pointer;
 }
 
 .bus-route-name {
@@ -66,72 +50,17 @@ a {
 .bus-route-info {
   grid-area: header;
   justify-self: left;
-  padding-left: 15px;
 }
 
 .bus-departure-details {
   grid-area: main;
-  text-align: left;
 }
 
 .search-results {
   grid-column: 1 / -1;
-  border: 3px solid;
-  border-radius: 16px;
-  border-color: #ffee43;
-  text-align: left;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
 }
-
-.search-result {
-  font-size: 2em;
-  padding-left: 10px;
-  border-radius: 8px;
-}
-
-.search-result:hover {
-  background-color: #f0f8ff;
-  cursor: pointer;
-}
-
-.search-result > p, .search-result > hr {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-/* Search input  */
 
 .search-input {
   grid-column: 1 / -1;
   align-self: center;
-  padding: 10px 10px;
-  height: 50px;
-  border: 3px solid;
-  border-radius: 16px;
-  border-color: #d46060;
-  padding-right: 30px;
-  text-align: left;
-}
-
-input[type="search"] {
-    -webkit-appearance: none;
-    /* https://stackoverflow.com/questions/7134202/input-type-search-dont-accept-height */
-}
-
-.search-input > input {
-  box-sizing: content-box;
-  width: 95%;
-  font-size: 3em;
-  /* line-height: 1; */
-  padding: 5px 10px 5px 25px;
-  height: 40px;
-  position: relative;
-  border-style: none;
-}
-
-.search-input > input:focus {
-  outline: none;
 }

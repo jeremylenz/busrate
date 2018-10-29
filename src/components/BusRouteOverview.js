@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import BusRouteHeader from './BusRouteHeader'
 import BusStopList from './BusStopList'
 import TerminalChooser from './TerminalChooser'
+import styled from 'styled-components'
+
+const StyledDiv = styled.div`
+  border: 3px solid;
+  border-radius: 16px;
+  border-color: #ffee43;
+  text-align: left;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+`
 
 class BusRouteOverview extends Component {
 
@@ -40,10 +52,10 @@ class BusRouteOverview extends Component {
     return (
       <div className='bus-route-overview'>
         <BusRouteHeader routeName={routeName} routeDescription={routeDescription} />
-        <div className='bus-stop-list-container'>
+        <StyledDiv className='bus-stop-list-container'>
           <TerminalChooser terminals={terminals} selected={selectedDirectionName} handleTerminalSelection={this.handleTerminalSelection} />
           <BusStopList stopList={stopList} />
-        </div>
+        </StyledDiv>
       </div>
     );
   }

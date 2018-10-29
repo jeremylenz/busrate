@@ -1,6 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+
+const StyledDiv = styled.div`
+  & li {
+    font-size: 1.5em;
+    list-style-type: none;
+  }
+
+  & li:hover {
+    font-weight: bold;
+    cursor: pointer;
+  }
+`
 
 const BusStopList = (props) => {
   const handleClick = (busStop) => {
@@ -17,7 +30,7 @@ const BusStopList = (props) => {
 
   console.log(stopList)
   return (
-    <div className='bus-stop-list'>
+    <StyledDiv className='bus-stop-list'>
       <ul>
         {
           stops.map((busStop) =>
@@ -27,7 +40,7 @@ const BusStopList = (props) => {
         )}
 
       </ul>
-    </div>
+    </StyledDiv>
   );
 };
 

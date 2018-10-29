@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 const StyledDiv = styled.div`
   text-align: left;
   font-size: 22px;
+  padding-left: 15px;
 `
 
 const StyledP = styled.p`
