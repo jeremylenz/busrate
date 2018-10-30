@@ -44,7 +44,9 @@ class BusRouteSearchPage extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchBusRoutes()
+    if (this.props.busRoutes.items.length < 1) {
+      this.props.fetchBusRoutes()
+    }
 
   }
 
@@ -58,7 +60,6 @@ class BusRouteSearchPage extends Component {
   render() {
     const { isLoading, searchTerm, selectedBusRoute } = this.state
     const routeList = this.props.busRoutes.items || []
-    console.log(routeList)
     const results = routeList.filter(createFilter(searchTerm, ['shortName', 'longName']))
     const display = (results.length > 0 && !!searchTerm)
 

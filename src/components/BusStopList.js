@@ -17,8 +17,6 @@ const StyledDiv = styled.div`
 
 const BusStopList = (props) => {
   const handleClick = (busStop) => {
-    console.log(busStop)
-    console.log(props)
 
     const routeName = props.match.params.id
     props.history.push(`/buses/${routeName}/stops/${busStop}`)
