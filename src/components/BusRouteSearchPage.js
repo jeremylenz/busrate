@@ -42,6 +42,8 @@ class BusRouteSearchPage extends Component {
   }
 
   componentDidMount() {
+    console.log(process.env.REACT_APP_MTA_BUS_API_KEY)
+
     // mock API call
     this.setState({
       routeList: [

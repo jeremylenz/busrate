@@ -7,6 +7,10 @@ import BusRouteOverview from './components/BusRouteOverview.js'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 class App extends Component {
+
+  componentDidMount() {
+  }
+
   render() {
 
     const StopDetail = () => (<BusStopDetail
