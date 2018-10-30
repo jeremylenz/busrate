@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Search, { createFilter } from 'react-search-input'
 import SearchResultsList from './SearchResultsList'
 import styled from 'styled-components'
+import { LIST_OF_NYCT_BUS_ROUTES_URL, LIST_OF_MTA_BUS_ROUTES_URL } from '../constants'
 
 const StyledSearch = styled(Search)`
   padding: 10px 10px;
@@ -43,6 +44,8 @@ class BusRouteSearchPage extends Component {
 
   componentDidMount() {
     console.log(process.env.REACT_APP_MTA_BUS_API_KEY)
+    console.log(LIST_OF_NYCT_BUS_ROUTES_URL)
+    console.log(LIST_OF_MTA_BUS_ROUTES_URL)
 
     // mock API call
     this.setState({
