@@ -1,9 +1,11 @@
+import { SET_BUS_ROUTES } from '../actions/busRoutes'
+
 const busRoutesState = {
   loading: false,
   items: [],
 }
 
-const busRoutesReducer = (state = busRoutesState, action) => {
+export const busRoutesReducer = (state = busRoutesState, action) => {
   switch (action.type) {
     case SET_BUS_ROUTES:
       let newBusRoutes = {

@@ -5,6 +5,8 @@ import BusStopDetail from './components/BusStopDetail.js'
 import BusRouteSearchPage from './components/BusRouteSearchPage.js'
 import BusRouteOverview from './components/BusRouteOverview.js'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from './redux/store.js'
 
 class App extends Component {
 
@@ -39,13 +41,15 @@ class App extends Component {
     return (
       <div className="App">
         <div className='container'>
-          <Router>
-            <Switch>
-              <Route exact path='/' component={BusRouteSearchPage} />
-              <Route exact path='/buses/:id' render={RouteOverview} />
-              <Route exact path='/buses/:id/stops/:stop' render={StopDetail} />
-            </Switch>
-          </Router>
+          <Provider store={store}>
+            <Router>
+              <Switch>
+                <Route exact path='/' component={BusRouteSearchPage} />
+                <Route exact path='/buses/:id' render={RouteOverview} />
+                <Route exact path='/buses/:id/stops/:stop' render={StopDetail} />
+              </Switch>
+            </Router>
+          </Provider>
         </div>
       </div>
     );

@@ -1,4 +1,4 @@
-import { API_REQUEST, apiSuccess, apiError } from "../actions/api";
+import { API_REQUEST, apiSuccess, apiError } from "../../actions/api";
 
 export const apiMiddleware = ({dispatch}) => (next) => (action) => {
   next(action);
