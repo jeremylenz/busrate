@@ -13,7 +13,6 @@ export const busRoutesReducer = (state = busRoutesState, action) => {
       }
       let newState = Object.assign({}, state, newBusRoutes)
       return newState
-      break;
     default:
     return state
   }

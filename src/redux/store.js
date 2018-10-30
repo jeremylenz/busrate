@@ -1,24 +1,22 @@
 // adapted from Nir Kaufman's "Thinking in Redux"
 
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
-// import {booksReducer} from './reducers/books.reducer';
 import {busRoutesReducer} from "./reducers/busRoutes.reducer";
 
-// import {booksMiddleware} from './middleware/feature/books';
+import {busRoutesMiddleware} from './middleware/feature/busRoutes';
 
 import {apiMiddleware} from './middleware/core/api';
 
 // shape the state structure
 
 const rootReducer = combineReducers({
-  // books: booksReducer,
   busRoutes: busRoutesReducer,
 })
 
 // create the feature middleware array
 
 const featureMiddleware = [
-  // booksMiddleware
+  busRoutesMiddleware,
 ];
 
 const coreMiddleware = [
@@ -26,10 +24,11 @@ const coreMiddleware = [
 ]
 
 // compose the middleware with additional (optional) enhancers
+// also add Redux Devtools Extension hookup
 
-const enhancer = compose(
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const enhancer = composeEnhancers(
   applyMiddleware(...featureMiddleware, ...coreMiddleware),
-  // devtools goes here
 );
 
 export const store = createStore(rootReducer, {}, enhancer);

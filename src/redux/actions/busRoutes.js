@@ -7,10 +7,9 @@ export const SET_BUS_ROUTES = `${BUS_ROUTES} SET`;
 
 // action creators
 
-export const fetchBusRoutes = ({query}) => {
+export const fetchBusRoutes = () => {
   return {
     type: FETCH_BUS_ROUTES,
-    payload: query
   }
 }
 

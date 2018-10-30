@@ -43,10 +43,10 @@ const SearchResultsList = (props) => {
       {display &&
         results.map((result, index) =>
         (
-          <SearchResult className='search-result' key={result.routeName} onClick={() => handleClick(result.routeName)}>
+          <SearchResult className='search-result' key={result.shortName} onClick={() => handleClick(result.shortName)}>
             <br></br>
-            <p>{result.routeName}
-              <span> - {result.routeDescription}</span>
+            <p>{result.shortName}
+              <span> - {result.longName}</span>
             </p>
             <br></br>
             {index < results.length - 1 &&

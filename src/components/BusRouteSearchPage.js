@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { fetchBusRoutes } from '../redux/actions/busRoutes'
 import Search, { createFilter } from 'react-search-input'
 import SearchResultsList from './SearchResultsList'
 import styled from 'styled-components'
@@ -38,28 +40,12 @@ class BusRouteSearchPage extends Component {
     this.state = {
       searchTerm: '',
       selectedBusRoute: null,
-      routeList: [],
     }
   }
 
   componentDidMount() {
-    console.log(process.env.REACT_APP_MTA_BUS_API_KEY)
-    console.log(LIST_OF_NYCT_BUS_ROUTES_URL)
-    console.log(LIST_OF_MTA_BUS_ROUTES_URL)
+    this.props.fetchBusRoutes()
 
-    // mock API call
-    this.setState({
-      routeList: [
-        {
-          routeName: 'Q39',
-          routeDescription: 'Long Island City to Ridgewood',
-        },
-        {
-          routeName: 'M15-SBS',
-          routeDescription: 'Second Avenue Select Bus Service',
-        },
-      ]
-    })
   }
 
   handleChange = (searchTerm) => {
@@ -70,8 +56,10 @@ class BusRouteSearchPage extends Component {
 
 
   render() {
-    const { isLoading, searchTerm, selectedBusRoute, routeList } = this.state
-    const results = routeList.filter(createFilter(searchTerm, ['routeName', 'routeDescription']))
+    const { isLoading, searchTerm, selectedBusRoute } = this.state
+    const routeList = this.props.busRoutes.items || []
+    console.log(routeList)
+    const results = routeList.filter(createFilter(searchTerm, ['shortName', 'longName']))
     const display = (results.length > 0 && !!searchTerm)
 
     return (
@@ -90,4 +78,12 @@ class BusRouteSearchPage extends Component {
 
 }
 
-export default BusRouteSearchPage;
+const mapStateToProps = (state) => {
+  return {
+    busRoutes: state.busRoutes,
+  }
+};
+
+const mapDispatchToProps = { fetchBusRoutes }
+
+export default connect(mapStateToProps, mapDispatchToProps)(BusRouteSearchPage);

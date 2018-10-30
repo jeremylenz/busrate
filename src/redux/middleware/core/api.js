@@ -8,8 +8,8 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
 
     fetch(url, { method })
       .then((response) => response.json())
-      .then((data) => dispatch(apiSuccess(data, feature)))
-      .catch((error) => dispatch(apiError(error, feature)))
+      .then((response) => dispatch(apiSuccess({response, feature})))
+      .catch((error) => dispatch(apiError({error, feature})))
 
     console.log(`${action.type} action!!`)
   }
