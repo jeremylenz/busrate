@@ -1,10 +1,12 @@
-import { API_REQUEST, apiSuccess, apiError } from "../../actions/api";
+import { API_REQUEST, API_SUCCESS, API_ERROR, apiSuccess, apiError } from "../../actions/api";
+import { setLoader, clearLoader } from '../../actions/ui'
 
 export const apiMiddleware = ({dispatch}) => (next) => (action) => {
   next(action);
 
   if(action.type.includes(API_REQUEST)) {
     const { url, method, feature } = action.meta
+    next(setLoader({feature}));
 
     fetch(url, { method })
       .then((response) => response.json())
@@ -12,5 +14,10 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
       .catch((error) => dispatch(apiError({error, feature})))
 
     console.log(`${action.type} action!!`)
+  }
+
+  if(action.type.includes(API_SUCCESS) || action.type.includes(API_ERROR)) {
+    const { feature } = action.meta
+    next(clearLoader({feature}));
   }
 }

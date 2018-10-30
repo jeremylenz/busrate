@@ -2,6 +2,7 @@
 
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import {busRoutesReducer} from "./reducers/busRoutes.reducer";
+import {uiReducer} from './reducers/ui.reducer'
 
 import {busRoutesMiddleware} from './middleware/feature/busRoutes';
 
@@ -11,6 +12,7 @@ import {apiMiddleware} from './middleware/core/api';
 
 const rootReducer = combineReducers({
   busRoutes: busRoutesReducer,
+  ui: uiReducer,
 })
 
 // create the feature middleware array

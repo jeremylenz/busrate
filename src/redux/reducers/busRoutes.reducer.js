@@ -1,7 +1,6 @@
 import { SET_BUS_ROUTES } from '../actions/busRoutes'
 
 const busRoutesState = {
-  loading: false,
   items: [],
 }
 
