@@ -15,7 +15,7 @@ export const busRoutesMiddleware = () => (next) => (action) => {
       break;
 
     case `${BUS_ROUTES} ${API_SUCCESS}`:
-      next(setBusRoutes({busRoutes: action.payload.items}))
+      next(setBusRoutes({items: action.payload.items}))
       break;
     case `${BUS_ROUTES} ${API_ERROR}`:
       next(setNotification({message: action.payload.message, feature: BUS_ROUTES}))
