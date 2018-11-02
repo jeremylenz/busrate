@@ -1,6 +1,14 @@
 import { API_REQUEST, API_SUCCESS, API_ERROR, apiSuccess, apiError } from "../../actions/api";
 import { setLoader, clearLoader } from '../../actions/ui'
 
+const checkResponse = (response) => {
+  if(response.status !== 200) {
+    console.error(response)
+    throw new Error(response)
+  }
+  return response
+}
+
 export const apiMiddleware = ({dispatch}) => (next) => (action) => {
   next(action);
 
@@ -10,6 +18,7 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
 
     fetch(url, { method })
       .then((response) => response.json())
+      .then((response) => checkResponse(response))
       .then((response) => dispatch(apiSuccess({response, feature})))
       .catch((error) => dispatch(apiError({error, feature})))
 
