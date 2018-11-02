@@ -3,7 +3,10 @@ import { setLoader, clearLoader } from '../../actions/ui'
 
 const checkResponse = (response) => {
   if(response.status !== 200) {
-    console.error(response)
+    response.json()
+    .then((response) => {
+      console.error(response.body)
+    })
     throw new Error(response)
   }
   return response
@@ -17,8 +20,8 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
     next(setLoader({feature}));
 
     fetch(url, { method })
-      .then((response) => response.json())
       .then((response) => checkResponse(response))
+      .then((response) => response.json())
       .then((response) => dispatch(apiSuccess({response, feature})))
       .catch((error) => dispatch(apiError({error, feature})))
 

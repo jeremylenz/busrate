@@ -20,7 +20,7 @@ export const busRoutesMiddleware = () => (next) => (action) => {
       next(setBusRoutes({busRoutes: action.payload}))
       break;
     case `${BUS_ROUTES} ${API_ERROR}`:
-      console.log(action.payload.message)
+      console.log(action.payload)
       break;
 
     default:
