@@ -39,7 +39,7 @@ const SearchResultsList = (props) => {
   const { results, display } = props;
   if (display === false) return null;
   return (
-    <StyledDiv className='search-results'>
+    <StyledDiv className='search-results' onClick={props.stopListTest}>
       {display &&
         results.map((result, index) =>
         (

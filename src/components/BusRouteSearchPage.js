@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchBusRoutes } from '../redux/actions/busRoutes'
+import { fetchStopList } from '../redux/actions/stopLists'
 import Search, { createFilter } from 'react-search-input'
 import SearchResultsList from './SearchResultsList'
 import styled from 'styled-components'
@@ -56,6 +57,12 @@ class BusRouteSearchPage extends Component {
     })
   }
 
+  stopListTest = () => {
+    console.log('stopListTest')
+    const routeId = 'MTA NYCT_M60+'
+    this.props.fetchStopList(routeId)
+  }
+
 
   render() {
     const { isLoading, searchTerm, selectedBusRoute } = this.state
@@ -72,7 +79,7 @@ class BusRouteSearchPage extends Component {
           throttle={10}
           placeholder='enter bus route...'
         />
-        <SearchResultsList results={results} display={display}/>
+        <SearchResultsList results={results} display={display} stopListTest={this.stopListTest}/>
       </>
     );
   }
@@ -85,6 +92,6 @@ const mapStateToProps = (state) => {
   }
 };
 
-const mapDispatchToProps = { fetchBusRoutes }
+const mapDispatchToProps = { fetchBusRoutes, fetchStopList }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BusRouteSearchPage);

@@ -8,6 +8,7 @@ export const ADD_STOP_LIST = `${STOP_LISTS} ADD`;
 // action creators
 
 export const fetchStopList = (routeId) => {
+  console.log('fetchStopList action')
   return {
     type: FETCH_STOP_LIST,
     payload: routeId,
