@@ -43,9 +43,9 @@ const SearchResultsList = (props) => {
       {display &&
         results.map((result, index) =>
         (
-          <SearchResult className='search-result' key={result.shortName} onClick={() => handleClick(result.shortName)}>
+          <SearchResult className='search-result' key={result.id} onClick={() => handleClick(result.shortName)}>
             <br></br>
-            <p>{result.shortName}
+            <p tabIndex={0} title={result.id}>{result.shortName}
               <span> - {result.longName}</span>
             </p>
             <br></br>
