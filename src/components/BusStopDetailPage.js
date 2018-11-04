@@ -3,7 +3,7 @@ import moment from 'moment'
 import BusRouteHeader from './BusRouteHeader.js'
 import BusDepartureDetails from './BusDepartureDetails.js'
 
-class BusStopDetail extends Component {
+class BusStopDetailPage extends Component {
 
   constructor() {
     super()
@@ -56,4 +56,4 @@ class BusStopDetail extends Component {
 
 }
 
-export default BusStopDetail;
+export default BusStopDetailPage;

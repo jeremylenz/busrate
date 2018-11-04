@@ -15,7 +15,7 @@ const StyledDiv = styled.div`
   padding-bottom: 15px;
 `
 
-class BusRouteOverview extends Component {
+class BusRouteOverviewPage extends Component {
 
   constructor() {
     super()
@@ -62,4 +62,4 @@ class BusRouteOverview extends Component {
 
 }
 
-export default BusRouteOverview;
+export default BusRouteOverviewPage;
