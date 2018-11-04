@@ -47,7 +47,7 @@ const TerminalChooser = (props) => {
         if (terminal === selected) termClass += ' selected'
         console.log(termClass)
         return (
-            <StyledDiv key={terminal} className={termClass} onClick={() => handleTerminalSelection(terminal)}>Toward {terminal}</StyledDiv>
+            <StyledDiv key={terminal} className={termClass} onClick={() => handleTerminalSelection(terminal)}>{terminal}</StyledDiv>
         )
       })
       }

@@ -33,10 +33,9 @@ const SearchResult = styled.div`
 
 class SearchResultsList extends React.Component {
 
-  handleClick = (routeName, routeId) => {
-    console.log(routeName)
+  handleClick = (routeId) => {
     this.props.fetchStopList(routeId)
-    this.props.history.push(`/buses/${routeName}`)
+    this.props.history.push(`/buses/${routeId}`)
   }
 
   render() {
@@ -47,7 +46,7 @@ class SearchResultsList extends React.Component {
         {display &&
           results.map((result, index) =>
           (
-            <SearchResult className='search-result' key={result.id} onClick={() => this.handleClick(result.shortName, result.id)}>
+            <SearchResult className='search-result' key={result.id} onClick={() => this.handleClick(result.id)}>
               <br></br>
               <p tabIndex={0} title={result.id}>{result.shortName}
                 <span> - {result.longName}</span>

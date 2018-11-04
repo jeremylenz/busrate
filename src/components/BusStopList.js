@@ -22,11 +22,11 @@ const BusStopList = (props) => {
     props.history.push(`/buses/${routeName}/stops/${busStop}`)
   };
 
-  const { stopList, display } = props;
+  const { stopDataList, display } = props;
   if (display === false) return null;
-  const stops = stopList.stops
+  const stops = stopDataList.stops
 
-  console.log(stopList)
+  console.log(stopDataList)
   return (
     <StyledDiv className='bus-stop-list'>
       <ul>

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import BusRouteHeader from './BusRouteHeader'
 import BusStopList from './BusStopList'
 import TerminalChooser from './TerminalChooser'
@@ -20,41 +22,74 @@ class BusRouteOverviewPage extends Component {
   constructor() {
     super()
     this.state = {
-      selectedDirection: 0
+      selectedDestination: 0
     }
   }
 
   handleTerminalSelection = (terminalName) => {
-    const terminals = this.props.stopLists.map((stopList) => stopList.direction)
-    let newTerminal = terminals.indexOf(terminalName)
-    this.setState({
-      selectedDirection: newTerminal,
-    })
+    this.setState((prevState) => {
+      var newTerminal;
+      if (prevState.selectedDestination === 0) {
+        newTerminal = 1;
+      } else {
+        newTerminal = 0;
+      }
+      return {
+        selectedDestination: newTerminal
+      };
+    });
   }
 
   render() {
-    const { routeName, routeDescription, stopLists } = this.props
-    if (stopLists.length < 1) return null;
-    // stopLists == [
+    // get route from match
+    const routeId = this.props.match.params.id
+
+    // find route in state
+    const stopLists = this.props.stopLists.items || [];
+    var selectedStopList = stopLists.find((stopList) => stopList.data.entry.routeId === routeId)
+    if (selectedStopList === undefined) return null;
+    selectedStopList = selectedStopList.data;
+
+    // normalize data
+    const stopGroups = selectedStopList.entry.stopGroupings[0].stopGroups;
+    const destinations = stopGroups.map((stopGroup) => ({destinationName: stopGroup.name.name, stopIds: stopGroup.stopIds}))
+    const stopData = selectedStopList.references.stops;
+    const stopNames = {};
+    stopData.forEach((stop) => stopNames[stop.id] = stop.name)
+    const normalizedList = destinations.map((dest) => ({
+      destination: dest.destinationName,
+      stops: dest.stopIds.map((stopId) => stopNames[stopId])
+    }))
+
+    const routeData = selectedStopList.references.routes.find((route) => route.id === routeId)
+    var routeName, routeDescription, routeLongName;
+    if (routeData !== undefined) {
+      routeName = routeData.shortName;
+      routeDescription = routeData.description;
+      routeLongName = routeData.longName;
+    }
+
+    // normalizedList == [
     //   {
-    //     direction: 'Cooper Av / Ridgewood',
+    //     destination: 'Cooper Av / Ridgewood',
     //     stops: ['Stop 1', 'Stop 2', 'Stop 3', 'Stop 4']
     //   },
     //   {
-    //     direction: 'Long Island City / Queens Plz S',
+    //     destination: 'Long Island City / Queens Plz S',
     //     stops: ['Stop 4', 'Stop 3', 'Stop 2', 'Stop 1']
     //   }
     // ]
-    const terminals = stopLists.map((stopList) => stopList.direction)
-    const stopList = stopLists[this.state.selectedDirection]
-    const selectedDirectionName = stopList.direction
+
+    const terminals = normalizedList.map((stopList) => stopList.destination)
+    const stopDataList = normalizedList[this.state.selectedDestination]
+    const selectedDestinationName = stopDataList.destination
 
     return (
       <div className='bus-route-overview'>
         <BusRouteHeader routeName={routeName} routeDescription={routeDescription} />
         <StyledDiv className='bus-stop-list-container'>
-          <TerminalChooser terminals={terminals} selected={selectedDirectionName} handleTerminalSelection={this.handleTerminalSelection} />
-          <BusStopList stopList={stopList} />
+          <TerminalChooser terminals={terminals} selected={selectedDestinationName} handleTerminalSelection={this.handleTerminalSelection} />
+          <BusStopList stopDataList={stopDataList} />
         </StyledDiv>
       </div>
     );
@@ -62,4 +97,10 @@ class BusRouteOverviewPage extends Component {
 
 }
 
-export default BusRouteOverviewPage;
+const mapStateToProps = (state) => {
+  return {
+    stopLists: state.stopLists,
+  }
+};
+
+export default withRouter(connect(mapStateToProps)(BusRouteOverviewPage));
