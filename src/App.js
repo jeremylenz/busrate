@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import BusStopDetail from './components/BusStopDetail.js'
+import BusStopDetailPage from './components/BusStopDetailPage.js'
 import BusRouteSearchPage from './components/BusRouteSearchPage.js'
-import BusRouteOverview from './components/BusRouteOverview.js'
+import BusRouteOverviewPage from './components/BusRouteOverviewPage.js'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './redux/store.js'
@@ -36,7 +36,7 @@ class App extends Component {
     //     }
     //   ]
     //   }
-    />)
+    // />)
 
     return (
       <div className="App">
