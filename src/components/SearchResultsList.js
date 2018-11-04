@@ -31,32 +31,37 @@ const SearchResult = styled.div`
 `
 
 
-const SearchResultsList = (props) => {
-  const handleClick = (routeName) => {
+class SearchResultsList extends React.Component {
+
+  handleClick = (routeName) => {
     console.log(routeName)
-    props.history.push(`/buses/${routeName}`)
-  };
-  const { results, display } = props;
-  if (display === false) return null;
-  return (
-    <StyledDiv className='search-results' onClick={props.stopListTest}>
-      {display &&
-        results.map((result, index) =>
-        (
-          <SearchResult className='search-result' key={result.id} onClick={() => handleClick(result.shortName)}>
-            <br></br>
-            <p tabIndex={0} title={result.id}>{result.shortName}
-              <span> - {result.longName}</span>
-            </p>
-            <br></br>
-            {index < results.length - 1 &&
-              <hr></hr>
-            }
-          </SearchResult>
-        )
-      )}
-    </StyledDiv>
-  );
+    this.props.history.push(`/buses/${routeName}`)
+  }
+
+  render() {
+    const { results, display } = this.props;
+    if (display === false) return null;
+    return (
+      <StyledDiv className='search-results' onClick={this.props.stopListTest}>
+        {display &&
+          results.map((result, index) =>
+          (
+            <SearchResult className='search-result' key={result.id} onClick={() => this.handleClick(result.shortName)}>
+              <br></br>
+              <p tabIndex={0} title={result.id}>{result.shortName}
+                <span> - {result.longName}</span>
+              </p>
+              <br></br>
+              {index < results.length - 1 &&
+                <hr></hr>
+              }
+            </SearchResult>
+          )
+        )}
+      </StyledDiv>
+    );
+  }
+
 }
 
 export default withRouter(SearchResultsList);
