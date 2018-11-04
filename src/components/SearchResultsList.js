@@ -33,8 +33,9 @@ const SearchResult = styled.div`
 
 class SearchResultsList extends React.Component {
 
-  handleClick = (routeName) => {
+  handleClick = (routeName, routeId) => {
     console.log(routeName)
+    this.props.fetchStopList(routeId)
     this.props.history.push(`/buses/${routeName}`)
   }
 
@@ -42,11 +43,11 @@ class SearchResultsList extends React.Component {
     const { results, display } = this.props;
     if (display === false) return null;
     return (
-      <StyledDiv className='search-results' onClick={this.props.stopListTest}>
+      <StyledDiv className='search-results'>
         {display &&
           results.map((result, index) =>
           (
-            <SearchResult className='search-result' key={result.id} onClick={() => this.handleClick(result.shortName)}>
+            <SearchResult className='search-result' key={result.id} onClick={() => this.handleClick(result.shortName, result.id)}>
               <br></br>
               <p tabIndex={0} title={result.id}>{result.shortName}
                 <span> - {result.longName}</span>

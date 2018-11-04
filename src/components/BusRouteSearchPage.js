@@ -57,9 +57,8 @@ class BusRouteSearchPage extends Component {
     })
   }
 
-  stopListTest = () => {
-    console.log('stopListTest')
-    const routeId = 'MTA NYCT_M60+'
+  fetchStopList = (routeId) => {
+    console.log('BusRouteSearchPage fetchStopList')
     this.props.fetchStopList(routeId)
   }
 
@@ -79,7 +78,7 @@ class BusRouteSearchPage extends Component {
           throttle={10}
           placeholder='enter bus route...'
         />
-        <SearchResultsList results={results} display={display} stopListTest={this.stopListTest}/>
+        <SearchResultsList results={results} display={display} fetchStopList={this.fetchStopList}/>
       </>
     );
   }
