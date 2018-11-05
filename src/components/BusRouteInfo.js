@@ -14,7 +14,7 @@ const StyledP = styled.p`
 `
 
 const BusRouteInfo = (props) => {
-  const { routeDirection, stopNum, stopName, routeDescription } = props
+  const { routeDirection, stopNum, stopName, routeLongName, routeDescription } = props
 
   return (
     <StyledDiv className='bus-route-info'>
@@ -24,6 +24,9 @@ const BusRouteInfo = (props) => {
           <p>Stop # {stopNum} - {stopName}</p>
           <Link to='/'>{'<< Back'}</Link>
         </>
+      }
+      {routeLongName &&
+        <StyledP>{routeLongName}</StyledP>
       }
       {routeDescription &&
         <StyledP>{routeDescription}</StyledP>

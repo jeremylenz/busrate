@@ -86,7 +86,7 @@ class BusRouteOverviewPage extends Component {
 
     return (
       <div className='bus-route-overview'>
-        <BusRouteHeader routeName={routeName} routeDescription={routeDescription} />
+        <BusRouteHeader routeName={routeName} routeDescription={routeDescription} routeLongName={routeLongName} />
         <StyledDiv className='bus-stop-list-container'>
           <TerminalChooser terminals={terminals} selected={selectedDestinationName} handleTerminalSelection={this.handleTerminalSelection} />
           <BusStopList stopDataList={stopDataList} />
