@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import BusRouteHeader from './BusRouteHeader.js'
 import BusDepartureDetails from './BusDepartureDetails.js'
@@ -43,7 +44,9 @@ class BusStopDetailPage extends Component {
   }
 
   render() {
-    const { routeName, routeDirection, stopNum, stopName } = this.props
+    const routeId = this.props.match.params.id
+    const stopId = this.props.match.params.stop
+    const { routeDirection, stopNum, stopName } = this.props
     const { stopsAway, minutesAway, recents, yesterday } = this.state
 
     return (
@@ -56,4 +59,9 @@ class BusStopDetailPage extends Component {
 
 }
 
-export default BusStopDetailPage;
+const mapStateToProps = (state) => ({
+  stopDetails: state.stopDetails,
+
+})
+
+export default withRouter(BusStopDetailPage);

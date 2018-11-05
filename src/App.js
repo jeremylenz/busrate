@@ -15,29 +15,6 @@ class App extends Component {
 
   render() {
 
-    const StopDetail = () => (<BusStopDetailPage
-      routeName='Q39'
-      routeDirection='Cooper Av / Ridgewood'
-      stopNum='19126'
-      stopName='27th St & Queens Plz S'
-    />)
-
-    // const RouteOverview = () => (<BusRouteOverview
-    //   routeName='Q39'
-    //   routeDescription='Long Island City to Ridgewood'
-    //   stopLists={[
-    //     {
-    //       direction: 'Cooper Av / Ridgewood',
-    //       stops: ['Stop 1', 'Stop 2', 'Stop 3', 'Stop 4']
-    //     },
-    //     {
-    //       direction: 'Long Island City / Queens Plz S',
-    //       stops: ['Stop 4', 'Stop 3', 'Stop 2', 'Stop 1']
-    //     }
-    //   ]
-    //   }
-    // />)
-
     return (
       <div className="App">
         <div className='container'>
