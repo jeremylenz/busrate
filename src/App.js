@@ -46,7 +46,7 @@ class App extends Component {
               <Switch>
                 <Route exact path='/' component={BusRouteSearchPage} />
                 <Route exact path='/buses/:id' component={BusRouteOverviewPage} />
-                <Route exact path='/buses/:id/stops/:stop' render={BusStopDetailPage} />
+                <Route exact path='/buses/:id/stops/:stop' component={BusStopDetailPage} />
               </Switch>
             </Router>
           </Provider>

@@ -58,7 +58,7 @@ class BusRouteOverviewPage extends Component {
     stopData.forEach((stop) => stopNames[stop.id] = stop.name)
     const normalizedList = destinations.map((dest) => ({
       destination: dest.destinationName,
-      stops: dest.stopIds.map((stopId) => stopNames[stopId])
+      stops: dest.stopIds.map((stopId) => ({stopId: stopId, stopName: stopNames[stopId]}))
     }))
 
     const routeData = selectedStopList.references.routes.find((route) => route.id === routeId)

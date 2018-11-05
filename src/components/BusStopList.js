@@ -16,10 +16,9 @@ const StyledDiv = styled.div`
 `
 
 const BusStopList = (props) => {
-  const handleClick = (busStop) => {
-
+  const handleClick = (stopId) => {
     const routeName = props.match.params.id
-    props.history.push(`/buses/${routeName}/stops/${busStop}`)
+    props.history.push(`/buses/${routeName}/stops/${stopId}`)
   };
 
   const { stopDataList, display } = props;
@@ -31,8 +30,8 @@ const BusStopList = (props) => {
       <ul>
         {
           stops.map((busStop, idx) =>
-          <li className='bus-stop-list-item' key={idx} onClick={() => handleClick(busStop)}>
-            {busStop}
+          <li className='bus-stop-list-item' key={idx} onClick={() => handleClick(busStop.stopId)}>
+            {busStop.stopName}
           </li>
         )}
 
