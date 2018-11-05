@@ -26,13 +26,12 @@ const BusStopList = (props) => {
   if (display === false) return null;
   const stops = stopDataList.stops
 
-  console.log(stopDataList)
-  return (
+  return   (
     <StyledDiv className='bus-stop-list'>
       <ul>
         {
-          stops.map((busStop) =>
-          <li className='bus-stop-list-item' key={busStop} onClick={() => handleClick(busStop)}>
+          stops.map((busStop, idx) =>
+          <li className='bus-stop-list-item' key={idx} onClick={() => handleClick(busStop)}>
             {busStop}
           </li>
         )}
