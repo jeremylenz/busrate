@@ -18,6 +18,7 @@ const StyledDiv = styled.div`
 const BusStopList = (props) => {
   const handleClick = (stopId) => {
     const routeName = props.match.params.id
+    props.fetchRealTimeDetail(stopId)
     props.history.push(`/buses/${routeName}/stops/${stopId}`)
   };
 

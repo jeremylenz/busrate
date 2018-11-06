@@ -46,7 +46,7 @@ class BusStopDetailPage extends Component {
   render() {
     const routeId = this.props.match.params.id
     const stopId = this.props.match.params.stop
-    const { routeDirection, stopNum, stopName } = this.props
+    const { routeName, routeDirection, stopNum, stopName } = this.props
     const { stopsAway, minutesAway, recents, yesterday } = this.state
 
     return (
@@ -61,7 +61,6 @@ class BusStopDetailPage extends Component {
 
 const mapStateToProps = (state) => ({
   stopDetails: state.stopDetails,
-
 })
 
 export default withRouter(BusStopDetailPage);

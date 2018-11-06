@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
 import { withRouter } from 'react-router-dom'
 import BusRouteHeader from './BusRouteHeader'
 import BusStopList from './BusStopList'
@@ -89,7 +90,7 @@ class BusRouteOverviewPage extends Component {
         <BusRouteHeader routeName={routeName} routeDescription={routeDescription} routeLongName={routeLongName} />
         <StyledDiv className='bus-stop-list-container'>
           <TerminalChooser terminals={terminals} selected={selectedDestinationName} handleTerminalSelection={this.handleTerminalSelection} />
-          <BusStopList stopDataList={stopDataList} />
+          <BusStopList stopDataList={stopDataList} fetchRealTimeDetail={this.props.fetchRealTimeDetail}/>
         </StyledDiv>
       </div>
     );
@@ -103,4 +104,8 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default withRouter(connect(mapStateToProps)(BusRouteOverviewPage));
+const mapDispatchToProps = {
+  fetchRealTimeDetail
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BusRouteOverviewPage));
