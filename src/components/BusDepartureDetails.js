@@ -13,7 +13,8 @@ const BusDepartureDetails = (props) => {
   const { stopsAway, minutesAway, recents, yesterday } = props
   return (
     <StyledDiv className='bus-departure-details'>
-      <p>Next departure (realtime): {minutesAway} minutes; {stopsAway} stops away</p>
+      <p>Next departure (realtime): {minutesAway}</p>
+      <p>{stopsAway}</p>
       <p>Recent departures (actual): </p>
       <p>{recents.join(', ')}</p>
       <p>Yesterday:</p>

@@ -20,7 +20,7 @@ const BusRouteInfo = (props) => {
     <StyledDiv className='bus-route-info'>
       {routeDirection && stopNum &&
         <>
-          <p>Toward {routeDirection}</p>
+          <p>{routeDirection}</p>
           <p>Stop # {stopNum} - {stopName}</p>
           <Link to='/'>{'<< Back'}</Link>
         </>
