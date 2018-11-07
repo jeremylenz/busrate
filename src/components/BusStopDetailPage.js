@@ -44,7 +44,7 @@ class BusStopDetailPage extends Component {
     const stopId = this.props.match.params.stop
 
     var routeData, routeName, routeDescription, routeLongName, stopName, routeDirection;
-    var stopsAway, minutesAway;
+    var stopsAway, minutesAway, progressStatus;
 
     let stopListsQty = this.props.stopLists.items.length
     if (stopListsQty > 0) {
@@ -74,8 +74,13 @@ class BusStopDetailPage extends Component {
         routeDirection = rtdPrefix.DestinationName[0]
         stopsAway = rtdPrefix.MonitoredCall.ArrivalProximityText
         minutesAway = rtdPrefix.MonitoredCall.ExpectedDepartureTime
+        progressStatus = rtdPrefix.ProgressStatus[0]
+        console.log(progressStatus)
         console.log(minutesAway)
         minutesAway = moment(minutesAway).fromNow();
+        if (progressStatus === "prevTrip") {
+          minutesAway = `Unknown; vehicle is still on previous trip`
+        }
       }
     }
 
