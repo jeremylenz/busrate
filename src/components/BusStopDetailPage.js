@@ -69,18 +69,29 @@ class BusStopDetailPage extends Component {
     let realTimeDetailsQty = this.props.realTimeDetails.items.length
     if (realTimeDetailsQty > 0) {
       let rtdRef = this.props.realTimeDetails.items[realTimeDetailsQty - 1]
-      if (rtdRef !== undefined && rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0] !== undefined) {
+      if (rtdRef !== undefined
+      && rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0] !== undefined
+      && rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0] !== undefined) {
         let rtdPrefix = rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney
         routeDirection = rtdPrefix.DestinationName[0]
         stopsAway = rtdPrefix.MonitoredCall.ArrivalProximityText
         minutesAway = rtdPrefix.MonitoredCall.ExpectedDepartureTime
-        progressStatus = rtdPrefix.ProgressStatus[0]
-        console.log(progressStatus)
-        console.log(minutesAway)
-        minutesAway = moment(minutesAway).fromNow();
-        if (progressStatus === "prevTrip") {
-          minutesAway = `Unknown; vehicle is still on previous trip`
+        if(rtdPrefix.ProgressStatus !== undefined) {
+          progressStatus = rtdPrefix.ProgressStatus[0]
         }
+        console.log(progressStatus)
+        if (minutesAway === undefined) {
+          minutesAway = "unknown"
+        } else {
+          minutesAway = moment(minutesAway).fromNow();
+        }
+        if (progressStatus === "prevTrip") {
+          progressStatus = "On previous trip"
+        }
+        if (progressStatus === "layover") {
+          progressStatus = "On layover at terminal"
+        }
+
       }
     }
 
@@ -90,7 +101,7 @@ class BusStopDetailPage extends Component {
     return (
       <div className='bus-stop-detail'>
         <BusRouteHeader routeName={routeName} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
-        <BusDepartureDetails stopsAway={stopsAway} minutesAway={minutesAway} recents={recents} yesterday={yesterday} />
+        <BusDepartureDetails stopsAway={stopsAway} minutesAway={minutesAway} progressStatus={progressStatus} recents={recents} yesterday={yesterday} />
       </div>
     );
   }
