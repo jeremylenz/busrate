@@ -8,6 +8,7 @@ const checkResponse = (response) => {
     return response.json()
   } else {
     // and if status is not 200, we throw an error so it's caught in the Catch below.
+    // The value of the error is the result of response.json().  This way we can access the actual error message.
     return response.json()
     .then((response) => Promise.reject(new Error(response.error)))
   }
