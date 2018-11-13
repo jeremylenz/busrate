@@ -79,7 +79,7 @@ class BusStopDetailPage extends Component {
         if(rtdPrefix.ProgressStatus !== undefined) {
           progressStatus = rtdPrefix.ProgressStatus[0]
         }
-        console.log(progressStatus)
+        // console.log(progressStatus)
         if (minutesAway === undefined) {
           minutesAway = "unknown"
         } else {
@@ -94,7 +94,6 @@ class BusStopDetailPage extends Component {
 
       }
     }
-
 
     const { recents, yesterday } = this.state
 
@@ -111,6 +110,7 @@ class BusStopDetailPage extends Component {
 const mapStateToProps = (state) => ({
   realTimeDetails: state.realTimeDetails,
   stopLists: state.stopLists,
+  historicalDepartures: state.historicalDepartures,
 })
 
 export default withRouter(connect(mapStateToProps)(BusStopDetailPage));

@@ -19,6 +19,10 @@ const BusStopList = (props) => {
   const handleClick = (stopId) => {
     const routeName = props.match.params.id
     props.fetchRealTimeDetail(stopId)
+    props.fetchHistoricalDeparture({
+      stopRef: stopId,
+      lineRef: routeName,
+    })
     props.history.push(`/buses/${routeName}/stops/${stopId}`)
   };
 

@@ -1,5 +1,5 @@
 const REACT_APP_MTA_BUS_API_KEY = process.env.REACT_APP_MTA_BUS_API_KEY
-const OUR_API_URL = `http://localhost:5000`
+const OUR_API_URL = `http://localhost:5000/api/v1`
 
 // MTA API URL's, won't work because of CORS
 
@@ -12,6 +12,7 @@ export const LIST_OF_AGENCIES_URL = `http://bustime.mta.info/api/where/agencies-
 
 // My own API URL's which pass through to MTA API
 
-export const LIST_OF_MTA_BUS_ROUTES_URL = `${OUR_API_URL}/api/v1/mta/routes`
-export const LIST_OF_STOPS_FOR_ROUTE_URL = `${OUR_API_URL}/api/v1/mta/stoplists/`
-export const VEHICLES_FOR_STOP_URL = `${OUR_API_URL}/api/v1/mta/vehicles_for_stop/`
+export const LIST_OF_MTA_BUS_ROUTES_URL = `${OUR_API_URL}/mta/routes`
+export const LIST_OF_STOPS_FOR_ROUTE_URL = `${OUR_API_URL}/mta/stoplists/`
+export const VEHICLES_FOR_STOP_URL = `${OUR_API_URL}/mta/vehicles_for_stop/`
+export const BUS_STOPS_URL = `${OUR_API_URL}/bus_stops`

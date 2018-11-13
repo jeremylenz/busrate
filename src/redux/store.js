@@ -4,12 +4,15 @@ import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import {busRoutesReducer} from "./reducers/busRoutes.reducer";
 import {stopListsReducer} from './reducers/stopLists.reducer';
 import {realTimeDetailsReducer} from './reducers/realTimeDetails.reducer';
+import {historicalDeparturesReducer} from './reducers/historicalDepartures.reducer'
 
 import {uiReducer} from './reducers/ui.reducer'
 
 import {busRoutesMiddleware} from './middleware/feature/busRoutes';
 import {stopListsMiddleware} from './middleware/feature/stopLists';
 import {realTimeDetailsMiddleware} from './middleware/feature/realTimeDetails'
+import {historicalDeparturesMiddleware} from './middleware/feature/historicalDepartures'
+
 
 import {apiMiddleware} from './middleware/core/api';
 
@@ -20,6 +23,7 @@ const rootReducer = combineReducers({
   stopLists: stopListsReducer,
   ui: uiReducer,
   realTimeDetails: realTimeDetailsReducer,
+  historicalDepartures: historicalDeparturesReducer,
 })
 
 // create the feature middleware array
@@ -28,6 +32,7 @@ const featureMiddleware = [
   busRoutesMiddleware,
   stopListsMiddleware,
   realTimeDetailsMiddleware,
+  historicalDeparturesMiddleware,
 ];
 
 const coreMiddleware = [
