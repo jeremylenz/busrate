@@ -9,33 +9,23 @@ class BusStopDetailPage extends Component {
 
   constructor() {
     super()
-    this.state = {
-      recents: [],
-      yesterday: [],
-    }
   }
 
   componentDidMount() {
-    // mock API call
 
-    const recents = [
-      moment().subtract(43, 'minutes').format('LT'),
-      moment().subtract(34, 'minutes').format('LT'),
-      moment().subtract(10, 'minutes').format('LT'),
-      moment().subtract(2, 'minutes').format('LT'),
-    ]
-
-    const yesterday = [
-      moment().subtract(1497, 'minutes').format('LT'),
-      moment().subtract(1469, 'minutes').format('LT'),
-      moment().subtract(1448, 'minutes').format('LT'),
-      moment().subtract(1444, 'minutes').format('LT'),
-    ]
-
-    this.setState({
-      recents,
-      yesterday
-    })
+    // const recents = [
+    //   moment().subtract(43, 'minutes').format('LT'),
+    //   moment().subtract(34, 'minutes').format('LT'),
+    //   moment().subtract(10, 'minutes').format('LT'),
+    //   moment().subtract(2, 'minutes').format('LT'),
+    // ]
+    //
+    // const yesterday = [
+    //   moment().subtract(1497, 'minutes').format('LT'),
+    //   moment().subtract(1469, 'minutes').format('LT'),
+    //   moment().subtract(1448, 'minutes').format('LT'),
+    //   moment().subtract(1444, 'minutes').format('LT'),
+    // ]
   }
 
   render() {
@@ -95,7 +85,17 @@ class BusStopDetailPage extends Component {
       }
     }
 
-    const { recents, yesterday } = this.state
+    var recents = []
+    var yesterday = []
+    let historicalDeparturesQty = this.props.historicalDepartures.items.length
+    if (historicalDeparturesQty > 0) {
+      let hdRef = this.props.historicalDepartures.items[historicalDeparturesQty - 1]
+      if (hdRef !== undefined) {
+        let recentTimestamps = hdRef.historical_departures.slice(0, 6) // first 6 elements
+        recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
+      }
+    }
+
 
     return (
       <div className='bus-stop-detail'>
