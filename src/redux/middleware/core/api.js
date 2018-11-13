@@ -2,14 +2,15 @@ import { API_REQUEST, API_SUCCESS, API_ERROR, apiSuccess, apiError } from "../..
 import { setLoader, clearLoader } from '../../actions/ui'
 
 const checkResponse = (response) => {
-  if(response.status !== 200) {
-    response.json()
-    .then((response) => {
-      console.error(response.body)
-    })
-    throw new Error(response)
+  // We need access to both response.status and the result of the promise returned by response.json().
+  // But we only have access to response.status BEFORE calling response.json().  So we check here...
+  if(response.status === 200) {
+    return response.json()
+  } else {
+    // and if status is not 200, we throw an error so it's caught in the Catch below.
+    return response.json()
+    .then((response) => Promise.reject(new Error(response.error)))
   }
-  return response
 }
 
 export const apiMiddleware = ({dispatch}) => (next) => (action) => {
@@ -21,7 +22,7 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
 
     fetch(url, { method })
       .then((response) => checkResponse(response))
-      .then((response) => response.json())
+      // .then((response) => response.json())
       .then((response) => dispatch(apiSuccess({response, feature})))
       .catch((error) => dispatch(apiError({error, feature})))
 
