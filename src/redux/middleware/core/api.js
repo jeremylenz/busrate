@@ -19,9 +19,11 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
 
   if(action.type.includes(API_REQUEST)) {
     const { url, method, feature } = action.meta
+    var uri = encodeURI(url)
+    console.log(uri)
     next(setLoader({feature}));
 
-    fetch(url, { method })
+    fetch(uri, { method })
       .then((response) => checkResponse(response))
       // .then((response) => response.json())
       .then((response) => dispatch(apiSuccess({response, feature})))
