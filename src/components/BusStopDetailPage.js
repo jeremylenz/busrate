@@ -36,10 +36,10 @@ class BusStopDetailPage extends Component {
     var routeData, routeName, routeDescription, routeLongName, stopName, routeDirection;
     var stopsAway, minutesAway, progressStatus;
 
-    let stopListsQty = this.props.stopLists.items.length
-    if (stopListsQty > 0) {
+    let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data !== undefined && stopList.data.entry.routeId === routeId)
+    if (foundStopList !== undefined) {
       // get route metadata from stopLists
-      routeData = this.props.stopLists.items[stopListsQty - 1].data
+      routeData = foundStopList.data
       // get route name
       let id = routeData.entry.routeId
       let routeRef = routeData.references.routes.find((route) => route.id === id)
