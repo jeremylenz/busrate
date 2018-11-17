@@ -59,7 +59,10 @@ class BusRouteSearchPage extends Component {
 
   fetchStopList = (routeId) => {
     console.log('BusRouteSearchPage fetchStopList')
-    this.props.fetchStopList(routeId)
+    let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
+    if (!foundStopList) {
+      this.props.fetchStopList(routeId)
+    }
   }
 
 
@@ -88,6 +91,7 @@ class BusRouteSearchPage extends Component {
 const mapStateToProps = (state) => {
   return {
     busRoutes: state.busRoutes,
+    stopLists: state.stopLists,
   }
 };
 
