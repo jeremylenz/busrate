@@ -2,6 +2,7 @@ import { ADD_REAL_TIME_DETAIL } from '../actions/realTimeDetails'
 
 const realTimeDetailsState = {
   items: [],
+  firstRequestSent: false,
 }
 
 export const realTimeDetailsReducer = (state = realTimeDetailsState, action) => {
@@ -11,7 +12,7 @@ export const realTimeDetailsReducer = (state = realTimeDetailsState, action) => 
       let newState = {
         items: [...state.items, newRealTimeDetail],
       }
-      return newState
+      return Object.assign({}, state, newState)
     default:
     return state
   }

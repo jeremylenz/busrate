@@ -2,6 +2,7 @@ import { ADD_STOP_LIST } from '../actions/stopLists'
 
 const stopListsState = {
   items: [],
+  firstRequestSent: false,
 }
 
 export const stopListsReducer = (state = stopListsState, action) => {
@@ -11,7 +12,7 @@ export const stopListsReducer = (state = stopListsState, action) => {
       let newState = {
         items: [...state.items, newStopList]
       }
-      return newState
+      return Object.assign({}, state, newState)
     default:
     return state
   }
