@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
+import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
+import { fetchStopList } from './../redux/actions/stopLists'
 import moment from 'moment'
 import BusRouteHeader from './BusRouteHeader.js'
 import BusDepartureDetails from './BusDepartureDetails.js'
@@ -29,7 +32,6 @@ class BusStopDetailPage extends Component {
   }
 
   render() {
-    if (this.props.stopLists === undefined || this.props.realTimeDetails === undefined) return null;
     const routeId = this.props.match.params.id
     const stopId = this.props.match.params.stop
 
@@ -37,7 +39,10 @@ class BusStopDetailPage extends Component {
     var stopsAway, minutesAway, progressStatus, progressStatusStr;
 
     let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
-    if (foundStopList) {
+    if (!foundStopList) {
+      this.props.fetchStopList(routeId)
+      return null;
+    } else {
       // get route metadata from stopLists
       routeData = foundStopList.data
       // get route name
@@ -62,7 +67,11 @@ class BusStopDetailPage extends Component {
       if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0] === undefined) return false;
       return (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.MonitoredCall.StopPointRef === stopId)
     });
-    if (foundRtdRef) {
+    if (!foundRtdRef) {
+      this.props.fetchStopList(routeId)
+      this.props.fetchRealTimeDetail(stopId)
+      return null;
+    } else {
       // Now find the route
       let rtdPrefix = foundRtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit.find((stopVisit) => stopVisit.MonitoredVehicleJourney.LineRef === routeId)
       if (rtdPrefix) {
@@ -102,7 +111,12 @@ class BusStopDetailPage extends Component {
     var yesterday = []
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
-    if (hdRef) {
+    if (!hdRef) {
+      this.props.fetchHistoricalDeparture({
+      stopRef: stopId,
+      lineRef: routeId,
+    })
+    } else {
       let recentTimestamps = hdRef.historical_departures.slice(0, 6) // first 6 elements
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
     }
@@ -124,4 +138,10 @@ const mapStateToProps = (state) => ({
   historicalDepartures: state.historicalDepartures,
 })
 
-export default withRouter(connect(mapStateToProps)(BusStopDetailPage));
+const mapDispatchToProps = {
+  fetchRealTimeDetail,
+  fetchHistoricalDeparture,
+  fetchStopList,
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BusStopDetailPage));

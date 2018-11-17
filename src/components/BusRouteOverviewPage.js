@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
 import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
+import { fetchStopList } from './../redux/actions/stopLists'
 import { withRouter } from 'react-router-dom'
 import BusRouteHeader from './BusRouteHeader'
 import BusStopList from './BusStopList'
@@ -49,7 +50,10 @@ class BusRouteOverviewPage extends Component {
     // find route in state
     const stopLists = this.props.stopLists.items || [];
     var selectedStopList = stopLists.find((stopList) => stopList.data.entry.routeId === routeId)
-    if (selectedStopList === undefined) return null;
+    if (!selectedStopList) {
+      this.props.fetchStopList(routeId)
+      return null;
+    }
     selectedStopList = selectedStopList.data;
 
     // normalize data
@@ -112,6 +116,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchRealTimeDetail,
   fetchHistoricalDeparture,
+  fetchStopList,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BusRouteOverviewPage));
