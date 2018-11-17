@@ -67,7 +67,7 @@ class BusStopDetailPage extends Component {
       stopsAway = rtdPrefix.MonitoredCall.ArrivalProximityText
       minutesAway = rtdPrefix.MonitoredCall.ExpectedDepartureTime
       if(rtdPrefix.ProgressStatus) {
-        progressStatus = rtdPrefix.ProgressStatus
+        progressStatus = rtdPrefix.ProgressStatus[0].split(",")
       } else {
         progressStatus = [];
       }
@@ -78,12 +78,12 @@ class BusStopDetailPage extends Component {
         minutesAway = moment(minutesAway).fromNow();
       }
 
-      progressStatus.forEach((status) => {
+      progressStatus.forEach((status, idx) => {
         if (status === "prevTrip") {
-          status = "On previous trip"
+          progressStatus[idx] = "On previous trip"
         }
         if (status === "layover") {
-          status = "On layover at terminal"
+          progressStatus[idx] = "On layover at terminal"
         }
       })
       progressStatusStr = progressStatus.join("; ")
@@ -92,13 +92,11 @@ class BusStopDetailPage extends Component {
 
     var recents = []
     var yesterday = []
-    let historicalDeparturesQty = this.props.historicalDepartures.items.length
-    if (historicalDeparturesQty > 0) {
-      let hdRef = this.props.historicalDepartures.items[historicalDeparturesQty - 1]
-      if (hdRef) {
-        let recentTimestamps = hdRef.historical_departures.slice(0, 6) // first 6 elements
-        recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
-      }
+
+    let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
+    if (hdRef) {
+      let recentTimestamps = hdRef.historical_departures.slice(0, 6) // first 6 elements
+      recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
     }
 
 
