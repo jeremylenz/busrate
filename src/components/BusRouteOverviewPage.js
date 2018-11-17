@@ -29,6 +29,18 @@ class BusRouteOverviewPage extends Component {
     }
   }
 
+  componentDidMount() {
+    // get route from match
+    const routeId = this.props.match.params.id
+
+    // find route in state
+    const stopLists = this.props.stopLists.items || [];
+    var selectedStopList = stopLists.find((stopList) => stopList.data.entry.routeId === routeId)
+    if (!selectedStopList) {
+      this.props.fetchStopList(routeId)
+    }
+  }
+
   handleTerminalSelection = (terminalName) => {
     this.setState((prevState) => {
       var newTerminal;
@@ -51,7 +63,6 @@ class BusRouteOverviewPage extends Component {
     const stopLists = this.props.stopLists.items || [];
     var selectedStopList = stopLists.find((stopList) => stopList.data.entry.routeId === routeId)
     if (!selectedStopList) {
-      this.props.fetchStopList(routeId)
       return null;
     }
     selectedStopList = selectedStopList.data;

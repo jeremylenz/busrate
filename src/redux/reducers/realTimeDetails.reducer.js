@@ -1,4 +1,4 @@
-import { ADD_REAL_TIME_DETAIL } from '../actions/realTimeDetails'
+import { ADD_REAL_TIME_DETAIL, FETCH_REAL_TIME_DETAIL } from '../actions/realTimeDetails'
 
 const realTimeDetailsState = {
   items: [],
@@ -13,6 +13,10 @@ export const realTimeDetailsReducer = (state = realTimeDetailsState, action) => 
         items: [...state.items, newRealTimeDetail],
       }
       return Object.assign({}, state, newState)
+    case FETCH_REAL_TIME_DETAIL:
+      return Object.assign({}, state, {
+        firstRequestSent: true,
+      })
     default:
     return state
   }

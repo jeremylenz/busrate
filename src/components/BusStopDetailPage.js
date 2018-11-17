@@ -16,19 +16,23 @@ class BusStopDetailPage extends Component {
 
   componentDidMount() {
 
-    // const recents = [
-    //   moment().subtract(43, 'minutes').format('LT'),
-    //   moment().subtract(34, 'minutes').format('LT'),
-    //   moment().subtract(10, 'minutes').format('LT'),
-    //   moment().subtract(2, 'minutes').format('LT'),
-    // ]
-    //
-    // const yesterday = [
-    //   moment().subtract(1497, 'minutes').format('LT'),
-    //   moment().subtract(1469, 'minutes').format('LT'),
-    //   moment().subtract(1448, 'minutes').format('LT'),
-    //   moment().subtract(1444, 'minutes').format('LT'),
-    // ]
+    const routeId = this.props.match.params.id
+    const stopId = this.props.match.params.stop
+
+    if (!this.props.stopLists.firstRequestSent) {
+      this.props.fetchStopList(routeId)
+    }
+    if (!this.props.realTimeDetails.firstRequestSent) {
+      // this.props.fetchStopList(routeId)
+      this.props.fetchRealTimeDetail(stopId)
+    }
+    if (!this.props.historicalDepartures.firstRequestSent) {
+      this.props.fetchHistoricalDeparture({
+      stopRef: stopId,
+      lineRef: routeId,
+      })
+    }
+
   }
 
   render() {
@@ -39,10 +43,9 @@ class BusStopDetailPage extends Component {
     var stopsAway, minutesAway, progressStatus, progressStatusStr;
 
     let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
-    if (!foundStopList && this.props.stopLists.items.length === 0) {
-      this.props.fetchStopList(routeId)
+    if (!foundStopList) {
       return null;
-    } else if (foundStopList) {
+    } else {
       // get route metadata from stopLists
       routeData = foundStopList.data
       // get route name
@@ -67,11 +70,9 @@ class BusStopDetailPage extends Component {
       if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0] === undefined) return false;
       return (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.MonitoredCall.StopPointRef === stopId)
     });
-    if (!foundRtdRef && this.props.realTimeDetails.items.length === 0) {
-      this.props.fetchStopList(routeId)
-      this.props.fetchRealTimeDetail(stopId)
+    if (!foundRtdRef) {
       return null;
-    } else if (foundRtdRef) {
+    } else {
       // Now find the route
       let rtdPrefix = foundRtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit.find((stopVisit) => stopVisit.MonitoredVehicleJourney.LineRef === routeId)
       if (rtdPrefix) {
@@ -111,12 +112,7 @@ class BusStopDetailPage extends Component {
     var yesterday = []
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
-    if (!hdRef && this.props.historicalDepartures.items.length === 0) {
-      this.props.fetchHistoricalDeparture({
-      stopRef: stopId,
-      lineRef: routeId,
-    })
-  } else if (hdRef) {
+    if (hdRef) {
       let recentTimestamps = hdRef.historical_departures.slice(0, 6) // first 6 elements
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
     }

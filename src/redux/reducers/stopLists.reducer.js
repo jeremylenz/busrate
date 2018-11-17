@@ -1,4 +1,4 @@
-import { ADD_STOP_LIST } from '../actions/stopLists'
+import { ADD_STOP_LIST, FETCH_STOP_LIST } from '../actions/stopLists'
 
 const stopListsState = {
   items: [],
@@ -13,6 +13,10 @@ export const stopListsReducer = (state = stopListsState, action) => {
         items: [...state.items, newStopList]
       }
       return Object.assign({}, state, newState)
+    case FETCH_STOP_LIST:
+      return Object.assign({}, state, {
+        firstRequestSent: true,
+      })
     default:
     return state
   }

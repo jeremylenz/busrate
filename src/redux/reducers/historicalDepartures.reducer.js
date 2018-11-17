@@ -1,4 +1,4 @@
-import { ADD_HISTORICAL_DEPARTURE } from '../actions/historicalDepartures'
+import { ADD_HISTORICAL_DEPARTURE, FETCH_HISTORICAL_DEPARTURE } from '../actions/historicalDepartures'
 
 const historicalDeparturesState = {
   items: [],
@@ -13,6 +13,10 @@ export const historicalDeparturesReducer = (state = historicalDeparturesState, a
         items: [...state.items, newHistoricalDeparture],
       }
       return Object.assign({}, state, newState)
+    case FETCH_HISTORICAL_DEPARTURE:
+      return Object.assign({}, state, {
+        firstRequestSent: true,
+      })
     default:
     return state
   }
