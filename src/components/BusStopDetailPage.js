@@ -57,36 +57,44 @@ class BusStopDetailPage extends Component {
     }
 
     let foundRtdRef = this.props.realTimeDetails.items.find((rtdRef) => {
+      // First find the stop
       if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0] === undefined) return false;
       if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0] === undefined) return false;
       return (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.MonitoredCall.StopPointRef === stopId)
     });
     if (foundRtdRef) {
-      let rtdPrefix = foundRtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney
-      routeDirection = rtdPrefix.DestinationName[0]
-      stopsAway = rtdPrefix.MonitoredCall.ArrivalProximityText
-      minutesAway = rtdPrefix.MonitoredCall.ExpectedDepartureTime
-      if(rtdPrefix.ProgressStatus) {
-        progressStatus = rtdPrefix.ProgressStatus[0].split(",")
-      } else {
-        progressStatus = [];
-      }
-      // console.log(progressStatus)
-      if (minutesAway === undefined) {
-        minutesAway = "unknown"
-      } else {
-        minutesAway = moment(minutesAway).fromNow();
-      }
+      // Now find the route
+      let rtdPrefix = foundRtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit.find((stopVisit) => stopVisit.MonitoredVehicleJourney.LineRef === routeId)
+      if (rtdPrefix) {
+        rtdPrefix = rtdPrefix.MonitoredVehicleJourney
+        routeDirection = rtdPrefix.DestinationName[0]
+        stopsAway = rtdPrefix.MonitoredCall.ArrivalProximityText
+        minutesAway = rtdPrefix.MonitoredCall.ExpectedDepartureTime
+        if(rtdPrefix.ProgressStatus) {
+          progressStatus = rtdPrefix.ProgressStatus[0].split(",")
+        } else {
+          progressStatus = [];
+        }
+        // console.log(progressStatus)
+        if (minutesAway === undefined) {
+          minutesAway = "not provided"
+        } else {
+          minutesAway = moment(minutesAway).fromNow();
+        }
 
-      progressStatus.forEach((status, idx) => {
-        if (status === "prevTrip") {
-          progressStatus[idx] = "On previous trip"
-        }
-        if (status === "layover") {
-          progressStatus[idx] = "On layover at terminal"
-        }
-      })
-      progressStatusStr = progressStatus.join("; ")
+        progressStatus.forEach((status, idx) => {
+          if (status === "prevTrip") {
+            progressStatus[idx] = "On previous trip"
+          }
+          if (status === "layover") {
+            progressStatus[idx] = "On layover at terminal"
+          }
+        })
+        progressStatusStr = progressStatus.join("; ")
+
+      } else {
+        minutesAway = "Unknown; no MTA real-time data"
+      }
 
     }
 
