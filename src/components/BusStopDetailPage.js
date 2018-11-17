@@ -34,16 +34,16 @@ class BusStopDetailPage extends Component {
     const stopId = this.props.match.params.stop
 
     var routeData, routeName, routeDescription, routeLongName, stopName, routeDirection;
-    var stopsAway, minutesAway, progressStatus;
+    var stopsAway, minutesAway, progressStatus, progressStatusStr;
 
-    let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data !== undefined && stopList.data.entry.routeId === routeId)
-    if (foundStopList !== undefined) {
+    let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
+    if (foundStopList) {
       // get route metadata from stopLists
       routeData = foundStopList.data
       // get route name
       let id = routeData.entry.routeId
       let routeRef = routeData.references.routes.find((route) => route.id === id)
-      if (routeRef !== undefined) {
+      if (routeRef) {
         routeName = routeRef.shortName
         // get desc / long name
         routeDescription = routeRef.description
@@ -51,38 +51,43 @@ class BusStopDetailPage extends Component {
       }
       // get stop name
       let stopRef = routeData.references.stops.find((stopRef) => stopRef.id === stopId)
-      if (stopRef !== undefined) {
+      if (stopRef) {
         stopName = stopRef.name
       }
     }
 
-    let realTimeDetailsQty = this.props.realTimeDetails.items.length
-    if (realTimeDetailsQty > 0) {
-      let rtdRef = this.props.realTimeDetails.items[realTimeDetailsQty - 1]
-      if (rtdRef !== undefined
-      && rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0] !== undefined
-      && rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0] !== undefined) {
-        let rtdPrefix = rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney
-        routeDirection = rtdPrefix.DestinationName[0]
-        stopsAway = rtdPrefix.MonitoredCall.ArrivalProximityText
-        minutesAway = rtdPrefix.MonitoredCall.ExpectedDepartureTime
-        if(rtdPrefix.ProgressStatus !== undefined) {
-          progressStatus = rtdPrefix.ProgressStatus[0]
-        }
-        // console.log(progressStatus)
-        if (minutesAway === undefined) {
-          minutesAway = "unknown"
-        } else {
-          minutesAway = moment(minutesAway).fromNow();
-        }
-        if (progressStatus === "prevTrip") {
-          progressStatus = "On previous trip"
-        }
-        if (progressStatus === "layover") {
-          progressStatus = "On layover at terminal"
-        }
-
+    let foundRtdRef = this.props.realTimeDetails.items.find((rtdRef) => {
+      if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0] === undefined) return false;
+      if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0] === undefined) return false;
+      return (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.MonitoredCall.StopPointRef === stopId)
+    });
+    if (foundRtdRef) {
+      let rtdPrefix = foundRtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney
+      routeDirection = rtdPrefix.DestinationName[0]
+      stopsAway = rtdPrefix.MonitoredCall.ArrivalProximityText
+      minutesAway = rtdPrefix.MonitoredCall.ExpectedDepartureTime
+      if(rtdPrefix.ProgressStatus) {
+        progressStatus = rtdPrefix.ProgressStatus
+      } else {
+        progressStatus = [];
       }
+      // console.log(progressStatus)
+      if (minutesAway === undefined) {
+        minutesAway = "unknown"
+      } else {
+        minutesAway = moment(minutesAway).fromNow();
+      }
+
+      progressStatus.forEach((status) => {
+        if (status === "prevTrip") {
+          status = "On previous trip"
+        }
+        if (status === "layover") {
+          status = "On layover at terminal"
+        }
+      })
+      progressStatusStr = progressStatus.join("; ")
+
     }
 
     var recents = []
@@ -90,7 +95,7 @@ class BusStopDetailPage extends Component {
     let historicalDeparturesQty = this.props.historicalDepartures.items.length
     if (historicalDeparturesQty > 0) {
       let hdRef = this.props.historicalDepartures.items[historicalDeparturesQty - 1]
-      if (hdRef !== undefined) {
+      if (hdRef) {
         let recentTimestamps = hdRef.historical_departures.slice(0, 6) // first 6 elements
         recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
       }
@@ -100,7 +105,7 @@ class BusStopDetailPage extends Component {
     return (
       <div className='bus-stop-detail'>
         <BusRouteHeader routeName={routeName} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
-        <BusDepartureDetails stopsAway={stopsAway} minutesAway={minutesAway} progressStatus={progressStatus} recents={recents} yesterday={yesterday} />
+        <BusDepartureDetails stopsAway={stopsAway} minutesAway={minutesAway} progressStatus={progressStatusStr} recents={recents} yesterday={yesterday} />
       </div>
     );
   }
