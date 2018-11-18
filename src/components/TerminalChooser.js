@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const StyledDiv = styled.div`
   font-size: 1.5em;
+  min-height: 2.5em;
   cursor: pointer;
   flex-grow: 1;
   flex-shrink: 0;
@@ -13,8 +14,7 @@ const StyledDiv = styled.div`
   border-radius: 8px 0 0 8px;
   border-style: solid;
   border-color: #6262e0
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px;
 
   & + div {
     border-style: solid;
