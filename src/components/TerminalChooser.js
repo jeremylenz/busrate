@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const StyledDiv = styled.div`
   font-size: 1.5em;
-  min-height: 2.5em;
   cursor: pointer;
   flex-grow: 1;
   flex-shrink: 0;
@@ -31,7 +30,7 @@ const StyledDiv = styled.div`
 const StyledFlexContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 `
 
 const TerminalChooser = (props) => {
