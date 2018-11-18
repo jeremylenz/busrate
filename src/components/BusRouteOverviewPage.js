@@ -22,10 +22,13 @@ const StyledDiv = styled.div`
 
 class BusRouteOverviewPage extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    // Get the selected destination from the current url
+    let search = new URLSearchParams(props.location.search)
+    let selectedDestination = parseInt(search.get("selectedDestination")) || 0
     this.state = {
-      selectedDestination: 0
+      selectedDestination
     }
   }
 
@@ -42,6 +45,7 @@ class BusRouteOverviewPage extends Component {
   }
 
   handleTerminalSelection = (terminalName) => {
+    // Depends on previous state, so we use the function form of setState instead of the object form
     this.setState((prevState) => {
       var newTerminal;
       if (prevState.selectedDestination === 0) {
@@ -49,6 +53,12 @@ class BusRouteOverviewPage extends Component {
       } else {
         newTerminal = 0;
       }
+      // Make the current url reflect the selected destination
+      let newSearch = `?selectedDestination=${newTerminal}`
+      this.props.history.replace({
+        pathname: this.props.location.pathname,
+        search: newSearch
+      });
       return {
         selectedDestination: newTerminal
       };
