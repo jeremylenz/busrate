@@ -34,7 +34,7 @@ class BusStopDetailPage extends Component {
     }
 
     // Poll the API regularly to update realtime data
-    this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 5000, stopId)
+    this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 10000, stopId)
   }
 
   componentWillUnmount() {
