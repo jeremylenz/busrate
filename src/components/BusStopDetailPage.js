@@ -70,12 +70,14 @@ class BusStopDetailPage extends Component {
       }
     }
 
-    let foundRtdRef = this.props.realTimeDetails.items.find((rtdRef) => {
+    let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => {
       // First find the stop
       if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0] === undefined) return false;
       if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0] === undefined) return false;
       return (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.MonitoredCall.StopPointRef === stopId)
     });
+    let lastIdx = rtdRefs.length - 1
+    let foundRtdRef = rtdRefs[lastIdx] // hopefully this is the latest one
     if (!foundRtdRef) {
       return null;
     } else {
