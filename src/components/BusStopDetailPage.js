@@ -19,11 +19,11 @@ class BusStopDetailPage extends Component {
     const routeId = this.props.match.params.id
     const stopId = this.props.match.params.stop
 
+    // If we're just loading the app from this page, get all our data.
     if (!this.props.stopLists.firstRequestSent) {
       this.props.fetchStopList(routeId)
     }
     if (!this.props.realTimeDetails.firstRequestSent) {
-      // this.props.fetchStopList(routeId)
       this.props.fetchRealTimeDetail(stopId)
     }
     if (!this.props.historicalDepartures.firstRequestSent) {
@@ -33,6 +33,12 @@ class BusStopDetailPage extends Component {
       })
     }
 
+    // Poll the API regularly to update realtime data
+    this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 5000, stopId)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.getNextRealtimeData)
   }
 
   render() {
