@@ -9,6 +9,7 @@ import { LIST_OF_NYCT_BUS_ROUTES_URL, LIST_OF_MTA_BUS_ROUTES_URL } from '../cons
 
 const StyledSearch = styled(Search)`
   padding: 10px 10px;
+  margin: 0 8px 0 8px;
   height: 50px;
   border: 3px solid;
   border-radius: 16px;
