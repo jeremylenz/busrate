@@ -4,10 +4,10 @@ import BusRouteName from './BusRouteName.js'
 import BusRouteInfo from './BusRouteInfo.js'
 
 const BusRouteHeader = (props) => {
-  const { routeName, routeDirection, stopNum, stopName, routeLongName, routeDescription } = props
+  const { routeName, routeId, routeDirection, stopNum, stopName, routeLongName, routeDescription } = props
   return (
     <div className='bus-route-header'>
-      <BusRouteName routeName={routeName} />
+      <BusRouteName routeName={routeName} routeId={routeId} />
       <BusRouteInfo routeDirection={routeDirection} stopNum={stopNum} stopName={stopName} routeDescription={routeDescription} routeLongName={routeLongName} />
     </div>
   )
