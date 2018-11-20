@@ -10,7 +10,7 @@ const StyledDiv = styled.div`
 `
 
 const BusDepartureDetails = (props) => {
-  const { stopsAway, minutesAway, progressStatus, recents, yesterday } = props
+  const { stopsAway, minutesAway, progressStatus, recents, yesterday, yesterdayLabel } = props
   return (
     <StyledDiv className='bus-departure-details'>
       <p>Expected departure: {minutesAway}</p>
@@ -20,7 +20,7 @@ const BusDepartureDetails = (props) => {
       }
       <p>Recent departures (actual): </p>
       <p>{recents.join(', ')}</p>
-      <p>Yesterday:</p>
+      <p>{yesterdayLabel}:</p>
       <p>{yesterday.join(', ')}</p>
     </StyledDiv>
  )};

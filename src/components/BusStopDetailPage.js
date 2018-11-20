@@ -118,18 +118,22 @@ class BusStopDetailPage extends Component {
 
     var recents = []
     var yesterday = []
+    var prevText;
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
     if (hdRef) {
-      let recentTimestamps = hdRef.historical_departures.slice(0, 6) // first 6 elements
+      let recentTimestamps = hdRef.historical_departures.slice(0, 8) // first 8 elements
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
+      let previousTimestamps = hdRef.prev_departures.slice(0, 8)
+      yesterday = previousTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
+      prevText = hdRef.prev_departure_text
     }
 
 
     return (
       <div className='bus-stop-detail'>
         <BusRouteHeader routeName={routeName} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
-        <BusDepartureDetails stopsAway={stopsAway} minutesAway={minutesAway} progressStatus={progressStatusStr} recents={recents} yesterday={yesterday} />
+        <BusDepartureDetails stopsAway={stopsAway} minutesAway={minutesAway} progressStatus={progressStatusStr} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
       </div>
     );
   }
