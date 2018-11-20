@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
-const textSize = window.screen.width > 600 ? "1.5em" : "1em"
 
 const StyledDiv = styled.div`
   & li {
-    font-size: ${textSize};
     list-style-type: none;
+
+    @media only screen and (min-width: 600px) {
+      font-size: 1.5em;
+    }
+    @media only screen and (max-width: 600px) {
+      font-size: 1em;
+    }
   }
 
   & li:hover {
