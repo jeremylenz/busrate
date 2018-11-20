@@ -6,6 +6,7 @@ const StyledDiv = styled.div`
   border-radius: 8px;
   border-style: solid;
   padding-left: 8px;
+  padding-right: 8px;
   text-align: left;
   font-size: 1.1em;
 `
