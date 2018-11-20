@@ -16,6 +16,17 @@ const StyledCircle = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
+
+  @media only screen and (min-width: 600px) {
+    font-size: 2.5em;
+    height: 150px;
+    width: 150px;
+  }
+  @media only screen and (max-width: 600px) {
+    font-size: 2em;
+    height: 125px;
+    width: 125px;
+  }
 `
 
 const StyledDiv = styled.div`
