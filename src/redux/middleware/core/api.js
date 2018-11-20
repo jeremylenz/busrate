@@ -20,7 +20,7 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
   if(action.type.includes(API_REQUEST)) {
     const { url, method, feature } = action.meta
     var uri = encodeURI(url)
-    console.log(uri)
+    // console.log(uri)
     next(setLoader({feature}));
 
     fetch(uri, { method })
@@ -29,7 +29,7 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
       .then((response) => dispatch(apiSuccess({response, feature})))
       .catch((error) => dispatch(apiError({error, feature})))
 
-    console.log(`${action.type} action!!`)
+    console.log(`${action.type} action`)
   }
 
   if(action.type.includes(API_SUCCESS) || action.type.includes(API_ERROR)) {

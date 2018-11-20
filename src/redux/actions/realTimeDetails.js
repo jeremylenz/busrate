@@ -8,7 +8,6 @@ export const ADD_REAL_TIME_DETAIL = `${REAL_TIME_DETAILS} ADD`;
 // action creators
 
 export const fetchRealTimeDetail = (stopId) => {
-  console.log('fetchRealTimeDetail action')
   return {
     type: FETCH_REAL_TIME_DETAIL,
     payload: stopId,
