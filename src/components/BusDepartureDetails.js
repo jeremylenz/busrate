@@ -7,6 +7,7 @@ const StyledDiv = styled.div`
   border-style: solid;
   padding-left: 8px;
   text-align: left;
+  font-size: 1.1em;
 `
 
 const BusDepartureDetails = (props) => {

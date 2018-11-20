@@ -2,15 +2,27 @@ import React from 'react';
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
+// const textSize = window.screen.width > 600 ? "1.5em" : "1.2em"
+
 const StyledDiv = styled.div`
   text-align: left;
-  font-size: 22px;
   padding-left: 15px;
   padding-bottom: 15px;
+  @media only screen and (min-width: 600px) {
+    font-size: 1.5em;
+  }
+  @media only screen and (max-width: 600px) {
+    font-size: 1.2em;
+  }
 `
 
 const StyledP = styled.p`
-  font-size: 1.6em;
+@media only screen and (min-width: 600px) {
+  font-size: 1.5em;
+}
+@media only screen and (max-width: 600px) {
+  font-size: 1.2em;
+}
   font-style: italic;
 `
 

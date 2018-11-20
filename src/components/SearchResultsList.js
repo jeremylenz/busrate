@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
+const textSize = window.screen.width > 600 ? "2em" : "1.5em"
+
 const StyledDiv = styled.div`
   border: 3px solid;
   border-radius: 16px;
@@ -15,7 +17,7 @@ const StyledDiv = styled.div`
 `
 
 const SearchResult = styled.div`
-  font-size: 2em;
+  font-size: ${textSize};
   padding-left: 10px;
   border-radius: 8px;
   &:hover {

@@ -36,7 +36,7 @@ class BusRouteOverviewPage extends Component {
     // get route from match
     const routeId = this.props.match.params.id
 
-    // find route in state
+    // find route in Redux store
     const stopLists = this.props.stopLists.items || [];
     var selectedStopList = stopLists.find((stopList) => stopList.data.entry.routeId === routeId)
     if (!selectedStopList) {

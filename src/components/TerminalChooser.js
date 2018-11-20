@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components'
 
+const textSize = window.screen.width > 600 ? "1.5em" : "1em"
+
 const StyledDiv = styled.div`
-  font-size: 1.5em;
+  font-size: ${textSize};
   cursor: pointer;
   flex-grow: 1;
   flex-shrink: 0;
