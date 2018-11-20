@@ -97,7 +97,9 @@ class BusStopDetailPage extends Component {
         if (minutesAway === undefined) {
           minutesAway = "not provided"
         } else {
+          let expectedDepText = moment(minutesAway).format('LT')
           minutesAway = moment(minutesAway).fromNow();
+          minutesAway += ` (${expectedDepText})`
         }
 
         progressStatus.forEach((status, idx) => {
