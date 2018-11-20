@@ -42,7 +42,7 @@ a {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 175px auto 175px;
-  grid-template-rows: 175px;
+  grid-template-rows: auto;
   grid-template-areas: "bubble header header";
   place-items: center;
 }

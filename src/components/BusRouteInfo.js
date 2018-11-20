@@ -6,6 +6,7 @@ const StyledDiv = styled.div`
   text-align: left;
   font-size: 22px;
   padding-left: 15px;
+  padding-bottom: 15px;
 `
 
 const StyledP = styled.p`

@@ -15,6 +15,7 @@ const StyledCircle = styled.div`
   color: white;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
 `
 
 const StyledDiv = styled.div`
@@ -24,7 +25,7 @@ const StyledDiv = styled.div`
 const BusRouteName = (props) => (
   <StyledCircle className='bus-route-name'>
     <StyledDiv classname='bus-route-name-text'>
-      <Link to={`/buses/${props.routeName}`}>{props.routeName}</Link>
+      <Link to={`/buses/${props.routeId}`}>{props.routeName}</Link>
     </StyledDiv>
   </StyledCircle>
 );
