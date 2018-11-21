@@ -1,5 +1,7 @@
 const REACT_APP_MTA_BUS_API_KEY = process.env.REACT_APP_MTA_BUS_API_KEY
-const OUR_API_URL = `http://localhost:5000/api/v1`
+// const OUR_API_URL = `http://localhost:5000/api/v1`
+const OUR_API_URL = `http://142.93.7.189:3000/api/v1`
+
 
 // MTA API URL's, won't work because of CORS
 
