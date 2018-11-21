@@ -17,7 +17,6 @@ export const stopListsMiddleware = () => (next) => (action) => {
       break;
 
     case `${STOP_LISTS} ${API_SUCCESS}`:
-      console.log('API SUCCESS', action.payload)
       next(addStopList({stopList: action.payload}))
       break;
     case `${STOP_LISTS} ${API_ERROR}`:

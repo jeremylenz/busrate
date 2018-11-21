@@ -77,7 +77,6 @@ class BusRouteOverviewPage extends Component {
   render() {
     // handle loader
     var loading = this.props.ui.loading && this.props.ui.feature === STOP_LISTS
-    console.log(this.props.ui.feature)
     // get route from match
     const routeId = this.props.match.params.id
 

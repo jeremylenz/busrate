@@ -5,7 +5,6 @@ import { fetchStopList } from '../redux/actions/stopLists'
 import Search, { createFilter } from 'react-search-input'
 import SearchResultsList from './SearchResultsList'
 import styled from 'styled-components'
-import { LIST_OF_NYCT_BUS_ROUTES_URL, LIST_OF_MTA_BUS_ROUTES_URL } from '../constants'
 
 const StyledSearch = styled(Search)`
   padding: 10px 10px;
@@ -41,7 +40,6 @@ class BusRouteSearchPage extends Component {
     super()
     this.state = {
       searchTerm: '',
-      selectedBusRoute: null,
     }
   }
 
@@ -59,7 +57,6 @@ class BusRouteSearchPage extends Component {
   }
 
   fetchStopList = (routeId) => {
-    console.log('BusRouteSearchPage fetchStopList')
     let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
     if (!foundStopList) {
       this.props.fetchStopList(routeId)
@@ -68,7 +65,7 @@ class BusRouteSearchPage extends Component {
 
 
   render() {
-    const { isLoading, searchTerm, selectedBusRoute } = this.state
+    const { searchTerm } = this.state
     const routeList = this.props.busRoutes.items || []
     const results = routeList.filter(createFilter(searchTerm, ['shortName', 'longName']))
     const display = (results.length > 0 && !!searchTerm)

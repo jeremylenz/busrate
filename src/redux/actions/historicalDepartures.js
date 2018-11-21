@@ -8,7 +8,6 @@ export const ADD_HISTORICAL_DEPARTURE = `${HISTORICAL_DEPARTURES} ADD`;
 // action creators
 
 export const fetchHistoricalDeparture = ({stopRef, lineRef}) => {
-  console.log('fetchHistoricalDeparture action')
   return {
     type: FETCH_HISTORICAL_DEPARTURE,
     payload: {stopRef, lineRef},

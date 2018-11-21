@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components'
 import BusRouteName from './BusRouteName.js'
 import BusRouteInfo from './BusRouteInfo.js'
 

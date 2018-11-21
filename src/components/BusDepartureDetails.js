@@ -24,7 +24,7 @@ const BusDepartureDetails = (props) => {
   const { stopsAway, minutesAway, progressStatus, recents, yesterday, yesterdayLabel, loadingState } = props
   var realTimeDetailsLoading, historicalDeparturesLoading;
 
-  if (props.loadingState.loading) {
+  if (loadingState.loading) {
     realTimeDetailsLoading = props.loadingState.feature === REAL_TIME_DETAILS
     historicalDeparturesLoading = props.loadingState.feature === HISTORICAL_DEPARTURES
   }

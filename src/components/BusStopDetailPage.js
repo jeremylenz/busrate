@@ -11,10 +11,6 @@ import Loader from './Loader'
 
 class BusStopDetailPage extends Component {
 
-  constructor() {
-    super()
-  }
-
   componentDidMount() {
 
     const routeId = this.props.match.params.id
@@ -36,10 +32,15 @@ class BusStopDetailPage extends Component {
 
     // Poll the API regularly to update realtime data
     this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 10000, stopId)
+    this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 60000, {
+      stopRef: stopId,
+      lineRef: routeId,
+    })
   }
 
   componentWillUnmount() {
     clearInterval(this.getNextRealtimeData)
+    clearInterval(this.getNextHistoricalDepartures)
   }
 
   render() {
@@ -51,12 +52,12 @@ class BusStopDetailPage extends Component {
     const stopId = this.props.match.params.stop
     const loadingState = this.props.ui
 
-    var routeData, routeName, routeDescription, routeLongName, stopName, routeDirection;
+    var routeData, routeName, stopName, routeDirection;
     var stopsAway, minutesAway, progressStatus, progressStatusStr;
 
     let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
     if (!foundStopList) {
-      console.log('!foundStopList')
+      // console.log('!foundStopList')
     } else {
       // get route metadata from stopLists
       routeData = foundStopList.data
@@ -65,9 +66,6 @@ class BusStopDetailPage extends Component {
       let routeRef = routeData.references.routes.find((route) => route.id === id)
       if (routeRef) {
         routeName = routeRef.shortName
-        // get desc / long name
-        routeDescription = routeRef.description
-        routeLongName = routeRef.longName
       }
       // get stop name
       let stopRef = routeData.references.stops.find((stopRef) => stopRef.id === stopId)
@@ -85,7 +83,7 @@ class BusStopDetailPage extends Component {
     let lastIdx = rtdRefs.length - 1
     let foundRtdRef = rtdRefs[lastIdx] // hopefully this is the latest one
     if (!foundRtdRef) {
-      console.log('!foundRtdRef')
+      // console.log('!foundRtdRef')
       stopsAway = "No vehicles found"
       minutesAway = "Unknown"
     } else {

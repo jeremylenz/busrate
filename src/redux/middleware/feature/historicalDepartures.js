@@ -18,7 +18,6 @@ export const historicalDeparturesMiddleware = () => (next) => (action) => {
       break;
 
     case `${HISTORICAL_DEPARTURES} ${API_SUCCESS}`:
-      console.log('API SUCCESS', action.payload)
       next(addHistoricalDeparture({realTimeDetail: action.payload}))
       break;
     case `${HISTORICAL_DEPARTURES} ${API_ERROR}`:

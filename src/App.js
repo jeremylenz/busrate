@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import BusStopDetailPage from './components/BusStopDetailPage.js'
 import BusRouteSearchPage from './components/BusRouteSearchPage.js'

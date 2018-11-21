@@ -16,7 +16,6 @@ export const busRoutesMiddleware = () => (next) => (action) => {
       break;
 
     case `${BUS_ROUTES} ${API_SUCCESS}`:
-      console.log('API SUCCESS', action.payload)
       next(setBusRoutes({busRoutes: action.payload}))
       break;
     case `${BUS_ROUTES} ${API_ERROR}`:
