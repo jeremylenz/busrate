@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
+import { STOP_LISTS } from './../redux/actions/stopLists'
 import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
 import { fetchStopList } from './../redux/actions/stopLists'
 import { withRouter } from 'react-router-dom'
@@ -8,6 +9,7 @@ import BusRouteHeader from './BusRouteHeader'
 import BusStopList from './BusStopList'
 import TerminalChooser from './TerminalChooser'
 import styled from 'styled-components'
+import Loader from './Loader'
 
 const StyledDiv = styled.div`
   border: 3px solid;
@@ -18,6 +20,13 @@ const StyledDiv = styled.div`
   padding-right: 15px;
   padding-top: 15px;
   padding-bottom: 15px;
+
+  &.loading {
+    padding-top: 0px;
+    margin-top: -40px;
+    position: relative;
+    top: 75px;
+  }
 `
 
 class BusRouteOverviewPage extends Component {
@@ -66,6 +75,9 @@ class BusRouteOverviewPage extends Component {
   }
 
   render() {
+    // handle loader
+    var loading = this.props.ui.loading && this.props.ui.feature === STOP_LISTS
+    console.log(this.props.ui.feature)
     // get route from match
     const routeId = this.props.match.params.id
 
@@ -73,7 +85,11 @@ class BusRouteOverviewPage extends Component {
     const stopLists = this.props.stopLists.items || [];
     var selectedStopList = stopLists.find((stopList) => stopList.data.entry.routeId === routeId)
     if (!selectedStopList) {
-      return null;
+      return (
+        <StyledDiv className='bus-stop-list-container loading'>
+          <Loader />
+        </StyledDiv>
+      )
     }
     selectedStopList = selectedStopList.data;
 
@@ -87,15 +103,6 @@ class BusRouteOverviewPage extends Component {
       destination: dest.destinationName,
       stops: dest.stopIds.map((stopId) => ({stopId: stopId, stopName: stopNames[stopId]}))
     }))
-
-    const routeData = selectedStopList.references.routes.find((route) => route.id === routeId)
-    var routeName, routeDescription, routeLongName;
-    if (routeData !== undefined) {
-      routeName = routeData.shortName;
-      routeDescription = routeData.description;
-      routeLongName = routeData.longName;
-    }
-
     // normalizedList == [
     //   {
     //     destination: 'Cooper Av / Ridgewood',
@@ -107,6 +114,15 @@ class BusRouteOverviewPage extends Component {
     //   }
     // ]
 
+    const routeData = selectedStopList.references.routes.find((route) => route.id === routeId)
+    var routeName, routeDescription, routeLongName;
+    if (routeData !== undefined) {
+      routeName = routeData.shortName;
+      routeDescription = routeData.description;
+      routeLongName = routeData.longName;
+    }
+
+
     const terminals = normalizedList.map((stopList) => stopList.destination)
     const stopDataList = normalizedList[this.state.selectedDestination]
     const selectedDestinationName = stopDataList.destination
@@ -114,14 +130,21 @@ class BusRouteOverviewPage extends Component {
     return (
       <div className='bus-route-overview'>
         <BusRouteHeader routeName={routeName} routeId={routeId} routeDescription={routeDescription} routeLongName={routeLongName} />
-        <StyledDiv className='bus-stop-list-container'>
-          <TerminalChooser terminals={terminals} selected={selectedDestinationName} handleTerminalSelection={this.handleTerminalSelection} />
-          <BusStopList
-            stopDataList={stopDataList}
-            fetchRealTimeDetail={this.props.fetchRealTimeDetail}
-            fetchHistoricalDeparture={this.props.fetchHistoricalDeparture}
-          />
-        </StyledDiv>
+        {loading &&
+          <StyledDiv className='bus-stop-list-container loading'>
+            <Loader />
+          </StyledDiv>
+        }
+        {!loading &&
+          <StyledDiv className='bus-stop-list-container'>
+            <TerminalChooser terminals={terminals} selected={selectedDestinationName} handleTerminalSelection={this.handleTerminalSelection} />
+            <BusStopList
+              stopDataList={stopDataList}
+              fetchRealTimeDetail={this.props.fetchRealTimeDetail}
+              fetchHistoricalDeparture={this.props.fetchHistoricalDeparture}
+            />
+          </StyledDiv>
+        }
       </div>
     );
   }
@@ -131,6 +154,7 @@ class BusRouteOverviewPage extends Component {
 const mapStateToProps = (state) => {
   return {
     stopLists: state.stopLists,
+    ui: state.ui,
   }
 };
 

@@ -7,6 +7,7 @@ import { fetchStopList } from './../redux/actions/stopLists'
 import moment from 'moment'
 import BusRouteHeader from './BusRouteHeader.js'
 import BusDepartureDetails from './BusDepartureDetails.js'
+import Loader from './Loader'
 
 class BusStopDetailPage extends Component {
 
@@ -42,8 +43,13 @@ class BusStopDetailPage extends Component {
   }
 
   render() {
+    if (this.props.ui.loading && this.props.realTimeDetails.items.length === 0) {
+      return <Loader absolute />
+    }
+
     const routeId = this.props.match.params.id
     const stopId = this.props.match.params.stop
+    const loadingState = this.props.ui
 
     var routeData, routeName, routeDescription, routeLongName, stopName, routeDirection;
     var stopsAway, minutesAway, progressStatus, progressStatusStr;
@@ -51,7 +57,6 @@ class BusStopDetailPage extends Component {
     let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
     if (!foundStopList) {
       console.log('!foundStopList')
-      return null;
     } else {
       // get route metadata from stopLists
       routeData = foundStopList.data
@@ -138,7 +143,7 @@ class BusStopDetailPage extends Component {
     return (
       <div className='bus-stop-detail'>
         <BusRouteHeader routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
-        <BusDepartureDetails stopsAway={stopsAway} minutesAway={minutesAway} progressStatus={progressStatusStr} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
+        <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAway} minutesAway={minutesAway} progressStatus={progressStatusStr} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
       </div>
     );
   }
@@ -149,6 +154,7 @@ const mapStateToProps = (state) => ({
   realTimeDetails: state.realTimeDetails,
   stopLists: state.stopLists,
   historicalDepartures: state.historicalDepartures,
+  ui: state.ui,
 })
 
 const mapDispatchToProps = {
