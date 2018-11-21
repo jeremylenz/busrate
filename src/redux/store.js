@@ -8,7 +8,7 @@ import {historicalDeparturesReducer} from './reducers/historicalDepartures.reduc
 
 import {uiReducer} from './reducers/ui.reducer'
 
-import {busRoutesMiddleware} from './middleware/feature/busRoutes';
+import {busRoutesMiddleware} from './middleware/feature/busRoutes.js';
 import {stopListsMiddleware} from './middleware/feature/stopLists';
 import {realTimeDetailsMiddleware} from './middleware/feature/realTimeDetails'
 import {historicalDeparturesMiddleware} from './middleware/feature/historicalDepartures'
