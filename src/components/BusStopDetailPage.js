@@ -50,6 +50,7 @@ class BusStopDetailPage extends Component {
 
     let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
     if (!foundStopList) {
+      console.log('!foundStopList')
       return null;
     } else {
       // get route metadata from stopLists
@@ -79,7 +80,9 @@ class BusStopDetailPage extends Component {
     let lastIdx = rtdRefs.length - 1
     let foundRtdRef = rtdRefs[lastIdx] // hopefully this is the latest one
     if (!foundRtdRef) {
-      return null;
+      console.log('!foundRtdRef')
+      stopsAway = "No vehicles found"
+      minutesAway = "Unknown"
     } else {
       // Now find the route
       let rtdPrefix = foundRtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit.find((stopVisit) => stopVisit.MonitoredVehicleJourney.LineRef === routeId)

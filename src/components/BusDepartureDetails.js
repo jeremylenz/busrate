@@ -23,12 +23,16 @@ const BusDepartureDetails = (props) => {
           <p>{progressStatus}</p>
         }
       </StyledDiv>
-      <StyledDiv>
-        <p>Recent departures (actual): </p>
-        <p>{recents.join(', ')}</p>
-        <p>{yesterdayLabel}:</p>
-        <p>{yesterday.join(', ')}</p>
-      </StyledDiv>
+      {recents.length > 0 &&
+        <StyledDiv>
+            <p>Recent departures (actual): </p>
+          <p>{recents.join(', ')}</p>
+          {yesterdayLabel &&
+            <p>{yesterdayLabel}:</p>
+          }
+          <p>{yesterday.join(', ')}</p>
+        </StyledDiv>
+      }
     </>
  )};
 
