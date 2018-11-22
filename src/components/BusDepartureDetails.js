@@ -20,48 +20,50 @@ const StyledDiv = styled.div`
   }
 `
 
+
+
 const BusDepartureDetails = (props) => {
   const { stopsAway, minutesAway, progressStatus, recents, yesterday, yesterdayLabel, loadingState } = props
-  var realTimeDetailsLoading, historicalDeparturesLoading;
+  var historicalDeparturesLoading;
+
+  const RealTimeDetails = () => (
+    <StyledDiv className='bus-departure-details'>
+        <>
+        <p>Expected departure: {minutesAway}</p>
+        <p>{stopsAway}</p>
+        {progressStatus &&
+          <p>{progressStatus}</p>
+        }
+        </>
+    </StyledDiv>
+  )
+
+  const HistoricalDepartures = () => (
+    <StyledDiv>
+      <p>Recent departures (actual): </p>
+      <p>{recents.join(', ')}</p>
+      {yesterdayLabel &&
+        <p>{yesterdayLabel}:</p>
+      }
+      <p>{yesterday.join(', ')}</p>
+    </StyledDiv>
+  )
 
   if (loadingState.loading) {
-    realTimeDetailsLoading = props.loadingState.feature === REAL_TIME_DETAILS
     historicalDeparturesLoading = props.loadingState.feature === HISTORICAL_DEPARTURES
   }
 
   return (
     <>
-    {realTimeDetailsLoading &&
-      <StyledDiv className='loading bus-departure-details'>
-        <Loader />
-      </StyledDiv>
-    }
-    {!realTimeDetailsLoading &&
-      <StyledDiv className='bus-departure-details'>
-          <>
-          <p>Expected departure: {minutesAway}</p>
-          <p>{stopsAway}</p>
-          {progressStatus &&
-            <p>{progressStatus}</p>
-          }
-          </>
-      </StyledDiv>
-    }
-    {historicalDeparturesLoading &&
-      <StyledDiv className='loading'>
-        <Loader />
-      </StyledDiv>
-    }
-    {recents.length > 0 && !historicalDeparturesLoading &&
-      <StyledDiv>
-          <p>Recent departures (actual): </p>
-        <p>{recents.join(', ')}</p>
-        {yesterdayLabel &&
-          <p>{yesterdayLabel}:</p>
-        }
-        <p>{yesterday.join(', ')}</p>
-      </StyledDiv>
-    }
+      <RealTimeDetails />
+      {historicalDeparturesLoading &&
+        <StyledDiv className='loading'>
+          <Loader />
+        </StyledDiv>
+      }
+      {recents.length > 0 && !historicalDeparturesLoading &&
+        <HistoricalDepartures />
+      }
     </>
  )};
 
