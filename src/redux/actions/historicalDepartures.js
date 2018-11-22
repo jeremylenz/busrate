@@ -4,6 +4,7 @@ export const HISTORICAL_DEPARTURES = '[HistoricalDepartures]';
 // action types
 export const FETCH_HISTORICAL_DEPARTURE = `${HISTORICAL_DEPARTURES} FETCH`;
 export const ADD_HISTORICAL_DEPARTURE = `${HISTORICAL_DEPARTURES} ADD`;
+export const PURGE_HISTORICAL_DEPARTURES = `${HISTORICAL_DEPARTURES} PURGE`
 
 // action creators
 
@@ -14,9 +15,16 @@ export const fetchHistoricalDeparture = ({stopRef, lineRef}) => {
   }
 }
 
-export const addHistoricalDeparture = ({realTimeDetail}) => {
+export const addHistoricalDeparture = ({historicalDeparture}) => {
   return {
     type: ADD_HISTORICAL_DEPARTURE,
-    payload: realTimeDetail
+    payload: historicalDeparture
+  }
+}
+
+export const purgeHistoricalDepartures = ({stopRef, lineRef}) => {
+  return {
+    type: PURGE_HISTORICAL_DEPARTURES,
+    payload: {stopRef, lineRef},
   }
 }
