@@ -21,11 +21,11 @@ export const realTimeDetailsReducer = (state = realTimeDetailsState, action) => 
       // Not in use yet; need to normalize data first
       let existingItems = state.items
       // Filter to just items NOT for that route/stop combination.
-      let filteredItems = existingItems.filter((hd) => {
-        return hd.stop_ref !== action.payload.stopRef
+      let filteredItems = existingItems.filter((rtd) => {
+        return rtd.stopRef !== action.payload.stopRef
       })
       newState = {
-        items: filteredItems, // replace current state with filtered state
+        items: filteredItems, // replace current items with filtered items
       }
       return Object.assign({}, state, newState)
     default:

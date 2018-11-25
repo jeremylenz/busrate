@@ -3,6 +3,7 @@ import {dataNormalized} from '../../actions/data'
 
 function normalizeData(action) {
   // {
+  //   Siri: {xxx},
   //   stopsAwayText: '2 stops away',
   //   ExpectedDepartureTime: 'xxx',
   //   stopRef: 'xxx',
@@ -11,9 +12,10 @@ function normalizeData(action) {
   // }
 
   var rtdItems = []
+  let vehicleJourneys;
 
   if(action.payload.Siri.ServiceDelivery.StopMonitoringDelivery[0] && action.payload.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit) {
-    let vehicleJourneys = action.payload.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit.map((MonitoredStopVisit) => {
+    vehicleJourneys = action.payload.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit.map((MonitoredStopVisit) => {
       return MonitoredStopVisit.MonitoredVehicleJourney;
     })
     rtdItems = vehicleJourneys.map((mvj) => {

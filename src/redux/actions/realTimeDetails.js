@@ -23,9 +23,9 @@ export const addRealTimeDetail = ({realTimeDetail, normalizeKey}) => {
   }
 }
 
-export const purgeRealTimeDetails = ({stopRef, lineRef}) => {
+export const purgeRealTimeDetails = ({stopRef}) => {
   return {
     type: PURGE_REAL_TIME_DETAILS,
-    payload: {stopRef, lineRef},
+    payload: {stopRef},
   }
 }

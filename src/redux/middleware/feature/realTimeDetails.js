@@ -1,4 +1,4 @@
-import { REAL_TIME_DETAILS, FETCH_REAL_TIME_DETAIL, addRealTimeDetail } from '../../actions/realTimeDetails.js'
+import { REAL_TIME_DETAILS, FETCH_REAL_TIME_DETAIL, addRealTimeDetail, purgeRealTimeDetails } from '../../actions/realTimeDetails.js'
 import { apiRequest, API_SUCCESS, API_ERROR } from '../../actions/api'
 import { VEHICLES_FOR_STOP_URL } from '../../../constants'
 
@@ -17,6 +17,15 @@ export const realTimeDetailsMiddleware = () => (next) => (action) => {
       break;
 
     case `${REAL_TIME_DETAILS} ${API_SUCCESS}`:
+      var stopRef;
+      try {
+        stopRef = action.payload.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.MonitoredCall.StopPointRef;
+      } catch (err) {
+        stopRef = null
+      }
+      if(stopRef) {
+        next(purgeRealTimeDetails({stopRef}))
+      }
       next(addRealTimeDetail({realTimeDetail: action.payload, normalizeKey: 'Siri'}))
       break;
     case `${REAL_TIME_DETAILS} ${API_ERROR}`:
