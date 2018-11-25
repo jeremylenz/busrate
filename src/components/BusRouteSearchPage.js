@@ -20,7 +20,7 @@ const StyledSearch = styled(Search)`
   & > input {
     box-sizing: content-box;
     width: 95%;
-    font-size: 3em;
+    font-size: 2.6em;
     /* line-height: 1; */
     padding: 5px 10px 5px 25px;
     height: 40px;
@@ -33,6 +33,7 @@ const StyledSearch = styled(Search)`
   & > input:focus {
     outline: none;
   }
+
 `
 
 class BusRouteSearchPage extends Component {
