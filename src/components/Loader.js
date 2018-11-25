@@ -1,5 +1,10 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const spin = keyframes`
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+  `
 
 const StyledDiv = styled.div`
   position: relative;
@@ -13,17 +18,8 @@ const StyledDiv = styled.div`
   border-radius: 50%;
   border-top: 16px solid #2634a7;
   border-bottom: 16px solid #f9e33c;
-  animation: spin 2s linear infinite;
-  -webkit-animation: spin 2s linear infinite;
-
-  @keyframes spin {
-    0% {transform: rotate(0deg);}
-    100% {transform: rotate(360deg);}
-  }
-  @-webkit-keyframes spin {
-    0% {transform: rotate(0deg);}
-    100% {transform: rotate(360deg);}
-  }
+  animation: ${spin} 2s linear infinite;
+  -webkit-animation: ${spin} 2s linear infinite;
 
   &.abs {
     position: absolute;

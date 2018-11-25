@@ -5,6 +5,7 @@ import { fetchStopList } from '../redux/actions/stopLists'
 import Search, { createFilter } from 'react-search-input'
 import SearchResultsList from './SearchResultsList'
 import styled from 'styled-components'
+import Loader from './Loader'
 
 const StyledSearch = styled(Search)`
   padding: 10px 10px;
@@ -65,6 +66,9 @@ class BusRouteSearchPage extends Component {
 
 
   render() {
+    if (this.props.ui.loading) {
+      return <Loader absolute />
+    }
     const { searchTerm } = this.state
     const routeList = this.props.busRoutes.items || []
     const results = routeList.filter(createFilter(searchTerm, ['shortName', 'longName']))
@@ -91,6 +95,7 @@ const mapStateToProps = (state) => {
   return {
     busRoutes: state.busRoutes,
     stopLists: state.stopLists,
+    ui: state.ui,
   }
 };
 
