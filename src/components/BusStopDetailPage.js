@@ -55,7 +55,7 @@ class BusStopDetailPage extends Component {
     const loadingState = this.props.ui
 
     var routeData, routeName, stopName, routeDirection;
-    var stopsAway, minutesAway, progressStatus, progressStatusStr;
+    var stopsAwayText, minutesAwayText, expectedDepartureTime, progressStatusText;
 
     let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
     if (!foundStopList) {
@@ -76,52 +76,29 @@ class BusStopDetailPage extends Component {
       }
     }
 
-    let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => {
-      // First find the stop
-      if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0] === undefined) return false;
-      if (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0] === undefined) return false;
-      return (rtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.MonitoredCall.StopPointRef === stopId)
-    });
-    let lastIdx = rtdRefs.length - 1
-    let foundRtdRef = rtdRefs[lastIdx] // hopefully this is the latest one
+    // realTimeDetails: Filter to just the stopRef we care about
+    let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => rtdRef.stopRef === stopId);
+    // Now find the first vehicle that matches our routeId
+    let foundRtdRef = rtdRefs.find((rtdRef) => rtdRef.lineRef === routeId);
     if (!foundRtdRef) {
       // console.log('!foundRtdRef')
-      stopsAway = "No vehicles found"
-      minutesAway = "Unknown"
+      stopsAwayText = "No vehicles found"
+      minutesAwayText = "Unknown"
     } else {
-      // Now find the route
-      let rtdPrefix = foundRtdRef.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit.find((stopVisit) => stopVisit.MonitoredVehicleJourney.LineRef === routeId)
-      if (rtdPrefix) {
-        rtdPrefix = rtdPrefix.MonitoredVehicleJourney
-        routeDirection = rtdPrefix.DestinationName[0]
-        stopsAway = rtdPrefix.MonitoredCall.ArrivalProximityText
-        minutesAway = rtdPrefix.MonitoredCall.ExpectedDepartureTime
-        if(rtdPrefix.ProgressStatus) {
-          progressStatus = rtdPrefix.ProgressStatus[0].split(",")
-        } else {
-          progressStatus = [];
-        }
-        // console.log(progressStatus)
-        if (minutesAway === undefined) {
-          minutesAway = "not provided"
-        } else {
-          let expectedDepText = moment(minutesAway).format('LT')
-          minutesAway = moment(minutesAway).fromNow();
-          minutesAway += ` (${expectedDepText})`
-        }
 
-        progressStatus.forEach((status, idx) => {
-          if (status === "prevTrip") {
-            progressStatus[idx] = "On previous trip"
-          }
-          if (status === "layover") {
-            progressStatus[idx] = "On layover at terminal"
-          }
-        })
-        progressStatusStr = progressStatus.join("; ")
+      routeDirection = foundRtdRef.destinationName
+      stopsAwayText = foundRtdRef.stopsAwayText
+      expectedDepartureTime = foundRtdRef.expectedDepartureTime
+      progressStatusText = foundRtdRef.progressStatus
 
+      // old code below
+
+      if (expectedDepartureTime === undefined) {
+        minutesAwayText = "not provided"
       } else {
-        minutesAway = "Unknown; no MTA real-time data"
+        let expectedDepText = moment(expectedDepartureTime).format('LT')
+        minutesAwayText = moment(expectedDepartureTime).fromNow();
+        minutesAwayText += ` (${expectedDepText})`
       }
 
     }
@@ -143,7 +120,7 @@ class BusStopDetailPage extends Component {
     return (
       <div className='bus-stop-detail'>
         <BusRouteHeader routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
-        <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAway} minutesAway={minutesAway} progressStatus={progressStatusStr} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
+      <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
       </div>
     );
   }

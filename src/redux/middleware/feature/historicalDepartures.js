@@ -4,7 +4,6 @@ import { BUS_STOPS_URL } from '../../../constants'
 
 export const historicalDeparturesMiddleware = () => (next) => (action) => {
   next(action);
-  console.log(action.type)
 
   switch(action.type) {
 
@@ -22,7 +21,6 @@ export const historicalDeparturesMiddleware = () => (next) => (action) => {
         stopRef: action.payload.stop_ref,
         lineRef: action.payload.line_ref,
       }
-      console.log('dispatching purgeHistoricalDepartures', payload)
       next(purgeHistoricalDepartures(payload))
       next(addHistoricalDeparture({historicalDeparture: action.payload}))
       break;

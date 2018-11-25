@@ -19,9 +19,28 @@ function normalizeData(action) {
       return MonitoredStopVisit.MonitoredVehicleJourney;
     })
     rtdItems = vehicleJourneys.map((mvj) => {
+
+      let progressStatus;
+      if(mvj.ProgressStatus) {
+        progressStatus = mvj.ProgressStatus[0].split(",")
+      } else {
+        progressStatus = [];
+      }
+      progressStatus.forEach((status, idx) => {
+        if (status === "prevTrip") {
+          progressStatus[idx] = "On previous trip"
+        }
+        if (status === "layover") {
+          progressStatus[idx] = "On layover at terminal"
+        }
+      })
+      let progressStatusText = progressStatus.join("; ")
+
       return {
         stopsAwayText: mvj.MonitoredCall.ArrivalProximityText,
         expectedDepartureTime: mvj.MonitoredCall.ExpectedDepartureTime,
+        progressStatus: progressStatusText,
+        destinationName: mvj.DestinationName[0],
         stopRef: mvj.MonitoredCall.StopPointRef,
         lineRef: mvj.LineRef,
         responseTimestamp: action.payload.Siri.ServiceDelivery.ResponseTimestamp,
@@ -36,7 +55,6 @@ function normalizeData(action) {
 export const normalizeMiddleware = ({dispatch}) => (next) => (action) => {
   if (action.type.includes('ADD') && action.meta && action.meta.normalizeKey) {
     // tell 'em we're normalizing
-    console.log('normalizing')
     dispatch(dataNormalized({feature: action.meta.feature}))
     // normalize!!
     let rtdItems = normalizeData(action)
