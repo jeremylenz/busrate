@@ -30,8 +30,10 @@ class BusStopDetailPage extends Component {
       })
     }
 
-    // Poll the API regularly to update realtime data
-    this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 10000, stopId)
+    // Poll the API regularly to update data
+    // Realtime data: every 9 seconds
+    this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 9000, stopId)
+    // Historical departures: every minute (matches how often the API creates them)
     this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 60000, {
       stopRef: stopId,
       lineRef: routeId,

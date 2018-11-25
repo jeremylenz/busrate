@@ -13,8 +13,8 @@ import {stopListsMiddleware} from './middleware/feature/stopLists';
 import {realTimeDetailsMiddleware} from './middleware/feature/realTimeDetails'
 import {historicalDeparturesMiddleware} from './middleware/feature/historicalDepartures'
 
-
 import {apiMiddleware} from './middleware/core/api';
+import {normalizeMiddleware} from './middleware/core/normalize'
 
 // shape the state structure
 
@@ -37,6 +37,7 @@ const featureMiddleware = [
 
 const coreMiddleware = [
   apiMiddleware,
+  normalizeMiddleware,
 ]
 
 // compose the middleware with additional (optional) enhancers

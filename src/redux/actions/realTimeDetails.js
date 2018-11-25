@@ -15,10 +15,11 @@ export const fetchRealTimeDetail = (stopId) => {
   }
 }
 
-export const addRealTimeDetail = ({realTimeDetail}) => {
+export const addRealTimeDetail = ({realTimeDetail, normalizeKey}) => {
   return {
     type: ADD_REAL_TIME_DETAIL,
-    payload: realTimeDetail
+    payload: realTimeDetail,
+    meta: {normalizeKey, feature: REAL_TIME_DETAILS}
   }
 }
 

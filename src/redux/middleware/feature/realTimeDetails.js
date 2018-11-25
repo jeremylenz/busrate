@@ -17,7 +17,7 @@ export const realTimeDetailsMiddleware = () => (next) => (action) => {
       break;
 
     case `${REAL_TIME_DETAILS} ${API_SUCCESS}`:
-      next(addRealTimeDetail({realTimeDetail: action.payload}))
+      next(addRealTimeDetail({realTimeDetail: action.payload, normalizeKey: 'Siri'}))
       break;
     case `${REAL_TIME_DETAILS} ${API_ERROR}`:
       console.log(action.payload)
