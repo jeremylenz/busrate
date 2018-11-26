@@ -10,6 +10,19 @@ import BusRouteHeader from './BusRouteHeader.js'
 import BusDepartureDetails from './BusDepartureDetails.js'
 import Loader from './Loader'
 
+function headways(timeStamps) {
+  var headWays = [];
+  var timeStampsCopy = timeStamps.slice()
+  while (timeStampsCopy.length > 1) {
+    let fromTime = timeStampsCopy.shift()
+    let toTime = timeStampsCopy[0]
+    let minutesApart = (Date.parse(fromTime) - Date.parse(toTime)) / 1000 / 60
+    minutesApart = Math.floor(minutesApart)
+    headWays.push(minutesApart);
+  }
+  return headWays;
+}
+
 class BusStopDetailPage extends Component {
 
   componentDidMount() {
@@ -106,13 +119,19 @@ class BusStopDetailPage extends Component {
 
     var recents = []
     var yesterday = []
-    var prevText;
+    var prevText, recentHeadways, previousHeadways, previousTimestamps;
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
     if (hdRef) {
       let recentTimestamps = hdRef.historical_departures.slice(0, 8) // first 8 elements
+
+      let recentTimestampsCopy = recentTimestamps.slice()
+      recentTimestampsCopy.unshift(Date.now())
+      let recentHeadways = headways(recentTimestampsCopy)
+
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
-      let previousTimestamps = hdRef.prev_departures.slice(0, 8)
+      previousTimestamps = hdRef.prev_departures.slice(0, 8)
+      previousHeadways = headways(previousTimestamps)
       yesterday = previousTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
       prevText = hdRef.prev_departure_text
     }
@@ -120,7 +139,7 @@ class BusStopDetailPage extends Component {
     return (
       <div className='bus-stop-detail'>
         <BusRouteHeader loadingState={loadingState} routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
-        <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
+        <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} recentHeadways={recentHeadways} yesterday={yesterday} previousHeadways={previousHeadways} yesterdayLabel={prevText} />
       </div>
     );
   }

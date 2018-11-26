@@ -25,9 +25,8 @@ const StyledDiv = styled.div`
 
 
 const BusDepartureDetails = (props) => {
-  const { stopsAway, minutesAway, progressStatus, recents, yesterday, yesterdayLabel, loadingState } = props
+  const { stopsAway, minutesAway, progressStatus, recents, recentHeadways, yesterday, previousHeadways, yesterdayLabel, loadingState } = props
   var historicalDeparturesLoading;
-  const headways = [8,16,1,0,5,32,7,9]
 
   const RealTimeDetails = () => (
     <StyledDiv className='bus-departure-details'>
@@ -45,11 +44,12 @@ const BusDepartureDetails = (props) => {
     <StyledDiv>
       <p>Recent departures (actual): </p>
       <p>{recents.join(', ')}</p>
-      <DepartureGraph headways={headways} />
+      <DepartureGraph headways={recentHeadways} times={recents}/>
       {yesterdayLabel &&
         <p>{yesterdayLabel}:</p>
       }
       <p>{yesterday.join(', ')}</p>
+      <DepartureGraph headways={previousHeadways} times={yesterday}/>
     </StyledDiv>
   )
 
