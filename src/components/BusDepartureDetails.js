@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
 import Loader from './Loader'
-import { REAL_TIME_DETAILS } from './../redux/actions/realTimeDetails'
 import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
 
 const StyledDiv = styled.div`
@@ -49,9 +48,7 @@ const BusDepartureDetails = (props) => {
     </StyledDiv>
   )
 
-  if (loadingState.loading) {
-    historicalDeparturesLoading = props.loadingState.feature === HISTORICAL_DEPARTURES
-  }
+  historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
 
   return (
     <>
@@ -61,7 +58,7 @@ const BusDepartureDetails = (props) => {
           <Loader />
         </StyledDiv>
       }
-      {recents.length > 0 && !historicalDeparturesLoading &&
+      {!historicalDeparturesLoading &&
         <HistoricalDepartures />
       }
     </>

@@ -1,4 +1,4 @@
-import { HISTORICAL_DEPARTURES, FETCH_HISTORICAL_DEPARTURE, ADD_HISTORICAL_DEPARTURE, PURGE_HISTORICAL_DEPARTURES, addHistoricalDeparture, purgeHistoricalDepartures } from '../../actions/historicalDepartures.js'
+import { HISTORICAL_DEPARTURES, FETCH_HISTORICAL_DEPARTURE, addHistoricalDeparture, purgeHistoricalDepartures } from '../../actions/historicalDepartures.js'
 import { apiRequest, API_SUCCESS, API_ERROR } from '../../actions/api'
 import { BUS_STOPS_URL } from '../../../constants'
 

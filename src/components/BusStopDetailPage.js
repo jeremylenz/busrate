@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
 import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
 import { fetchStopList } from './../redux/actions/stopLists'
+import { setLoader, clearLoader } from './../redux/actions/ui'
 import moment from 'moment'
 import BusRouteHeader from './BusRouteHeader.js'
 import BusDepartureDetails from './BusDepartureDetails.js'
@@ -116,11 +117,10 @@ class BusStopDetailPage extends Component {
       prevText = hdRef.prev_departure_text
     }
 
-
     return (
       <div className='bus-stop-detail'>
         <BusRouteHeader routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
-      <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
+        <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
       </div>
     );
   }
@@ -138,6 +138,8 @@ const mapDispatchToProps = {
   fetchRealTimeDetail,
   fetchHistoricalDeparture,
   fetchStopList,
+  setLoader,
+  clearLoader,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BusStopDetailPage));
