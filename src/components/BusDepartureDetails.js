@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import Loader from './Loader'
 import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
+import DepartureGraph from './DepartureGraph'
 
 const StyledDiv = styled.div`
   border: 3px #8994d4;
@@ -12,6 +13,8 @@ const StyledDiv = styled.div`
   margin-bottom: 8px;
   text-align: left;
   font-size: 1.1em;
+  overflow-x: scroll;
+  overflow-y: visible;
 
   &.loading {
     padding-top: 60px;
@@ -24,6 +27,7 @@ const StyledDiv = styled.div`
 const BusDepartureDetails = (props) => {
   const { stopsAway, minutesAway, progressStatus, recents, yesterday, yesterdayLabel, loadingState } = props
   var historicalDeparturesLoading;
+  const headways = [8,16,1,0,5,32,7,9]
 
   const RealTimeDetails = () => (
     <StyledDiv className='bus-departure-details'>
@@ -41,6 +45,7 @@ const BusDepartureDetails = (props) => {
     <StyledDiv>
       <p>Recent departures (actual): </p>
       <p>{recents.join(', ')}</p>
+      <DepartureGraph headways={headways} />
       {yesterdayLabel &&
         <p>{yesterdayLabel}:</p>
       }
@@ -59,7 +64,9 @@ const BusDepartureDetails = (props) => {
         </StyledDiv>
       }
       {!historicalDeparturesLoading &&
+        <>
         <HistoricalDepartures />
+        </>
       }
     </>
  )};
