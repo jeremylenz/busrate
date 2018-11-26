@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import Loader from './Loader'
+import { STOP_LISTS } from './../redux/actions/stopLists'
 
 const StyledCircle = styled.div`
   height: 150px;
@@ -36,6 +38,9 @@ const StyledDiv = styled.div`
 const BusRouteName = (props) => (
   <StyledCircle className='bus-route-name'>
     <StyledDiv classname='bus-route-name-text'>
+      {props.loadingState.features.has(STOP_LISTS) &&
+        <Loader />
+      }
       <Link to={`/buses/${props.routeId}`}>{props.routeName}</Link>
     </StyledDiv>
   </StyledCircle>

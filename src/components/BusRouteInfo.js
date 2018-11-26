@@ -43,7 +43,7 @@ const BusRouteInfo = (props) => {
       {routeDescription &&
         <StyledP>{routeDescription}</StyledP>
       }
-      <Link to='/'>{'<< Back'}</Link>
+      <Link to='/'>{'<< New Search'}</Link>
 
     </StyledDiv>
   )

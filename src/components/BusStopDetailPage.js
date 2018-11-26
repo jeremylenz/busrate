@@ -119,7 +119,7 @@ class BusStopDetailPage extends Component {
 
     return (
       <div className='bus-stop-detail'>
-        <BusRouteHeader routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
+        <BusRouteHeader loadingState={loadingState} routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
         <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} yesterday={yesterday} yesterdayLabel={prevText} />
       </div>
     );
