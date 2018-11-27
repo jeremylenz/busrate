@@ -4,17 +4,21 @@ import styled from 'styled-components';
 const StyledDepartureGraph = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
   align-content: center;
   height: 40px;
-  width: 90%;
+  width: 95%;
+  z-index: 3;
 `
 const StyledDepartureDot = styled.div`
   position: relative;
   height: 30px;
   width: 30px;
+  min-width: 30px;
+  flex-shrink: 0;
+  flex-basis: auto;
   background-color: #f9e33c;
   border-radius: 50%;
   border-style: solid;
@@ -27,6 +31,9 @@ const StyledDepartureDot = styled.div`
 `
 const StyledDepartureHeadway = styled.div`
   height: 25px;
+  min-width: 8px;
+  flex-shrink: 0;
+  flex-basis: auto;
   background-color: #2634a7;
   color: white;
   margin-right: -5px;
@@ -43,7 +50,7 @@ const StyledTooltip = styled.span`
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
-  z-index: 1;
+  z-index: 99;
   bottom: 125%;
   left: 50%;
   margin-left: -50px;
@@ -69,31 +76,44 @@ const DepartureGraph = (props) => {
   // times = ['6:56pm', '6:33pm', ...]
 
   const { headways, times } = props
+  var { dotsFirst } = props
   if (!headways) return null;
-
-  console.log (headways, times)
+  if (!dotsFirst && headways[0] < 5) {
+    dotsFirst = true;
+    headways.shift()
+  }
 
   return (
     <StyledDepartureGraph>
       {headways.map((headway, idx) => {
         let hwWidth = headway * 8
         let crowdDots = false
-        if (headway < 2) {
+        if (headway < 3 && idx > 0) {
           crowdDots = true
-          hwWidth = 5;
+          hwWidth = 8;
         }
         if (headway > 60) {
           hwWidth = 60 * 8;
         }
         return (
           <>
-            <StyledDepartureHeadway key={headway} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
+            {!dotsFirst &&
+              <StyledDepartureHeadway key={headway} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
+            }
             <StyledDepartureDot key={Date.now()} style={crowdDots ? {marginLeft: '-20px'} : {} }>
               <StyledTooltip>{times[idx]}</StyledTooltip>
             </StyledDepartureDot>
+            {dotsFirst &&
+              <StyledDepartureHeadway key={headway} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
+            }
           </>
         )
       })}
+      {dotsFirst &&
+        <StyledDepartureDot key={Date.now()} style={headways[headways.length - 1] < 2 ? {marginLeft: '-20px'} : {} }>
+          <StyledTooltip>{times[times.length - 1]}</StyledTooltip>
+        </StyledDepartureDot>
+      }
     </StyledDepartureGraph>
   )
 

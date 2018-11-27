@@ -5,11 +5,14 @@ import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
 import DepartureGraph from './DepartureGraph'
 
 const StyledDiv = styled.div`
+  position: relative;
+  z-index: 1;
   border: 3px #8994d4;
   border-radius: 8px;
   border-style: solid;
   padding-left: 8px;
   padding-right: 8px;
+  padding-bottom: 6px;
   margin-bottom: 8px;
   text-align: left;
   font-size: 1.1em;
@@ -20,6 +23,11 @@ const StyledDiv = styled.div`
     padding-top: 60px;
     padding-bottom: 15px;
   }
+`
+
+const StyledP = styled.p`
+  margin-bottom: 0;
+  padding-bottom: 1em;
 `
 
 
@@ -43,13 +51,13 @@ const BusDepartureDetails = (props) => {
   const HistoricalDepartures = () => (
     <StyledDiv>
       <p>Recent departures (actual): </p>
-      <p>{recents.join(', ')}</p>
+      <StyledP>{recents.join(', ')}</StyledP>
       <DepartureGraph headways={recentHeadways} times={recents}/>
       {yesterdayLabel &&
         <p>{yesterdayLabel}:</p>
       }
       <p>{yesterday.join(', ')}</p>
-      <DepartureGraph headways={previousHeadways} times={yesterday}/>
+      <DepartureGraph dotsFirst headways={previousHeadways} times={yesterday}/>
     </StyledDiv>
   )
 

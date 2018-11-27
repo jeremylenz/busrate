@@ -20,26 +20,26 @@ a {
   .container {
     width: 375px;
     margin-top: 10px;
-    grid-template-columns: 125px auto 125px;
+    grid-template-columns: 125px 300px 125px;
     grid-template-rows: 125px auto;
   }
 
   .bus-route-header {
-    grid-template-columns: 175px auto 175px;
+    grid-template-columns: 175px 300px 175px;
   }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 600px) {
   .container {
     width: 700px;
     margin-top: 10px;
-    grid-template-columns: 175px auto 175px;
+    grid-template-columns: 175px 300px 175px;
     grid-template-rows: 175px auto;
   }
 
   .bus-route-header {
-    grid-template-columns: 175px auto 175px;
+    grid-template-columns: 175px 300px 175px;
   }
 }
 
@@ -48,12 +48,12 @@ a {
   .container {
     width: 800px;
     margin-top: 10px;
-    grid-template-columns: 200px auto 200px;
+    grid-template-columns: 200px 400px 200px;
     grid-template-rows: 200px auto;
   }
 
   .bus-route-header {
-    grid-template-columns: 200px auto 200px;
+    grid-template-columns: 200px 400px 200px;
   }
 
 }

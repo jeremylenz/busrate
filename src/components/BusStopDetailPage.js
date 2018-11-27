@@ -11,13 +11,14 @@ import BusDepartureDetails from './BusDepartureDetails.js'
 import Loader from './Loader'
 
 function headways(timeStamps) {
+  // Given a list of timestamps, return an array of the number of minutes between each
   var headWays = [];
-  var timeStampsCopy = timeStamps.slice()
+  var timeStampsCopy = timeStamps.slice() // don't alter the passed-in array
   while (timeStampsCopy.length > 1) {
     let fromTime = timeStampsCopy.shift()
     let toTime = timeStampsCopy[0]
     let minutesApart = (Date.parse(fromTime) - Date.parse(toTime)) / 1000 / 60
-    minutesApart = Math.floor(minutesApart)
+    minutesApart = Math.round(minutesApart)
     headWays.push(minutesApart);
   }
   return headWays;
@@ -55,6 +56,12 @@ class BusStopDetailPage extends Component {
   }
 
   componentWillUnmount() {
+    clearInterval(this.getNextRealtimeData)
+    clearInterval(this.getNextHistoricalDepartures)
+  }
+
+  pause = () => {
+    console.log('paused')
     clearInterval(this.getNextRealtimeData)
     clearInterval(this.getNextHistoricalDepartures)
   }
@@ -126,9 +133,8 @@ class BusStopDetailPage extends Component {
       let recentTimestamps = hdRef.historical_departures.slice(0, 8) // first 8 elements
 
       let recentTimestampsCopy = recentTimestamps.slice()
-      recentTimestampsCopy.unshift(Date.now())
-      let recentHeadways = headways(recentTimestampsCopy)
-
+      recentTimestampsCopy.unshift(new Date().toISOString())
+      recentHeadways = headways(recentTimestampsCopy)
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
       previousTimestamps = hdRef.prev_departures.slice(0, 8)
       previousHeadways = headways(previousTimestamps)
@@ -137,7 +143,7 @@ class BusStopDetailPage extends Component {
     }
 
     return (
-      <div className='bus-stop-detail'>
+      <div className='bus-stop-detail' onClick={this.pause}>
         <BusRouteHeader loadingState={loadingState} routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
         <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} recentHeadways={recentHeadways} yesterday={yesterday} previousHeadways={previousHeadways} yesterdayLabel={prevText} />
       </div>
