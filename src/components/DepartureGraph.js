@@ -32,6 +32,7 @@ const StyledDepartureDot = styled.div`
 const StyledDepartureHeadway = styled.div`
   height: 25px;
   min-width: 8px;
+  max-width: 480px;
   flex-shrink: 0;
   flex-basis: auto;
   background-color: #2634a7;
@@ -91,9 +92,6 @@ const DepartureGraph = (props) => {
         if (headway < 3 && idx > 0) {
           crowdDots = true
           hwWidth = 8;
-        }
-        if (headway > 60) {
-          hwWidth = 60 * 8;
         }
         return (
           <>
