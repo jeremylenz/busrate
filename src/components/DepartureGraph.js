@@ -28,6 +28,9 @@ const StyledDepartureDot = styled.div`
     visibility: visible;
     opacity: 1;
   }
+  & + .crowd-dots {
+    margin-left: -20px;
+  }
 `
 const StyledDepartureHeadway = styled.div`
   height: 25px;
@@ -96,13 +99,13 @@ const DepartureGraph = (props) => {
         return (
           <>
             {!dotsFirst &&
-              <StyledDepartureHeadway key={headway} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
+              <StyledDepartureHeadway key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
             }
-            <StyledDepartureDot key={Date.now()} style={crowdDots ? {marginLeft: '-20px'} : {} }>
+            <StyledDepartureDot key={Date.now()}>
               <StyledTooltip>{times[idx]}</StyledTooltip>
             </StyledDepartureDot>
             {dotsFirst &&
-              <StyledDepartureHeadway key={headway} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
+              <StyledDepartureHeadway key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
             }
           </>
         )
