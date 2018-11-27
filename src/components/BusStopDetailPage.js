@@ -60,12 +60,6 @@ class BusStopDetailPage extends Component {
     clearInterval(this.getNextHistoricalDepartures)
   }
 
-  pause = () => {
-    console.log('paused')
-    clearInterval(this.getNextRealtimeData)
-    clearInterval(this.getNextHistoricalDepartures)
-  }
-
   render() {
     if (this.props.ui.loading && this.props.realTimeDetails.items.length === 0) {
       return <Loader absolute />
@@ -143,7 +137,7 @@ class BusStopDetailPage extends Component {
     }
 
     return (
-      <div className='bus-stop-detail' onClick={this.pause}>
+      <div className='bus-stop-detail'>
         <BusRouteHeader loadingState={loadingState} routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
         <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} recentHeadways={recentHeadways} yesterday={yesterday} previousHeadways={previousHeadways} yesterdayLabel={prevText} />
       </div>
