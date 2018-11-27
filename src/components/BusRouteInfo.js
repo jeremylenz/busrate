@@ -8,6 +8,7 @@ const StyledDiv = styled.div`
   text-align: left;
   padding-left: 15px;
   padding-bottom: 15px;
+  margin-right: 10px;
   @media only screen and (min-width: 600px) {
     font-size: 1.5em;
   }

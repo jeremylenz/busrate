@@ -82,7 +82,7 @@ const DepartureGraph = (props) => {
   const { headways, times } = props
   var { dotsFirst } = props
   if (!headways) return null;
-  if (!dotsFirst && headways[0] < 5) {
+  if (!dotsFirst && headways[0] < 3) {
     dotsFirst = true;
     headways.shift()
   }

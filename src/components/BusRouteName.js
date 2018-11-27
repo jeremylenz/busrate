@@ -24,8 +24,8 @@ const StyledCircle = styled.div`
   }
   @media only screen and (max-width: 600px) {
     font-size: 2em;
-    height: 125px;
-    width: 125px;
+    height: 100px;
+    width: 100px;
   }
 `
 
