@@ -47,10 +47,23 @@ _Constants:_ Since the BusRate API handles communication with MTA BusTime, you d
 
 * __Expected departure__ - real time data for the _next_ vehicle departure from that stop.
 * __Historical departures__ - The last 8 departures _for that bus line_ are listed on a graph, along with previous departures.  For weekdays, the previous departures will be for the same time the previous business day.  For weekends, previous departures will be listed for the same time period a week ago.
-* Once a bus departs, you should be able to see the historical departure within the next 2 minutes or so.
 * If other bus lines also depart from the same bus stop, they will be filtered out and not shown.  The departures you see will be _only_ for the selected bus line.
 * Realtime data will automatically update from the BusTime API every 9 seconds.
 * Historical data will automatically update every 60 seconds.
+* Once a bus departs, you should be able to see the historical departure within the next 2 minutes or so.
+
+## Future
+
+Now that we have historical departure data, there's a ton of interesting stuff that can be done with it.  I may work on one or more of these in the future:
+
+* Bus bunching data (both real-time and historical)
+* Historical trip duration from stop to stop
+* Average headways for this bus line - overall; for certain time periods; per hour; etc.
+* Schedule adherence / comparison
+* Generate a "score" for each bus based on consistency and low headways
+* Machine learning predictions of future headways
+* Rate the accuracy of realtime data by comparing it to when the bus actually arrived
+* If you have more ideas, please feel free to share!  (@jeremy646 on Twitter)
 
 ## Technical details about the React app
 
