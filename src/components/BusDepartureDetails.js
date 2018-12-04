@@ -49,10 +49,10 @@ class BusDepartureDetails extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const scrollRef = this.scrollRef.current;
-    console.log(scrollRef)
-    console.log(`snapshot: ${snapshot}`)
+    // console.log(scrollRef)
+    // console.log(`snapshot: ${snapshot}`)
     if (scrollRef) {
-      console.log(`scrollLeft: ${scrollRef.scrollLeft}`)
+      // console.log(`scrollLeft: ${scrollRef.scrollLeft}`)
       scrollRef.scrollLeft = snapshot;
     }
   }
