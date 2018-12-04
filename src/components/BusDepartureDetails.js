@@ -18,6 +18,7 @@ const StyledDiv = styled.div`
   font-size: 1.1em;
   overflow-x: scroll;
   overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
 
   &.loading {
     padding-top: 60px;
