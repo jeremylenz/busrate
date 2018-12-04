@@ -11,6 +11,10 @@ const StyledDepartureGraph = styled.div`
   height: 40px;
   width: 95%;
   z-index: 3;
+  &.grayscale>div {
+    background-color: #d8d8d8;
+    color: #797878;
+  }
 `
 const StyledDepartureDot = styled.div`
   font-family: 'Asap';
@@ -86,7 +90,8 @@ const DepartureGraph = (props) => {
   // headways = [5, 6, 15, 22, 8] - minutes of wait time in between each departure
   // times = ['6:56pm', '6:33pm', ...]
 
-  const { headways, times } = props
+  const { headways, times, grayscale } = props
+  const gsClassName = grayscale ? "grayscale" : ""
   var { dotsFirst } = props
   if (!headways) return null;
   if (!dotsFirst && headways[0] < 3) {
@@ -95,7 +100,7 @@ const DepartureGraph = (props) => {
   }
 
   return (
-    <StyledDepartureGraph>
+    <StyledDepartureGraph className={gsClassName}>
       {headways.map((headway, idx) => {
         let hwWidth = headway * 8
         let crowdDots = false
