@@ -13,6 +13,7 @@ const StyledDepartureGraph = styled.div`
   z-index: 3;
 `
 const StyledDepartureDot = styled.div`
+  font-family: 'Asap';
   position: relative;
   height: 30px;
   width: 30px;
@@ -33,6 +34,7 @@ const StyledDepartureDot = styled.div`
   }
 `
 const StyledDepartureHeadway = styled.div`
+  font-family: 'Asap';
   height: 25px;
   min-width: 8px;
   max-width: 480px;
@@ -46,6 +48,7 @@ const StyledDepartureHeadway = styled.div`
 `
 
 const StyledTooltip = styled.span`
+  font-family: 'Asap';
   position: absolute;
   visibility: hidden;
   width: 100px;

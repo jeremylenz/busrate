@@ -27,6 +27,11 @@ const StyledP = styled.p`
   font-style: italic;
 `
 
+const StyledSpan = styled.span`
+  font-weight: 200;
+  font-family: 'Source Sans Pro';
+`
+
 const BusRouteInfo = (props) => {
   const { routeDirection, stopNum, stopName, routeLongName, routeDescription } = props
 
@@ -44,7 +49,7 @@ const BusRouteInfo = (props) => {
       {routeDescription &&
         <StyledP>{routeDescription}</StyledP>
       }
-      <Link to='/'>{'<< New Search'}</Link>
+      <Link to='/'><StyledSpan>{'<< New Search'}</StyledSpan></Link>
 
     </StyledDiv>
   )
