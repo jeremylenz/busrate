@@ -60,6 +60,10 @@ a {
 
 /* All screen sizes */
 
+body {
+  -webkit-overflow-scrolling: touch;
+}
+
 .container {
   /* width: 700px; */
   /* margin-top: 10px; */

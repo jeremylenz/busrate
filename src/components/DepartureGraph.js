@@ -10,7 +10,7 @@ const StyledDepartureGraph = styled.div`
   align-content: center;
   height: 40px;
   width: 95%;
-  z-index: 3;
+  z-index: -1;
   &.grayscale>div {
     background-color: #d8d8d8;
     color: #797878;
@@ -28,7 +28,7 @@ const StyledDepartureDot = styled.div`
   border-radius: 50%;
   border-style: solid;
   margin-right: -5px;
-  z-index: 2;
+  z-index: 99;
   &:hover > span {
     visibility: visible;
     opacity: 1;
@@ -83,8 +83,15 @@ const StyledTooltip = styled.span`
     border-color: #555 transparent transparent transparent;
   }
 
-
 `
+
+function doNothing() {
+  // When using the -webkit-overflow-scrolling: touch CSS property to provide momentum scrolling on iOS Safari,
+  // hover events do not happen when the user taps the departure dot.  For some reason
+  // adding an onClick property to the element returns the behavior to near-normal
+  // (though it does momentarily select the entire element.)
+  return null;
+}
 
 const DepartureGraph = (props) => {
   // headways = [5, 6, 15, 22, 8] - minutes of wait time in between each departure
@@ -111,17 +118,17 @@ const DepartureGraph = (props) => {
         return (
           <>
             {!dotsFirst &&
-              <StyledDepartureHeadway key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
+              <StyledDepartureHeadway onClick={doNothing} key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
                 <StyledDiv>
                   {headway}
                 </StyledDiv>
               </StyledDepartureHeadway>
             }
-            <StyledDepartureDot key={Date.now()}>
+            <StyledDepartureDot onClick={doNothing} key={Date.now()}>
               <StyledTooltip>{times[idx]}</StyledTooltip>
             </StyledDepartureDot>
             {dotsFirst &&
-              <StyledDepartureHeadway key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
+              <StyledDepartureHeadway onClick={doNothing} key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
                 <StyledDiv>
                   {headway}
                 </StyledDiv>
@@ -131,7 +138,7 @@ const DepartureGraph = (props) => {
         )
       })}
       {dotsFirst &&
-        <StyledDepartureDot key={Date.now()} style={headways[headways.length - 1] < 2 ? {marginLeft: '-20px'} : {} }>
+        <StyledDepartureDot onClick={doNothing} key={Date.now()} style={headways[headways.length - 1] < 2 ? {marginLeft: '-20px'} : {} }>
           <StyledTooltip>{times[times.length - 1]}</StyledTooltip>
         </StyledDepartureDot>
       }
