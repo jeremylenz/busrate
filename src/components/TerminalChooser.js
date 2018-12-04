@@ -7,6 +7,7 @@ const StyledDiv = styled.div`
   flex-shrink: 0;
   flex-basis: 45%;
   text-align: center;
+  background-color: white;
 
   border-width: 2px 1px 2px 2px;
   border-radius: 8px 0 0 8px;
@@ -37,6 +38,8 @@ const StyledFlexContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: stretch;
+  position: sticky;
+  top: 0;
 `
 
 const TerminalChooser = (props) => {
@@ -45,7 +48,7 @@ const TerminalChooser = (props) => {
 
 
   return (
-    <div>
+    <>
       <StyledFlexContainer>
       {terminals.map((terminal) => {
         let termClass = 'bus-terminal'
@@ -56,7 +59,7 @@ const TerminalChooser = (props) => {
       })
       }
       </StyledFlexContainer>
-    </div>
+    </>
   )
 
 };

@@ -12,6 +12,8 @@ import styled from 'styled-components'
 import Loader from './Loader'
 
 const StyledDiv = styled.div`
+  overflow-y: scroll;
+  max-height: calc(100vh - 125px);
   border: 3px solid;
   border-radius: 16px;
   border-color: #ffee43;
