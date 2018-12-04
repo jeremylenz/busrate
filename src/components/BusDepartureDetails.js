@@ -34,6 +34,29 @@ const StyledP = styled.p`
 
 class BusDepartureDetails extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.scrollRef = React.createRef();
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    const scrollRef = this.scrollRef.current;
+    if (scrollRef && scrollRef.scrollLeft) {
+      return scrollRef.scrollLeft
+    }
+    return null
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const scrollRef = this.scrollRef.current;
+    console.log(scrollRef)
+    console.log(`snapshot: ${snapshot}`)
+    if (scrollRef) {
+      console.log(`scrollLeft: ${scrollRef.scrollLeft}`)
+      scrollRef.scrollLeft = snapshot;
+    }
+  }
+
   render () {
     const { stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, yesterday, previousHeadways, yesterdayLabel, loadingState } = this.props
     var historicalDeparturesLoading;
@@ -50,36 +73,36 @@ class BusDepartureDetails extends React.Component {
       </StyledDiv>
     )
 
-  const HistoricalDepartures = () => (
-    <StyledDiv>
-      <p>Most recent departure: {recentDepText}</p>
-      <p>All recent departures:</p>
-      <DepartureGraph headways={recentHeadways} times={recents}/>
-      {yesterdayLabel &&
-        <p>{yesterdayLabel}:</p>
-      }
+    const HistoricalDepartures = () => (
+      <StyledDiv innerRef={this.scrollRef}>
+        <p>Most recent departure: {recentDepText}</p>
+        <p>All recent departures:</p>
+        <DepartureGraph headways={recentHeadways} times={recents}/>
+        {yesterdayLabel &&
+          <p>{yesterdayLabel}:</p>
+        }
         <DepartureGraph dotsFirst headways={previousHeadways} times={yesterday}/>
       </StyledDiv>
-    )
-    
-  historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
+      )
 
-  return (
-    <>
-      <RealTimeDetails />
-      {historicalDeparturesLoading &&
-        <StyledDiv className='loading'>
-          <Loader />
-        </StyledDiv>
-      }
-      {!historicalDeparturesLoading &&
-        <>
-        <HistoricalDepartures />
-        </>
-      }
-    </>
-    )
-  }
+    historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
+
+    return (
+      <>
+        <RealTimeDetails />
+        {historicalDeparturesLoading &&
+          <StyledDiv className='loading'>
+            <Loader />
+          </StyledDiv>
+        }
+        {!historicalDeparturesLoading &&
+          <>
+          <HistoricalDepartures />
+          </>
+        }
+      </>
+      )
+    }
 
 }
 
