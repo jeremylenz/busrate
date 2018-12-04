@@ -47,6 +47,10 @@ const StyledDepartureHeadway = styled.div`
   z-index: 1;
 `
 
+const StyledDiv = styled.div`
+  margin-top: 2px;
+`
+
 const StyledTooltip = styled.span`
   font-family: 'Asap';
   position: absolute;
@@ -102,13 +106,21 @@ const DepartureGraph = (props) => {
         return (
           <>
             {!dotsFirst &&
-              <StyledDepartureHeadway key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
+              <StyledDepartureHeadway key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
+                <StyledDiv>
+                  {headway}
+                </StyledDiv>
+              </StyledDepartureHeadway>
             }
             <StyledDepartureDot key={Date.now()}>
               <StyledTooltip>{times[idx]}</StyledTooltip>
             </StyledDepartureDot>
             {dotsFirst &&
-              <StyledDepartureHeadway key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>{headway}</StyledDepartureHeadway>
+              <StyledDepartureHeadway key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
+                <StyledDiv>
+                  {headway}
+                </StyledDiv>
+              </StyledDepartureHeadway>
             }
           </>
         )
