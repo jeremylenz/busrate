@@ -35,7 +35,7 @@ const BusRouteInfo = (props) => {
       {routeDirection && stopNum &&
         <>
           <p>{routeDirection}</p>
-          <p>Stop # {stopNum} - {stopName}</p>
+          <p>{stopName}</p>
         </>
       }
       {routeLongName &&
