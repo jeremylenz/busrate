@@ -32,12 +32,14 @@ const StyledP = styled.p`
 
 
 
-const BusDepartureDetails = (props) => {
-  const { stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, yesterday, previousHeadways, yesterdayLabel, loadingState } = props
-  var historicalDeparturesLoading;
+class BusDepartureDetails extends React.Component {
 
-  const RealTimeDetails = () => (
-    <StyledDiv className='bus-departure-details'>
+  render () {
+    const { stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, yesterday, previousHeadways, yesterdayLabel, loadingState } = this.props
+    var historicalDeparturesLoading;
+
+    const RealTimeDetails = () => (
+      <StyledDiv className='bus-departure-details'>
         <>
         <p>Expected departure: {minutesAway}</p>
         <p>{stopsAway}</p>
@@ -45,8 +47,8 @@ const BusDepartureDetails = (props) => {
           <p>{progressStatus}</p>
         }
         </>
-    </StyledDiv>
-  )
+      </StyledDiv>
+    )
 
   const HistoricalDepartures = () => (
     <StyledDiv>
@@ -56,10 +58,10 @@ const BusDepartureDetails = (props) => {
       {yesterdayLabel &&
         <p>{yesterdayLabel}:</p>
       }
-      <DepartureGraph dotsFirst headways={previousHeadways} times={yesterday}/>
-    </StyledDiv>
-  )
-
+        <DepartureGraph dotsFirst headways={previousHeadways} times={yesterday}/>
+      </StyledDiv>
+    )
+    
   historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
 
   return (
@@ -76,6 +78,9 @@ const BusDepartureDetails = (props) => {
         </>
       }
     </>
- )};
+    )
+  }
+
+}
 
 export default BusDepartureDetails;
