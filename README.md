@@ -25,7 +25,7 @@ _(For more technical details, see the README for BusRate API)_
 
 ## Live demo
 
-If you don't want to run the app locally, there is a live demo available at http://busrate.herokuapp.com  _*(Please see the note below about HTTPS)_
+If you don't want to run the app locally, there is a live demo available at http://busrate.herokuapp.com. Please note, since it's hosted on Heroku it may take several seconds to "wake up" the app the first time you navigate to it.  _*(Please see the note below about HTTPS)_
 
 ## Getting started
 
