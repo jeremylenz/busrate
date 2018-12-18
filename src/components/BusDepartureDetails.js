@@ -75,7 +75,7 @@ class BusDepartureDetails extends React.Component {
     )
 
     const HistoricalDepartures = () => (
-      <StyledDiv innerRef={this.scrollRef}>
+      <StyledDiv ref={this.scrollRef}>
         <p>Most recent departure: {recentDepText}</p>
         <p>All recent departures:</p>
         <DepartureGraph headways={recentHeadways} times={recents}/>
