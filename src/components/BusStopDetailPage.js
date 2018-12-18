@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
-import { fetchHistoricalDeparture, skipDepartureFetch } from './../redux/actions/historicalDepartures'
+import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
 import { fetchStopList } from './../redux/actions/stopLists'
 import { setLoader, clearLoader } from './../redux/actions/ui'
 import moment from 'moment'
@@ -49,18 +49,10 @@ class BusStopDetailPage extends Component {
     // Realtime data: every 9 seconds
     this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 9000, stopId)
     // Historical departures: every minute (matches how often the API creates them)
-    this.getNextHistoricalDepartures = setInterval(this.fetchNextDeparturesIfNeeded, 60000, {
+    this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 60000, {
       stopRef: stopId,
       lineRef: routeId,
     })
-  }
-
-  fetchNextDeparturesIfNeeded = (stopAndLineRef) => {
-    if (!this.skipNextDepartureFetch) {
-      this.props.fetchHistoricalDeparture(stopAndLineRef)
-    } else {
-      this.props.skipDepartureFetch()
-    }
   }
 
   componentWillUnmount() {
@@ -122,12 +114,6 @@ class BusStopDetailPage extends Component {
         let expectedDepText = moment(expectedDepartureTime).format('LT')
         minutesAwayText = moment(expectedDepartureTime).fromNow();
         minutesAwayText += ` (${expectedDepText})`
-        // console.log(moment().add(6, 'minutes'))
-        if (moment(expectedDepartureTime) > moment().add(6, 'minutes')) {
-          this.skipNextDepartureFetch = true
-        } else {
-          this.skipNextDepartureFetch = false
-        }
       }
 
     }
@@ -171,7 +157,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   fetchRealTimeDetail,
   fetchHistoricalDeparture,
-  skipDepartureFetch,
   fetchStopList,
   setLoader,
   clearLoader,
