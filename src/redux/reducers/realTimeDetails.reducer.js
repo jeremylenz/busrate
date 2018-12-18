@@ -18,7 +18,6 @@ export const realTimeDetailsReducer = (state = realTimeDetailsState, action) => 
         firstRequestSent: true,
       })
     case PURGE_REAL_TIME_DETAILS:
-      // Not in use yet; need to normalize data first
       let existingItems = state.items
       // Filter to just items NOT for that route/stop combination.
       let filteredItems = existingItems.filter((rtd) => {
