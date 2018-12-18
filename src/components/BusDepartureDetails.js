@@ -26,13 +26,6 @@ const StyledDiv = styled.div`
   }
 `
 
-const StyledP = styled.p`
-  margin-bottom: 0;
-  padding-bottom: 1em;
-`
-
-
-
 class BusDepartureDetails extends React.Component {
 
   constructor(props) {
