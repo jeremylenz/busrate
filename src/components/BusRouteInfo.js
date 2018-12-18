@@ -34,12 +34,13 @@ const StyledSpan = styled.span`
 
 const BusRouteInfo = (props) => {
   const { routeDirection, stopNum, stopName, routeLongName, routeDescription } = props
-
   return (
     <StyledDiv className='bus-route-info'>
-      {routeDirection && stopNum &&
+      {stopNum &&
         <>
+        {routeDirection &&
           <p>{routeDirection}</p>
+        }
           <p>{stopName}</p>
         </>
       }
