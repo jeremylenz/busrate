@@ -2,6 +2,8 @@
 
 Welcome to BusRate NYC!  This is an app designed to help provide insights about __bus performance__ in the New York City MTA bus system.
 
+<img width="816" alt="screen shot 2019-01-01 at 10 02 43 am" src="https://user-images.githubusercontent.com/22042343/50574027-6bc3ad00-0dad-11e9-9b13-9e6495b6c9ed.png">
+
 ## Basic idea
 
 * Being a frequent bus commuter, the importance of _consistent_ and _reliable_ bus service became really apparent to me
