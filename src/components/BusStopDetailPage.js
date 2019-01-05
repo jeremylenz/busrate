@@ -10,20 +10,6 @@ import BusRouteHeader from './BusRouteHeader.js'
 import BusDepartureDetails from './BusDepartureDetails.js'
 import Loader from './Loader'
 
-function headways(timeStamps) {
-  // Given a list of timestamps, return an array of the number of minutes between each
-  var headWays = [];
-  var timeStampsCopy = timeStamps.slice() // don't alter the passed-in array
-  while (timeStampsCopy.length > 1) {
-    let fromTime = timeStampsCopy.shift()
-    let toTime = timeStampsCopy[0]
-    let minutesApart = (Date.parse(fromTime) - Date.parse(toTime)) / 1000 / 60
-    minutesApart = Math.round(minutesApart)
-    headWays.push(minutesApart);
-  }
-  return headWays;
-}
-
 class BusStopDetailPage extends Component {
 
   componentDidMount() {
