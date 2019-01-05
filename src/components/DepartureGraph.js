@@ -59,7 +59,7 @@ const StyledTooltip = styled.span`
   font-family: 'Asap';
   position: absolute;
   visibility: hidden;
-  width: 100px;
+  width: 150px;
   background-color: #555;
   color: #fff;
   text-align: center;
@@ -97,7 +97,7 @@ const DepartureGraph = (props) => {
   // headways = [5, 6, 15, 22, 8] - minutes of wait time in between each departure
   // times = ['6:56pm', '6:33pm', ...]
 
-  const { headways, times, grayscale } = props
+  const { headways, times, vehicleRefs, grayscale } = props
   const gsClassName = grayscale ? "grayscale" : ""
   var { dotsFirst } = props
   if (!headways) return null;
@@ -125,7 +125,7 @@ const DepartureGraph = (props) => {
               </StyledDepartureHeadway>
             }
             <StyledDepartureDot onClick={doNothing} key={Date.now()}>
-              <StyledTooltip>{times[idx]}</StyledTooltip>
+              <StyledTooltip><div>{times[idx]}<br />Vehicle # 9002</div></StyledTooltip>
             </StyledDepartureDot>
             {dotsFirst &&
               <StyledDepartureHeadway onClick={doNothing} key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>

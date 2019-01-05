@@ -124,14 +124,14 @@ class BusStopDetailPage extends Component {
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
     if (hdRef) {
-      let recentTimestamps = hdRef.historical_departures.slice(0, 8) // first 8 elements
+      let recentTimestamps = hdRef.recents_departure_times.slice(0, 8) // first 8 elements
 
       let recentTimestampsCopy = recentTimestamps.slice()
       recentTimestampsCopy.unshift(new Date().toISOString())
       recentHeadways = headways(recentTimestampsCopy)
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
       recentDepText = moment(recentTimestamps[0]).fromNow() + ` (${recents[0]})`
-      previousTimestamps = hdRef.prev_departures.slice(0, 8)
+      previousTimestamps = hdRef.prev_departure_times.slice(0, 8)
       previousHeadways = headways(previousTimestamps)
       yesterday = previousTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
       prevText = hdRef.prev_departure_text
