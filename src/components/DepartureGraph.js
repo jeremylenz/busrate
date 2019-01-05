@@ -67,7 +67,7 @@ const StyledTooltip = styled.span`
   padding: 5px 0;
   z-index: 99;
   bottom: 125%;
-  left: 50%;
+  left: -30%;
   margin-left: -50px;
   opacity: 0;
   transition: opacity 0.3s;
@@ -116,7 +116,7 @@ const DepartureGraph = (props) => {
           hwWidth = 8;
         }
         return (
-          <>
+          <React.Fragment key={`${times[idx] + vehicleRefs[idx]}`}>
             {!dotsFirst &&
               <StyledDepartureHeadway onClick={doNothing} key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
                 <StyledDiv>
@@ -125,7 +125,7 @@ const DepartureGraph = (props) => {
               </StyledDepartureHeadway>
             }
             <StyledDepartureDot onClick={doNothing} key={Date.now()}>
-              <StyledTooltip><div>{times[idx]}<br />Vehicle # 9002</div></StyledTooltip>
+              <StyledTooltip><div>{times[idx]}<br />Vehicle # {vehicleRefs[idx]}</div></StyledTooltip>
             </StyledDepartureDot>
             {dotsFirst &&
               <StyledDepartureHeadway onClick={doNothing} key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
@@ -134,12 +134,12 @@ const DepartureGraph = (props) => {
                 </StyledDiv>
               </StyledDepartureHeadway>
             }
-          </>
+          </React.Fragment>
         )
       })}
       {dotsFirst &&
-        <StyledDepartureDot onClick={doNothing} key={Date.now()} style={headways[headways.length - 1] < 2 ? {marginLeft: '-20px'} : {} }>
-          <StyledTooltip>{times[times.length - 1]}</StyledTooltip>
+        <StyledDepartureDot onClick={doNothing} style={headways[headways.length - 1] < 2 ? {marginLeft: '-20px'} : {} }>
+          <StyledTooltip><div>{times[times.length - 1]}<br />Vehicle # {vehicleRefs[vehicleRefs.length - 1]}</div></StyledTooltip>
         </StyledDepartureDot>
       }
     </StyledDepartureGraph>

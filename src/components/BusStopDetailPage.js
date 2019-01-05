@@ -120,25 +120,31 @@ class BusStopDetailPage extends Component {
     // HISTORICAL DEPARTURE DATA
     var recents = []
     var yesterday = []
+    var recentVehicleRefs = []
+    var previousVehicleRefs = []
     var prevText, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
     if (hdRef) {
+      // Recent departure data
       let recentTimestamps = hdRef.recent_departure_times.slice(0, 8) // first 8 elements
-
       recentHeadways = hdRef.recents.map((hd) => Math.round(hd.headway / 60))
       let currentHeadway = (new Date() - Date.parse(recentTimestamps[0])) / 1000 / 60
       currentHeadway = Math.round(currentHeadway)
       recentHeadways.unshift(currentHeadway)
-      // let recentTimestampsCopy = recentTimestamps.slice()
-      // recentTimestampsCopy.unshift(new Date().toISOString())
-      // recentHeadways = headways(recentTimestampsCopy)
+      recentHeadways.pop() // don't include the headway between the 8th and 9th departure; we only show 8
+      recentVehicleRefs = hdRef.recents.map((hd) => hd.vehicle_ref.split('_')[1])
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
       recentDepText = moment(recentTimestamps[0]).fromNow() + ` (${recents[0]})`
+
+      // Previous departure data
       previousTimestamps = hdRef.prev_departure_times.slice(0, 8)
-      previousHeadways = headways(previousTimestamps)
+      previousHeadways = hdRef.prev_departures.map((hd) => Math.round(hd.headway / 60))
+      previousHeadways.pop()
+      previousVehicleRefs = hdRef.prev_departures.map((hd) => hd.vehicle_ref.split('_')[1])
       yesterday = previousTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
       prevText = hdRef.prev_departure_text
+
     }
 
     return (
@@ -159,8 +165,10 @@ class BusStopDetailPage extends Component {
           recents={recents}
           recentDepText={recentDepText}
           recentHeadways={recentHeadways}
+          recentVehicleRefs={recentVehicleRefs}
           yesterday={yesterday}
           previousHeadways={previousHeadways}
+          previousVehicleRefs={previousVehicleRefs}
           yesterdayLabel={prevText}
         />
       </div>

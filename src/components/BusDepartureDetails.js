@@ -46,13 +46,13 @@ class BusDepartureDetails extends React.Component {
     // console.log(scrollRef)
     // console.log(`snapshot: ${snapshot}`)
     if (scrollRef) {
-      // console.log(`scrollLeft: ${scrollRef.scrollLeft}`)
+      console.log(`scrollLeft: ${scrollRef.scrollLeft}`)
       scrollRef.scrollLeft = snapshot;
     }
   }
 
   render () {
-    const { stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, yesterday, previousHeadways, yesterdayLabel, loadingState } = this.props
+    const { stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, loadingState } = this.props
     var historicalDeparturesLoading;
 
     const RealTimeDetails = () => (
@@ -71,11 +71,11 @@ class BusDepartureDetails extends React.Component {
       <StyledDiv ref={this.scrollRef}>
         <p>Most recent departure: {recentDepText}</p>
         <p>All recent departures:</p>
-        <DepartureGraph headways={recentHeadways} times={recents}/>
+        <DepartureGraph headways={recentHeadways} times={recents} vehicleRefs={recentVehicleRefs}/>
         {yesterdayLabel &&
           <p>{yesterdayLabel}:</p>
         }
-        <DepartureGraph dotsFirst headways={previousHeadways} times={yesterday}/>
+        <DepartureGraph dotsFirst headways={previousHeadways} times={yesterday} vehicleRefs={previousVehicleRefs}/>
       </StyledDiv>
       )
 
