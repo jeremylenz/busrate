@@ -91,6 +91,7 @@ class BusStopDetailPage extends Component {
       }
     }
 
+    // REAL-TIME DATA
     // realTimeDetails: Filter to just the stopRef we care about
     let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => rtdRef.stopRef === stopId);
     // Now find the first vehicle that matches our routeId
@@ -106,8 +107,6 @@ class BusStopDetailPage extends Component {
       expectedDepartureTime = foundRtdRef.expectedDepartureTime
       progressStatusText = foundRtdRef.progressStatus
 
-      // old code below
-
       if (expectedDepartureTime === undefined) {
         minutesAwayText = "not provided"
       } else {
@@ -118,17 +117,22 @@ class BusStopDetailPage extends Component {
 
     }
 
+    // HISTORICAL DEPARTURE DATA
     var recents = []
     var yesterday = []
     var prevText, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
     if (hdRef) {
-      let recentTimestamps = hdRef.recents_departure_times.slice(0, 8) // first 8 elements
+      let recentTimestamps = hdRef.recent_departure_times.slice(0, 8) // first 8 elements
 
-      let recentTimestampsCopy = recentTimestamps.slice()
-      recentTimestampsCopy.unshift(new Date().toISOString())
-      recentHeadways = headways(recentTimestampsCopy)
+      recentHeadways = hdRef.recents.map((hd) => Math.round(hd.headway / 60))
+      let currentHeadway = (new Date() - Date.parse(recentTimestamps[0])) / 1000 / 60
+      currentHeadway = Math.round(currentHeadway)
+      recentHeadways.unshift(currentHeadway)
+      // let recentTimestampsCopy = recentTimestamps.slice()
+      // recentTimestampsCopy.unshift(new Date().toISOString())
+      // recentHeadways = headways(recentTimestampsCopy)
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
       recentDepText = moment(recentTimestamps[0]).fromNow() + ` (${recents[0]})`
       previousTimestamps = hdRef.prev_departure_times.slice(0, 8)
@@ -139,8 +143,26 @@ class BusStopDetailPage extends Component {
 
     return (
       <div className='bus-stop-detail'>
-        <BusRouteHeader loadingState={loadingState} routeName={routeName} routeId={routeId} routeDirection={routeDirection} stopNum={stopId} stopName={stopName} />
-        <BusDepartureDetails loadingState={loadingState} stopsAway={stopsAwayText} minutesAway={minutesAwayText} progressStatus={progressStatusText} recents={recents} recentDepText={recentDepText} recentHeadways={recentHeadways} yesterday={yesterday} previousHeadways={previousHeadways} yesterdayLabel={prevText} />
+        <BusRouteHeader
+          loadingState={loadingState}
+          routeName={routeName}
+          routeId={routeId}
+          routeDirection={routeDirection}
+          stopNum={stopId}
+          stopName={stopName}
+        />
+        <BusDepartureDetails
+          loadingState={loadingState}
+          stopsAway={stopsAwayText}
+          minutesAway={minutesAwayText}
+          progressStatus={progressStatusText}
+          recents={recents}
+          recentDepText={recentDepText}
+          recentHeadways={recentHeadways}
+          yesterday={yesterday}
+          previousHeadways={previousHeadways}
+          yesterdayLabel={prevText}
+        />
       </div>
     );
   }
