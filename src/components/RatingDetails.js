@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components'
-import Loader from './Loader'
 import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
 
 const StyledDiv = styled.div`
@@ -26,10 +25,6 @@ const StyledDiv = styled.div`
 `
 
 class RatingDetails extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   render () {
     const { loadingState, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin } = this.props
