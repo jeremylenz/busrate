@@ -109,6 +109,7 @@ class BusStopDetailPage extends Component {
     var recentVehicleRefs = []
     var previousVehicleRefs = []
     var prevText, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
+    var recentsRating, prevDeparturesRating, overallRating;
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
     if (hdRef) {
@@ -122,6 +123,11 @@ class BusStopDetailPage extends Component {
       recentVehicleRefs = hdRef.recents.map((hd) => hd.vehicle_ref.split('_')[1])
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
       recentDepText = moment(recentTimestamps[0]).fromNow() + ` (${recents[0]})`
+
+      // Ratings data
+      recentsRating = hdRef.recents_rating
+      prevDeparturesRating = hdRef.prev_departures_rating
+      overallRating = hdRef.overall_rating
 
       // Previous departure data
       previousTimestamps = hdRef.prev_departure_times.slice(0, 8)
@@ -156,6 +162,10 @@ class BusStopDetailPage extends Component {
           previousHeadways={previousHeadways}
           previousVehicleRefs={previousVehicleRefs}
           yesterdayLabel={prevText}
+          recentsRating={recentsRating}
+          prevDeparturesRating={prevDeparturesRating}
+          overallRating={overallRating}
+          allowableHeadwayMin={8}
         />
       </div>
     );

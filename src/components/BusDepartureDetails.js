@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Loader from './Loader'
 import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
 import DepartureGraph from './DepartureGraph'
+import RatingDetails from './RatingDetails'
 
 const StyledDiv = styled.div`
   position: relative;
@@ -50,7 +51,7 @@ class BusDepartureDetails extends React.Component {
   }
 
   render () {
-    const { stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, loadingState } = this.props
+    const { stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin, loadingState } = this.props
     var historicalDeparturesLoading;
 
     const RealTimeDetails = () => (
@@ -82,6 +83,13 @@ class BusDepartureDetails extends React.Component {
     return (
       <>
         <RealTimeDetails />
+        <RatingDetails
+          loadingState={loadingState}
+          recentsRating={recentsRating}
+          prevDeparturesRating={prevDeparturesRating}
+          overallRating={overallRating}
+          allowableHeadwayMin={allowableHeadwayMin}
+        />
         {historicalDeparturesLoading &&
           <StyledDiv className='loading'>
             <Loader />
