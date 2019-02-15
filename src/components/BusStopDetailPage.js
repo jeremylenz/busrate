@@ -106,6 +106,8 @@ class BusStopDetailPage extends Component {
     // HISTORICAL DEPARTURE DATA
     var recents = []
     var yesterday = []
+    var recentDepartures = []
+    var previousDepartures = []
     var recentVehicleRefs = []
     var previousVehicleRefs = []
     var prevText, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
@@ -114,8 +116,9 @@ class BusStopDetailPage extends Component {
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
     if (hdRef) {
       // Recent departure data
+      recentDepartures = hdRef.recents
       let recentTimestamps = hdRef.recent_departure_times.slice(0, 8) // first 8 elements
-      recentHeadways = hdRef.recents.map((hd) => Math.round(hd.headway / 60))
+      recentHeadways = recentDepartures.map((hd) => Math.round(hd.headway / 60))
       let currentHeadway = (new Date() - Date.parse(recentTimestamps[0])) / 1000 / 60
       currentHeadway = Math.round(currentHeadway)
       recentHeadways.unshift(currentHeadway)
@@ -130,8 +133,9 @@ class BusStopDetailPage extends Component {
       overallRating = hdRef.overall_rating
 
       // Previous departure data
+      previousDepartures = hdRef.prev_departures
       previousTimestamps = hdRef.prev_departure_times.slice(0, 8)
-      previousHeadways = hdRef.prev_departures.map((hd) => Math.round(hd.headway / 60))
+      previousHeadways = previousDepartures.map((hd) => Math.round(hd.headway / 60))
       previousHeadways.pop()
       previousVehicleRefs = hdRef.prev_departures.map((hd) => hd.vehicle_ref.split('_')[1])
       yesterday = previousTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
@@ -150,6 +154,8 @@ class BusStopDetailPage extends Component {
           stopName={stopName}
         />
         <BusDepartureDetails
+          recentDepartures={recentDepartures}
+          previousDepartures={previousDepartures}
           loadingState={loadingState}
           stopsAway={stopsAwayText}
           minutesAway={minutesAwayText}

@@ -51,7 +51,7 @@ class BusDepartureDetails extends React.Component {
   }
 
   render () {
-    const { stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin, loadingState } = this.props
+    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin, loadingState } = this.props
     var historicalDeparturesLoading;
 
     const RealTimeDetails = () => (
@@ -70,11 +70,11 @@ class BusDepartureDetails extends React.Component {
       <StyledDiv ref={this.scrollRef}>
         <p>Most recent departure: {recentDepText}</p>
         <p>All recent departures:</p>
-        <DepartureGraph headways={recentHeadways} times={recents} vehicleRefs={recentVehicleRefs}/>
+        <DepartureGraph departures={recentDepartures} headways={recentHeadways} times={recents} vehicleRefs={recentVehicleRefs}/>
         {yesterdayLabel &&
           <p>{yesterdayLabel}:</p>
         }
-        <DepartureGraph dotsFirst headways={previousHeadways} times={yesterday} vehicleRefs={previousVehicleRefs}/>
+        <DepartureGraph dotsFirst departures={previousDepartures} headways={previousHeadways} times={yesterday} vehicleRefs={previousVehicleRefs}/>
       </StyledDiv>
       )
 

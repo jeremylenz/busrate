@@ -36,6 +36,10 @@ const StyledDepartureDot = styled.div`
   & + .crowd-dots {
     margin-left: -20px;
   }
+  &.grayscale {
+    background-color: #d8d8d8;
+    color: #797878;
+  }
 `
 const StyledDepartureHeadway = styled.div`
   font-family: 'Asap';
@@ -97,7 +101,7 @@ const DepartureGraph = (props) => {
   // headways = [5, 6, 15, 22, 8] - minutes of wait time in between each departure
   // times = ['6:56pm', '6:33pm', ...]
 
-  const { headways, times, vehicleRefs, grayscale } = props
+  const { recentDepartures, previousDepartures, headways, times, vehicleRefs, grayscale } = props
   const gsClassName = grayscale ? "grayscale" : ""
   var { dotsFirst } = props
   if (!headways) return null;
@@ -125,7 +129,15 @@ const DepartureGraph = (props) => {
               </StyledDepartureHeadway>
             }
             <StyledDepartureDot onClick={doNothing} key={Date.now()}>
-              <StyledTooltip><div>{times[idx]}<br />Vehicle # {vehicleRefs[idx]}</div></StyledTooltip>
+              <StyledTooltip>
+                <div>
+                  {times[idx]}<br />
+                  Vehicle # {vehicleRefs[idx]}
+                  {interpolated &&
+                    "Interpolated; driver may have bypassed this stop"
+                  }
+                </div>
+              </StyledTooltip>
             </StyledDepartureDot>
             {dotsFirst &&
               <StyledDepartureHeadway onClick={doNothing} key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
