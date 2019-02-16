@@ -83,13 +83,6 @@ class BusDepartureDetails extends React.Component {
     return (
       <>
         <RealTimeDetails />
-        <RatingDetails
-          loadingState={loadingState}
-          recentsRating={recentsRating}
-          prevDeparturesRating={prevDeparturesRating}
-          overallRating={overallRating}
-          allowableHeadwayMin={allowableHeadwayMin}
-        />
         {historicalDeparturesLoading &&
           <StyledDiv className='loading'>
             <Loader />
@@ -100,6 +93,14 @@ class BusDepartureDetails extends React.Component {
           <HistoricalDepartures />
           </>
         }
+        <RatingDetails
+          loadingState={loadingState}
+          recentsRating={recentsRating}
+          prevDeparturesRating={prevDeparturesRating}
+          overallRating={overallRating}
+          allowableHeadwayMin={allowableHeadwayMin}
+        />
+
       </>
       )
     }
