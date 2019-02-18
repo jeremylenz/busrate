@@ -101,7 +101,7 @@ const DepartureGraph = (props) => {
   // headways = [5, 6, 15, 22, 8] - minutes of wait time in between each departure
   // times = ['6:56pm', '6:33pm', ...]
 
-  const { recentDepartures, previousDepartures, headways, times, vehicleRefs, grayscale } = props
+  const { departures, headways, times, vehicleRefs, grayscale } = props
   const gsClassName = grayscale ? "grayscale" : ""
   var { dotsFirst } = props
   if (!headways) return null;
@@ -112,9 +112,11 @@ const DepartureGraph = (props) => {
 
   return (
     <StyledDepartureGraph className={gsClassName}>
-      {headways.map((headway, idx) => {
+      {departures.map((departure, idx) => {
+        let headway = headways[idx]
         let hwWidth = headway * 8
         let crowdDots = false
+        let lastHeadway = (idx === departures.length - 1)
         if (headway < 3 && idx > 0) {
           crowdDots = true
           hwWidth = 8;
@@ -128,18 +130,19 @@ const DepartureGraph = (props) => {
                 </StyledDiv>
               </StyledDepartureHeadway>
             }
-            <StyledDepartureDot onClick={doNothing} key={Date.now()}>
+            <StyledDepartureDot onClick={doNothing} key={Date.now()} className={departure.interpolated ? "grayscale" : ""}>
               <StyledTooltip>
                 <div>
                   {times[idx]}<br />
-                  Vehicle # {vehicleRefs[idx]}
-                  {interpolated &&
-                    "Interpolated; driver may have bypassed this stop"
+                  Vehicle # {vehicleRefs[idx]}<br />
+                  Headway: {dotsFirst ? `${headway || "~"} min` : `${headways[idx + 1] || "~"} min`}<br />
+                  {departure.interpolated &&
+                    "Interpolated"
                   }
                 </div>
               </StyledTooltip>
             </StyledDepartureDot>
-            {dotsFirst &&
+            {dotsFirst && !lastHeadway &&
               <StyledDepartureHeadway onClick={doNothing} key={headway} className={crowdDots ? 'crowd-dots' : ''} style={{width: hwWidth}}>
                 <StyledDiv>
                   {headway}
@@ -149,11 +152,6 @@ const DepartureGraph = (props) => {
           </React.Fragment>
         )
       })}
-      {dotsFirst &&
-        <StyledDepartureDot onClick={doNothing} style={headways[headways.length - 1] < 2 ? {marginLeft: '-20px'} : {} }>
-          <StyledTooltip><div>{times[times.length - 1]}<br />Vehicle # {vehicleRefs[vehicleRefs.length - 1]}</div></StyledTooltip>
-        </StyledDepartureDot>
-      }
     </StyledDepartureGraph>
   )
 
