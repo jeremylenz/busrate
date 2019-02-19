@@ -125,8 +125,17 @@ class BusRouteOverviewPage extends Component {
 
 
     const terminals = normalizedList.map((stopList) => stopList.destination)
-    const stopDataList = normalizedList[this.state.selectedDestination]
-    const selectedDestinationName = stopDataList.destination
+    let stopDataList, selectedDestinationName;
+
+    // handle lines like Q70 with only one terminal
+    if (normalizedList.length < 2) {
+      stopDataList = normalizedList[0]
+      selectedDestinationName = stopDataList.destination
+    } else {
+      stopDataList = normalizedList[this.state.selectedDestination]
+      selectedDestinationName = stopDataList.destination
+    }
+
 
     return (
       <div className='bus-route-overview'>
