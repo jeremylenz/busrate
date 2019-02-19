@@ -26,7 +26,24 @@ const StyledDiv = styled.div`
 
 class RatingDetails extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {hasError: false};
+  }
+
+  static getDerivedStateFromError(error) {
+    return {hasError: true};
+  }
+
+  componentDidCatch (error, info) {
+    console.error(error)
+    console.log(info)
+  }
+
   render () {
+    if (this.state.hasError) {
+      return <StyledDiv>Score not available yet; check back soon!</StyledDiv>
+    }
     const { loadingState, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin } = this.props
     var historicalDeparturesLoading;
 
@@ -42,21 +59,29 @@ class RatingDetails extends React.Component {
 
     return (
       <>
-        {!historicalDeparturesLoading && recentsRating &&
+        {!historicalDeparturesLoading &&
           <>
           <StyledDiv ref={this.scrollRef}>
-            <p>Score right now: {recentsRating.busrate_score} / 100
-              {recentBunches > 0 &&
-                <span> (Bus bunching count: {recentBunches})</span>
-              }
-            </p>
-            <p>Previous: {prevDeparturesRating.busrate_score} / 100
-              {prevBunches > 0 &&
-                <span> (Bus bunching count: {prevBunches})</span>
-              }
-            </p>
-            <p>Overall rating: {overallRating.busrate_score} / 100</p>
-            <p>Based on {allowableHeadwayMin}-minute allowable wait time</p>
+            {recentsRating &&
+              <p>Score right now: {recentsRating.busrate_score} / 100
+                {recentBunches > 0 &&
+                  <span> (Bus bunching count: {recentBunches})</span>
+                }
+              </p>
+            }
+            {prevDeparturesRating &&
+              <p>Previous: {prevDeparturesRating.busrate_score} / 100
+                {prevBunches > 0 &&
+                  <span> (Bus bunching count: {prevBunches})</span>
+                }
+              </p>
+            }
+            {overallRating &&
+              <>
+              <p>Overall rating: {overallRating.busrate_score} / 100</p>
+              <p>Based on {allowableHeadwayMin}-minute allowable wait time</p>
+              </>
+            }
           </StyledDiv>
           </>
         }
