@@ -24,6 +24,7 @@ export const realTimeDetailsMiddleware = () => (next) => (action) => {
         stopRef = null
       }
       if(stopRef) {
+        // Purge all realTimeDetails for that stopRef, and replace with the new data.
         next(purgeRealTimeDetails({stopRef}))
       }
       next(addRealTimeDetail({realTimeDetail: action.payload, normalizeKey: 'Siri'}))
