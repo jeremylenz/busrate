@@ -3,7 +3,8 @@ import { mount } from 'enzyme';
 import Search from 'react-search-input'
 import ReactDOM from 'react-dom';
 import App from './App';
-import { MemoryRouter } from 'react-router'
+import Routes from './Routes'
+import { MemoryRouter, StaticRouter } from 'react-router'
 
 it('renders without crashing', () => {
   mount(<App />);
