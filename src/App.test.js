@@ -1,9 +1,21 @@
 import React from 'react';
+import { mount } from 'enzyme';
+import Search from 'react-search-input'
 import ReactDOM from 'react-dom';
 import App from './App';
+import { MemoryRouter } from 'react-router'
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+  mount(<App />);
+});
+
+it('shows the search screen', () => {
+  const wrapper = mount(
+    <MemoryRouter initialEntries={['/']} initialIndex={0}>
+      <App />
+    </MemoryRouter>
+  );
+
+  expect(wrapper.find('input')).toHaveLength(1)
+
 });
