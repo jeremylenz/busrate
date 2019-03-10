@@ -7,10 +7,10 @@ export const ADD_ANTICIPATED_DEPARTURE = `${ANTICIPATED_DEPARTURES} ADD`;
 
 // action creators
 
-export const addAnticipatedDeparture = ({historicalDeparture}) => {
+export const addAnticipatedDeparture = ({anticipatedDeparture, stopRef, lineRef}) => {
   return {
     type: ADD_ANTICIPATED_DEPARTURE,
-    payload: historicalDeparture,
+    payload: anticipatedDeparture,
     meta: {stopRef, lineRef},
   }
 }

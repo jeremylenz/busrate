@@ -1,4 +1,4 @@
-import { ADD_HISTORICAL_DEPARTURE, FETCH_HISTORICAL_DEPARTURE, PURGE_HISTORICAL_DEPARTURES } from '../actions/historicalDepartures'
+import { ADD_HISTORICAL_DEPARTURE, FETCH_HISTORICAL_DEPARTURE, PURGE_HISTORICAL_DEPARTURES, INSERT_ANTICIPATED_DEPARTURES } from '../actions/historicalDepartures'
 
 const historicalDeparturesState = {
   items: [],
@@ -27,6 +27,22 @@ export const historicalDeparturesReducer = (state = historicalDeparturesState, a
       newState = {
         items: filteredItems, // replace current state with filtered state
       }
+      return Object.assign({}, state, newState)
+    case INSERT_ANTICIPATED_DEPARTURES:
+      newState = {
+        items: [...state.items]
+      }
+      let stopRef, lineRef, newRecents, hdRef;
+      action.anticipatedDepartures.forEach((anticipatedDeparture) => {
+        stopRef = anticipatedDeparture.stop_ref
+        lineRef = anticipatedDeparture.line_ref
+        hdRef = null;
+        hdRef = newState.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
+        if (hdRef) {
+          // Without mutating state, remove the first element from hdRef.recents and replace it with anticipatedDeparture
+          newRecents = [anticipatedDeparture, ...hdRef.recents.slice()]
+        }
+      })
       return Object.assign({}, state, newState)
     default:
     return state

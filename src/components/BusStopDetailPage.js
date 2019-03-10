@@ -48,6 +48,24 @@ class BusStopDetailPage extends Component {
 
   createAnticipatedDeparture = () => {
     console.log('create anticipated departure!')
+    // {
+    //   id(pin): null
+    //   stop_ref(pin): "MTA_401905"
+    //   line_ref(pin): "MTA NYCT_M86+"
+    //   departure_time(pin): "2019-03-10T14:14:01.000Z"
+    //   created_at(pin): null
+    //   updated_at(pin): null
+    //   vehicle_ref(pin): "MTA NYCT_6097"
+    //   bus_stop_id(pin): null
+    //   headway(pin): 459
+    //   previous_departure_id(pin): null
+    //   block_ref(pin): null
+    //   dated_vehicle_journey_ref(pin): null
+    //   interpolated(pin): false
+    //   anticipated: true              <--- !!!
+    //   direction_ref(pin): null
+    // }
+
   }
 
   render() {
