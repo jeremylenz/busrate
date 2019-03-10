@@ -42,8 +42,8 @@ export const historicalDeparturesReducer = (state = historicalDeparturesState, a
           // Without mutating state, remove the first element from hdRef.recents and replace it with anticipatedDeparture
           itemsWithoutHdRef = null;
           itemsWithoutHdRef = newState.items.filter((item) => item !== hdRef)
-          newRecents = [anticipatedDeparture, ...hdRef.recents.slice()]
-          if (newRecents[0].vehicle_ref === newRecents[1].vehicle_ref) {
+          newRecents = [anticipatedDeparture, ...hdRef.recents.filter((hd) => !('anticipated' in hd))] // only allow a single anticipated departure
+          if (newRecents[0].vehicle_ref === newRecents[1].vehicle_ref || newRecents[0].vehicle_ref === newRecents[2].vehicle_ref) {
             // If the real departure is present, don't add the anticipated departure
             // console.log('shifting: ', [newRecents[0], newRecents[1]])
             newRecents.shift()
