@@ -38,6 +38,7 @@ class BusStopDetailPage extends Component {
       lineRef: routeId,
       })
     }
+    this.reinsertAnticipatedDepartures()
 
     // Poll the API regularly to update data
     // Realtime data: every 9 seconds
@@ -47,12 +48,29 @@ class BusStopDetailPage extends Component {
       stopRef: stopId,
       lineRef: routeId,
     })
+    // have to put this in its own function so that this.props.anticipatedDepartures.items is up to date.
+    this.getNextAnticipatedDepartures = setInterval(this.reinsertAnticipatedDepartures, 9000);
   }
 
   componentWillUnmount() {
     clearInterval(this.getNextRealtimeData)
     clearInterval(this.getNextHistoricalDepartures)
+    clearInterval(this.getNextAnticipatedDepartures)
   }
+
+  reinsertAnticipatedDepartures = () => {
+    this.props.insertAnticipatedDepartures({
+      anticipatedDepartures: this.props.anticipatedDepartures.items,
+    })
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.props.historicalDepartures.items.length < 1 || prevProps.historicalDepartures.items.length < 1) return;
+  //   if (prevProps.historicalDepartures.items[0].recents[0] !== this.props.historicalDepartures.items[0].recents[0]) {
+  //     console.log('reinserting anticipated departures', this.props.anticipatedDepartures)
+  //     this.props.insertAnticipatedDepartures({anticipatedDepartures: this.props.anticipatedDepartures.items})
+  //   }
+  // }
 
   createAnticipatedDeparture = (vehicleRef) => {
     console.log('create anticipated departure!')
@@ -102,7 +120,7 @@ class BusStopDetailPage extends Component {
         previous_departure_id: null,
         block_ref: null,
         dated_vehicle_journey_ref: null,
-        interpolated: false,
+        interpolated: true,
         anticipated: true,
         direction_ref: null,
       }
