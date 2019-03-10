@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
 import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
+import { addAnticipatedDeparture } from './../redux/actions/anticipatedDepartures'
 import { fetchStopList } from './../redux/actions/stopLists'
 import { setLoader, clearLoader } from './../redux/actions/ui'
 import moment from 'moment'
@@ -65,6 +66,26 @@ class BusStopDetailPage extends Component {
     //   anticipated: true              <--- !!!
     //   direction_ref(pin): null
     // }
+
+    this.props.addAnticipatedDeparture({
+      anticipatedDeparture: {
+        id: null,
+        stop_ref: "MTA_401905",
+        line_ref: "MTA NYCT_M86+",
+        departure_time: "2019-03-10T14:14:01.000Z",
+        created_at: null,
+        updated_at: null,
+        vehicle_ref: "MTA NYCT_6097",
+        bus_stop_id: null,
+        headway: 459,
+        previous_departure_id: null,
+        block_ref: null,
+        dated_vehicle_journey_ref: null,
+        interpolated: false,
+        anticipated: true,
+        direction_ref: null,
+      }
+    })
 
   }
 
@@ -215,6 +236,7 @@ const mapDispatchToProps = {
   fetchStopList,
   setLoader,
   clearLoader,
+  addAnticipatedDeparture,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BusStopDetailPage));
