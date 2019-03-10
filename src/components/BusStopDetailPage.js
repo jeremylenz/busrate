@@ -46,6 +46,10 @@ class BusStopDetailPage extends Component {
     clearInterval(this.getNextHistoricalDepartures)
   }
 
+  createAnticipatedDeparture = () => {
+    console.log('create anticipated departure!')
+  }
+
   render() {
     if (this.props.ui.loading && this.props.realTimeDetails.items.length === 0) {
       return <Loader absolute />
@@ -172,6 +176,7 @@ class BusStopDetailPage extends Component {
           prevDeparturesRating={prevDeparturesRating}
           overallRating={overallRating}
           allowableHeadwayMin={8}
+          createAnticipatedDeparture={this.createAnticipatedDeparture}
         />
       </div>
     );

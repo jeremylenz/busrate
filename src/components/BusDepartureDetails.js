@@ -10,12 +10,17 @@ class BusDepartureDetails extends React.Component {
 
   constructor(props) {
     super(props);
-    this.scrollRef = React.createRef();
+    this.scrollRef = React.createRef();  // Create a reference so that later, we can read & write scrollLeft
+
+    this.state = {
+      lastKnownStopsAway: 'Unknown'
+    }
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     const scrollRef = this.scrollRef.current;
     if (scrollRef && scrollRef.scrollLeft) {
+      // Before the component updates, capture the current scrollLeft value.
       return scrollRef.scrollLeft
     }
     return null
@@ -24,8 +29,32 @@ class BusDepartureDetails extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const scrollRef = this.scrollRef.current;
     if (scrollRef) {
+      // Write the retrieved scrollLeft value to the DOM element.
+      // If scrollLeft was anything but 0, this will preserve the current horizonal scroll position
+      // and avoid auto-scrolling all the way to the left on every render!
       scrollRef.scrollLeft = snapshot;
       // console.log(snapshot)
+    }
+
+    // See if we should make an anticipated departure
+    // If it looks like a bus departed but the departure hasn't yet been created and returned from the API,
+    // we can create an 'anticipated' departure which will live in our Redux store but nowhere else.
+    // This way we can display departures immediately, instead of after 2+ minutes.
+    // The next time we call the API and get departure data, the 'anticipated' departure will be overwritten.
+
+    if (this.props.stopsAway !== "Unknown" && this.props.stopsAway !== "No vehicles found" && prevProps.stopsAway !== this.props.stopsAway) {
+      this.setState({lastKnownStopsAway: this.props.stopsAway})
+    }
+    if (prevState.lastKnownStopsAway !== this.state.lastKnownStopsAway) {
+      // ["1 stop away", "< 1 stop away"]
+      console.log([prevState.lastKnownStopsAway, this.state.lastKnownStopsAway])
+      let prevStopsAway = prevState.lastKnownStopsAway
+      let currentStopsAway = this.state.lastKnownStopsAway
+      if (prevStopsAway === "approaching" || prevStopsAway === "at stop") {
+        if (currentStopsAway !== "at stop") {
+          this.props.createAnticipatedDeparture()
+        }
+      }
     }
   }
 
