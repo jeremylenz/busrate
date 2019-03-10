@@ -4,28 +4,7 @@ import Loader from './Loader'
 import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
 import DepartureGraph from './DepartureGraph'
 import RatingDetails from './RatingDetails'
-
-const StyledDiv = styled.div`
-  position: relative;
-  z-index: 1;
-  border: 3px #8994d4;
-  border-radius: 8px;
-  border-style: solid;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-bottom: 6px;
-  margin-bottom: 8px;
-  text-align: left;
-  font-size: 1.1em;
-  overflow-x: scroll;
-  overflow-y: visible;
-
-
-  &.loading {
-    padding-top: 60px;
-    padding-bottom: 15px;
-  }
-`
+import RoundRect from './RoundRect'
 
 class BusDepartureDetails extends React.Component {
 
@@ -55,7 +34,7 @@ class BusDepartureDetails extends React.Component {
     var historicalDeparturesLoading;
 
     const RealTimeDetails = () => (
-      <StyledDiv className='bus-departure-details'>
+      <RoundRect className='bus-departure-details'>
         <>
         <p>Expected departure: {minutesAway}</p>
         <p>{stopsAway}</p>
@@ -63,11 +42,11 @@ class BusDepartureDetails extends React.Component {
           <p>{progressStatus}</p>
         }
         </>
-      </StyledDiv>
+      </RoundRect>
     )
 
     const HistoricalDepartures = () => (
-      <StyledDiv ref={this.scrollRef}>
+      <RoundRect ref={this.scrollRef}>
         <p>Most recent departure: {recentDepText}</p>
         <p>All recent departures:</p>
         <DepartureGraph departures={recentDepartures} headways={recentHeadways} times={recents} vehicleRefs={recentVehicleRefs}/>
@@ -75,7 +54,7 @@ class BusDepartureDetails extends React.Component {
           <p>{yesterdayLabel}:</p>
         }
         <DepartureGraph dotsFirst departures={previousDepartures} headways={previousHeadways} times={yesterday} vehicleRefs={previousVehicleRefs}/>
-      </StyledDiv>
+      </RoundRect>
       )
 
     historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
@@ -84,9 +63,9 @@ class BusDepartureDetails extends React.Component {
       <>
         <RealTimeDetails />
         {historicalDeparturesLoading &&
-          <StyledDiv className='loading'>
+          <RoundRect className='loading'>
             <Loader />
-          </StyledDiv>
+          </RoundRect>
         }
         {!historicalDeparturesLoading &&
           <>
