@@ -40,7 +40,6 @@ class BusDepartureDetails extends React.Component {
     // If it looks like a bus departed but the departure hasn't yet been created and returned from the API,
     // we can create an 'anticipated' departure which will live in our Redux store but nowhere else.
     // This way we can display departures immediately, instead of after 2+ minutes.
-    // The next time we call the API and get departure data, the 'anticipated' departure will be overwritten.
 
     if (this.props.stopsAway !== "Unknown" && this.props.stopsAway !== "No vehicles found" && prevProps.stopsAway !== this.props.stopsAway) {
       this.setState({lastKnownStopsAway: this.props.stopsAway})
