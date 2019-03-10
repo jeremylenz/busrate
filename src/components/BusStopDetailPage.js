@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
-import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
+import { fetchHistoricalDeparture, insertAnticipatedDepartures } from './../redux/actions/historicalDepartures'
 import { addAnticipatedDeparture } from './../redux/actions/anticipatedDepartures'
 import { fetchStopList } from './../redux/actions/stopLists'
 import { setLoader, clearLoader } from './../redux/actions/ui'
@@ -12,6 +12,13 @@ import BusDepartureDetails from './BusDepartureDetails.js'
 import Loader from './Loader'
 
 class BusStopDetailPage extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentHeadway: 0,
+    }
+  }
 
   componentDidMount() {
 
@@ -47,7 +54,7 @@ class BusStopDetailPage extends Component {
     clearInterval(this.getNextHistoricalDepartures)
   }
 
-  createAnticipatedDeparture = () => {
+  createAnticipatedDeparture = (vehicleRef) => {
     console.log('create anticipated departure!')
     // {
     //   id(pin): null
@@ -67,17 +74,31 @@ class BusStopDetailPage extends Component {
     //   direction_ref(pin): null
     // }
 
+    const lineRef = this.props.match.params.id
+    const stopRef = this.props.match.params.stop
+
+    let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
+    if (hdRef) {
+      let recentTimestamp = hdRef.recent_departure_times[0]
+      var currentHeadway = (new Date() - Date.parse(recentTimestamp)) / 1000
+      currentHeadway = Math.round(currentHeadway)
+    }
+
+    console.log({
+      stopRef, lineRef, currentHeadway, vehicleRef
+    })
+
     this.props.addAnticipatedDeparture({
       anticipatedDeparture: {
         id: null,
-        stop_ref: "MTA_401924",
-        line_ref: "MTA NYCT_M86+",
-        departure_time: "2019-03-10T14:14:01.000Z",
+        stop_ref: stopRef,
+        line_ref: lineRef,
+        departure_time: new Date(),
         created_at: null,
         updated_at: null,
-        vehicle_ref: "MTA NYCT_6097",
+        vehicle_ref: vehicleRef,
         bus_stop_id: null,
-        headway: 459,
+        headway: currentHeadway,
         previous_departure_id: null,
         block_ref: null,
         dated_vehicle_journey_ref: null,
@@ -121,6 +142,7 @@ class BusStopDetailPage extends Component {
     }
 
     // REAL-TIME DATA
+    var anticipatedDepVehicleRef;
     // realTimeDetails: Filter to just the stopRef we care about
     let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => rtdRef.stopRef === stopId);
     // Now find the first vehicle that matches our routeId
@@ -135,6 +157,7 @@ class BusStopDetailPage extends Component {
       stopsAwayText = foundRtdRef.stopsAwayText
       expectedDepartureTime = foundRtdRef.expectedDepartureTime
       progressStatusText = foundRtdRef.progressStatus
+      anticipatedDepVehicleRef = foundRtdRef.vehicleRef
 
       if (expectedDepartureTime === undefined) {
         minutesAwayText = "not provided"
@@ -216,6 +239,7 @@ class BusStopDetailPage extends Component {
           overallRating={overallRating}
           allowableHeadwayMin={8}
           createAnticipatedDeparture={this.createAnticipatedDeparture}
+          anticipatedDepVehicleRef={anticipatedDepVehicleRef}
         />
       </div>
     );
@@ -228,6 +252,7 @@ const mapStateToProps = (state) => ({
   stopLists: state.stopLists,
   historicalDepartures: state.historicalDepartures,
   ui: state.ui,
+  anticipatedDepartures: state.anticipatedDepartures,
 })
 
 const mapDispatchToProps = {

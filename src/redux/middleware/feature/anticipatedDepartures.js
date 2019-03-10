@@ -10,7 +10,8 @@ export const anticipatedDeparturesMiddleware = () => (next) => (action) => {
       next(insertAnticipatedDepartures({
         anticipatedDepartures: [action.payload],
       }));
-    
+      break;
+
     default:
       return null;
 

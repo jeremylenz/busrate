@@ -55,7 +55,8 @@ class BusDepartureDetails extends React.Component {
         let currIndex = orderedSequence.indexOf(currentStopsAway) // 0, 1, 2, or -1 if not found
         if (currIndex < prevIndex) {
           // then we can assume currentStopsAway and prevStopsAway refer to different vehicles; therefore, create the anticipated departure.
-          this.props.createAnticipatedDeparture()
+          this.props.createAnticipatedDeparture(prevProps.anticipatedDepVehicleRef)
+          this.forceUpdate()
         }
       }
     }

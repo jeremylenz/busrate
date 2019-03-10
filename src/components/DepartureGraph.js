@@ -115,6 +115,7 @@ const DepartureGraph = (props) => {
       {departures.map((departure, idx) => {
         let headway = headways[idx]
         let hwWidth = headway * 8
+        if (!headway) hwWidth = 8;
         let crowdDots = false
         let lastHeadway = (idx === departures.length - 1)
         if (headway < 3 && idx > 0) {
