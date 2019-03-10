@@ -1,10 +1,10 @@
 import React from 'react';
-import styled from 'styled-components'
 import Loader from './Loader'
 import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
-import DepartureGraph from './DepartureGraph'
 import RatingDetails from './RatingDetails'
 import RoundRect from './RoundRect'
+import RealTimeDetails from './RealTimeDetails'
+import HistoricalDepartures from './HistoricalDepartures'
 
 class BusDepartureDetails extends React.Component {
 
@@ -33,35 +33,15 @@ class BusDepartureDetails extends React.Component {
     const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin, loadingState } = this.props
     var historicalDeparturesLoading;
 
-    const RealTimeDetails = () => (
-      <RoundRect className='bus-departure-details'>
-        <>
-        <p>Expected departure: {minutesAway}</p>
-        <p>{stopsAway}</p>
-        {progressStatus &&
-          <p>{progressStatus}</p>
-        }
-        </>
-      </RoundRect>
-    )
-
-    const HistoricalDepartures = () => (
-      <RoundRect ref={this.scrollRef}>
-        <p>Most recent departure: {recentDepText}</p>
-        <p>All recent departures:</p>
-        <DepartureGraph departures={recentDepartures} headways={recentHeadways} times={recents} vehicleRefs={recentVehicleRefs}/>
-        {yesterdayLabel &&
-          <p>{yesterdayLabel}:</p>
-        }
-        <DepartureGraph dotsFirst departures={previousDepartures} headways={previousHeadways} times={yesterday} vehicleRefs={previousVehicleRefs}/>
-      </RoundRect>
-      )
-
     historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
 
     return (
       <>
-        <RealTimeDetails />
+        <RealTimeDetails
+          stopsAway={stopsAway}
+          minutesAway={minutesAway}
+          progressStatus={progressStatus}
+        />
         {historicalDeparturesLoading &&
           <RoundRect className='loading'>
             <Loader />
@@ -69,7 +49,19 @@ class BusDepartureDetails extends React.Component {
         }
         {!historicalDeparturesLoading &&
           <>
-          <HistoricalDepartures />
+          <HistoricalDepartures
+            scrollRef={this.scrollRef}
+            recentDepText={recentDepText}
+            recentDepartures={recentDepartures}
+            recentHeadways={recentHeadways}
+            recents={recents}
+            recentVehicleRefs={recentVehicleRefs}
+            yesterdayLabel={yesterdayLabel}
+            previousDepartures={previousDepartures}
+            previousHeadways={previousHeadways}
+            yesterday={yesterday}
+            previousVehicleRefs={previousVehicleRefs}
+          />
           </>
         }
         <RatingDetails
