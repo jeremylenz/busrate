@@ -5,6 +5,7 @@ import {busRoutesReducer} from "./reducers/busRoutes.reducer";
 import {stopListsReducer} from './reducers/stopLists.reducer';
 import {realTimeDetailsReducer} from './reducers/realTimeDetails.reducer';
 import {historicalDeparturesReducer} from './reducers/historicalDepartures.reducer'
+import {anticipatedDeparturesReducer} from './reducers/anticipatedDepartures.reducer'
 
 import {uiReducer} from './reducers/ui.reducer'
 
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   ui: uiReducer,
   realTimeDetails: realTimeDetailsReducer,
   historicalDepartures: historicalDeparturesReducer,
+  anticipatedDepartures: anticipatedDeparturesReducer,
 })
 
 // create the feature middleware array
