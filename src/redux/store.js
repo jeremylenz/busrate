@@ -13,6 +13,7 @@ import {busRoutesMiddleware} from './middleware/feature/busRoutes.js';
 import {stopListsMiddleware} from './middleware/feature/stopLists';
 import {realTimeDetailsMiddleware} from './middleware/feature/realTimeDetails'
 import {historicalDeparturesMiddleware} from './middleware/feature/historicalDepartures'
+import {anticipatedDeparturesMiddleware} from './middleware/feature/anticipatedDepartures'
 
 import {apiMiddleware} from './middleware/core/api';
 import {normalizeMiddleware} from './middleware/core/normalize'
@@ -35,6 +36,7 @@ const featureMiddleware = [
   stopListsMiddleware,
   realTimeDetailsMiddleware,
   historicalDeparturesMiddleware,
+  anticipatedDeparturesMiddleware,
 ];
 
 const coreMiddleware = [
