@@ -70,7 +70,7 @@ class BusStopDetailPage extends Component {
     this.props.addAnticipatedDeparture({
       anticipatedDeparture: {
         id: null,
-        stop_ref: "MTA_401905",
+        stop_ref: "MTA_401924",
         line_ref: "MTA NYCT_M86+",
         departure_time: "2019-03-10T14:14:01.000Z",
         created_at: null,

@@ -49,8 +49,12 @@ class BusDepartureDetails extends React.Component {
       console.log([prevState.lastKnownStopsAway, this.state.lastKnownStopsAway])
       let prevStopsAway = prevState.lastKnownStopsAway
       let currentStopsAway = this.state.lastKnownStopsAway
-      if (prevStopsAway === "approaching" || prevStopsAway === "at stop") {
-        if (currentStopsAway !== "at stop") {
+      let orderedSequence = ["< 1 stop away", "approaching", "at stop"]
+      if (orderedSequence.includes(prevStopsAway)) {
+        let prevIndex = orderedSequence.indexOf(prevStopsAway) // 0, 1, or 2
+        let currIndex = orderedSequence.indexOf(currentStopsAway) // 0, 1, 2, or -1 if not found
+        if (currIndex < prevIndex) {
+          // then we can assume currentStopsAway and prevStopsAway refer to different vehicles; therefore, create the anticipated departure.
           this.props.createAnticipatedDeparture()
         }
       }

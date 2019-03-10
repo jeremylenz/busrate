@@ -29,18 +29,26 @@ export const historicalDeparturesReducer = (state = historicalDeparturesState, a
       }
       return Object.assign({}, state, newState)
     case INSERT_ANTICIPATED_DEPARTURES:
+      let stopRef, lineRef, newRecents, hdRef, newHdRef, itemsWithoutHdRef;
       newState = {
         items: [...state.items]
       }
-      let stopRef, lineRef, newRecents, hdRef;
-      action.anticipatedDepartures.forEach((anticipatedDeparture) => {
+      action.payload.forEach((anticipatedDeparture) => {
         stopRef = anticipatedDeparture.stop_ref
         lineRef = anticipatedDeparture.line_ref
         hdRef = null;
         hdRef = newState.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
         if (hdRef) {
           // Without mutating state, remove the first element from hdRef.recents and replace it with anticipatedDeparture
+          itemsWithoutHdRef = null;
+          itemsWithoutHdRef = newState.items.filter((item) => item !== hdRef)
           newRecents = [anticipatedDeparture, ...hdRef.recents.slice()]
+          newHdRef = Object.assign({}, hdRef, {recents: newRecents})
+        }
+        if (itemsWithoutHdRef) {
+          newState = {
+            items: [newHdRef, ...itemsWithoutHdRef]
+          }
         }
       })
       return Object.assign({}, state, newState)
