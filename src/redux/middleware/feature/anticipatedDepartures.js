@@ -1,5 +1,5 @@
-import { ANTICIPATED_DEPARTURES, ADD_ANTICIPATED_DEPARTURE, addAnticipatedDeparture } from '../../actions/anticipatedDepartures.js'
-import { INSERT_ANTICIPATED_DEPARTURES, insertAnticipatedDepartures } from '../../actions/historicalDepartures.js'
+import { ADD_ANTICIPATED_DEPARTURE } from '../../actions/anticipatedDepartures.js'
+import { insertAnticipatedDepartures } from '../../actions/historicalDepartures.js'
 
 export const anticipatedDeparturesMiddleware = () => (next) => (action) => {
   next(action);
