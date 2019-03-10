@@ -183,7 +183,7 @@ class BusStopDetailPage extends Component {
     if (hdRef) {
       // Recent departure data
       recentDepartures = hdRef.recents
-      let recentTimestamps = hdRef.recent_departure_times.slice(0, 8) // first 8 elements
+      let recentTimestamps = hdRef.recents.slice(0, 8).map((d) => d.departure_time) // first 8 elements
       recentHeadways = recentDepartures.map((hd) => Math.round(hd.headway / 60))
       let currentHeadway = (new Date() - Date.parse(recentTimestamps[0])) / 1000 / 60
       currentHeadway = Math.round(currentHeadway)
@@ -262,6 +262,7 @@ const mapDispatchToProps = {
   setLoader,
   clearLoader,
   addAnticipatedDeparture,
+  insertAnticipatedDepartures,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BusStopDetailPage));

@@ -13,7 +13,8 @@ class BusDepartureDetails extends React.Component {
     this.scrollRef = React.createRef();  // Create a reference so that later, we can read & write scrollLeft
 
     this.state = {
-      lastKnownStopsAway: 'Unknown'
+      lastKnownStopsAway: 'Unknown',
+      prevAnticipatedVehicleRef: null,
     }
   }
 
@@ -42,11 +43,19 @@ class BusDepartureDetails extends React.Component {
     // This way we can display departures immediately, instead of after 2+ minutes.
 
     if (this.props.stopsAway !== "Unknown" && this.props.stopsAway !== "No vehicles found" && prevProps.stopsAway !== this.props.stopsAway) {
-      this.setState({lastKnownStopsAway: this.props.stopsAway})
+      this.setState({
+        lastKnownStopsAway: this.props.stopsAway,
+      });
+      if (!this.state.prevAnticipatedVehicleRef) {
+        this.setState({
+          prevAnticipatedVehicleRef: this.props.anticipatedDepVehicleRef,
+        })
+      }
     }
     if (prevState.lastKnownStopsAway !== this.state.lastKnownStopsAway) {
       // ["1 stop away", "< 1 stop away"]
       console.log([prevState.lastKnownStopsAway, this.state.lastKnownStopsAway])
+      console.log(this.props.anticipatedDepVehicleRef)
       let prevStopsAway = prevState.lastKnownStopsAway
       let currentStopsAway = this.state.lastKnownStopsAway
       let orderedSequence = ["< 1 stop away", "approaching", "at stop"]
@@ -55,8 +64,11 @@ class BusDepartureDetails extends React.Component {
         let currIndex = orderedSequence.indexOf(currentStopsAway) // 0, 1, 2, or -1 if not found
         if (currIndex < prevIndex) {
           // then we can assume currentStopsAway and prevStopsAway refer to different vehicles; therefore, create the anticipated departure.
-          this.props.createAnticipatedDeparture(prevProps.anticipatedDepVehicleRef)
-          this.forceUpdate()
+          this.props.createAnticipatedDeparture(this.state.prevAnticipatedVehicleRef)
+          this.setState({
+            prevAnticipatedVehicleRef: this.props.anticipatedDepVehicleRef,
+          })
+          console.log('setting state', {prevAnticipatedVehicleRef: this.state.prevAnticipatedVehicleRef})
         }
       }
     }
