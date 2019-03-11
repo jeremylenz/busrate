@@ -28,27 +28,17 @@ class BusStopDetailPage extends Component {
     if (!this.props.historicalDepartures.firstRequestSent) {
       this.props.fetchHistoricalDeparture({ stopRef, lineRef })
     }
-    this.reinsertAnticipatedDepartures()
 
     // Poll the API regularly to update data
     // Realtime data: every 9 seconds
     this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 9000, stopRef)
     // Historical departures: every minute (matches how often the API creates them)
     this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 60000, { stopRef, lineRef })
-    // have to put this in its own function so that this.props.anticipatedDepartures.items is up to date.
-    this.getNextAnticipatedDepartures = setInterval(this.reinsertAnticipatedDepartures, 9000);
   }
 
   componentWillUnmount() {
     clearInterval(this.getNextRealtimeData)
     clearInterval(this.getNextHistoricalDepartures)
-    clearInterval(this.getNextAnticipatedDepartures)
-  }
-
-  reinsertAnticipatedDepartures = () => {
-    this.props.insertAnticipatedDepartures({
-      anticipatedDepartures: this.props.anticipatedDepartures.items,
-    })
   }
 
   createAnticipatedDeparture = (vehicleRef) => {
