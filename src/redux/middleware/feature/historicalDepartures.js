@@ -27,7 +27,7 @@ export const historicalDeparturesMiddleware = (store) => (next) => (action) => {
       next(addHistoricalDeparture({historicalDeparture: action.payload}));
       // Reinsert the anticipated departures from the store
       const anticipatedDepartures = store.getState().anticipatedDepartures.items
-      console.log('inserting: ', anticipatedDepartures)
+      // console.log('inserting: ', anticipatedDepartures)
       next(insertAnticipatedDepartures({ anticipatedDepartures }))
       break;
     case `${HISTORICAL_DEPARTURES} ${API_ERROR}`:
