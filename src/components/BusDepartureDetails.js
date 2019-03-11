@@ -13,7 +13,8 @@ class BusDepartureDetails extends React.Component {
     this.scrollRef = React.createRef();  // Create a reference so that later, we can read & write scrollLeft
 
     this.state = {
-      lastKnownStopsAway: 'Unknown'
+      lastKnownStopsAway: 'Unknown',
+      prevAnticipatedVehicleRef: null,
     }
   }
 
@@ -40,19 +41,34 @@ class BusDepartureDetails extends React.Component {
     // If it looks like a bus departed but the departure hasn't yet been created and returned from the API,
     // we can create an 'anticipated' departure which will live in our Redux store but nowhere else.
     // This way we can display departures immediately, instead of after 2+ minutes.
-    // The next time we call the API and get departure data, the 'anticipated' departure will be overwritten.
 
     if (this.props.stopsAway !== "Unknown" && this.props.stopsAway !== "No vehicles found" && prevProps.stopsAway !== this.props.stopsAway) {
-      this.setState({lastKnownStopsAway: this.props.stopsAway})
+      this.setState({
+        lastKnownStopsAway: this.props.stopsAway,
+      });
+      if (!this.state.prevAnticipatedVehicleRef) {
+        this.setState({
+          prevAnticipatedVehicleRef: this.props.anticipatedDepVehicleRef,
+        })
+      }
     }
     if (prevState.lastKnownStopsAway !== this.state.lastKnownStopsAway) {
       // ["1 stop away", "< 1 stop away"]
-      console.log([prevState.lastKnownStopsAway, this.state.lastKnownStopsAway])
+      // console.log([prevState.lastKnownStopsAway, this.state.lastKnownStopsAway])
+      // console.log(this.props.anticipatedDepVehicleRef)
       let prevStopsAway = prevState.lastKnownStopsAway
       let currentStopsAway = this.state.lastKnownStopsAway
-      if (prevStopsAway === "approaching" || prevStopsAway === "at stop") {
-        if (currentStopsAway !== "at stop") {
-          this.props.createAnticipatedDeparture()
+      let orderedSequence = ["< 1 stop away", "approaching", "at stop"]
+      if (orderedSequence.includes(prevStopsAway)) {
+        let prevIndex = orderedSequence.indexOf(prevStopsAway) // 0, 1, or 2
+        let currIndex = orderedSequence.indexOf(currentStopsAway) // 0, 1, 2, or -1 if not found
+        if (currIndex < prevIndex) {
+          // then we can assume currentStopsAway and prevStopsAway refer to different vehicles; therefore, create the anticipated departure.
+          this.props.createAnticipatedDeparture(this.state.prevAnticipatedVehicleRef)
+          this.setState({
+            prevAnticipatedVehicleRef: this.props.anticipatedDepVehicleRef,
+          })
+          console.log('setting state', {prevAnticipatedVehicleRef: this.state.prevAnticipatedVehicleRef})
         }
       }
     }
@@ -60,6 +76,7 @@ class BusDepartureDetails extends React.Component {
 
   render () {
     const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin, loadingState } = this.props
+    const vehicleNum = this.state.prevAnticipatedVehicleRef
     var historicalDeparturesLoading;
 
     historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
@@ -70,6 +87,7 @@ class BusDepartureDetails extends React.Component {
           stopsAway={stopsAway}
           minutesAway={minutesAway}
           progressStatus={progressStatus}
+          vehicleNum={vehicleNum}
         />
         {historicalDeparturesLoading &&
           <RoundRect className='loading'>

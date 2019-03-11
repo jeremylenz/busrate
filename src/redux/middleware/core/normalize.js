@@ -43,6 +43,7 @@ function normalizeData(action) {
         destinationName: mvj.DestinationName[0],
         stopRef: mvj.MonitoredCall.StopPointRef,
         lineRef: mvj.LineRef,
+        vehicleRef: mvj.VehicleRef,
         responseTimestamp: action.payload.Siri.ServiceDelivery.ResponseTimestamp,
         distanceFromStop: mvj.MonitoredCall.DistanceFromStop,
       }

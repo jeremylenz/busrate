@@ -40,6 +40,10 @@ const StyledDepartureDot = styled.div`
     background-color: #d8d8d8;
     color: #797878;
   }
+  &.white {
+    background-color: #fdfdfd;
+    color: #797878;
+  }
 `
 const StyledDepartureHeadway = styled.div`
   font-family: 'Asap';
@@ -97,6 +101,16 @@ function doNothing() {
   return null;
 }
 
+function getDotClassName(departure) {
+  if (departure.interpolated) {
+    return "grayscale"
+  }
+  if (departure.anticipated) {
+    return "white"
+  }
+  return ""
+}
+
 const DepartureGraph = (props) => {
   // headways = [5, 6, 15, 22, 8] - minutes of wait time in between each departure
   // times = ['6:56pm', '6:33pm', ...]
@@ -115,6 +129,7 @@ const DepartureGraph = (props) => {
       {departures.map((departure, idx) => {
         let headway = headways[idx]
         let hwWidth = headway * 8
+        if (!headway) hwWidth = 8;
         let crowdDots = false
         let lastHeadway = (idx === departures.length - 1)
         if (headway < 3 && idx > 0) {
@@ -130,7 +145,7 @@ const DepartureGraph = (props) => {
                 </StyledDiv>
               </StyledDepartureHeadway>
             }
-            <StyledDepartureDot onClick={doNothing} key={Date.now()} className={departure.interpolated ? "grayscale" : ""}>
+            <StyledDepartureDot onClick={doNothing} key={Date.now()} className={getDotClassName(departure)}>
               <StyledTooltip>
                 <div>
                   {times[idx]}<br />

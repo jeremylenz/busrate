@@ -1,4 +1,4 @@
-import { ADD_HISTORICAL_DEPARTURE, FETCH_HISTORICAL_DEPARTURE, PURGE_HISTORICAL_DEPARTURES } from '../actions/historicalDepartures'
+import { ADD_HISTORICAL_DEPARTURE, FETCH_HISTORICAL_DEPARTURE, PURGE_HISTORICAL_DEPARTURES, INSERT_ANTICIPATED_DEPARTURES } from '../actions/historicalDepartures'
 
 const historicalDeparturesState = {
   items: [],
@@ -27,6 +27,35 @@ export const historicalDeparturesReducer = (state = historicalDeparturesState, a
       newState = {
         items: filteredItems, // replace current state with filtered state
       }
+      return Object.assign({}, state, newState)
+    case INSERT_ANTICIPATED_DEPARTURES:
+      let stopRef, lineRef, newRecents, hdRef, newHdRef, itemsWithoutHdRef;
+      newState = {
+        items: [...state.items]
+      }
+      action.payload.forEach((anticipatedDeparture) => {
+        stopRef = anticipatedDeparture.stop_ref
+        lineRef = anticipatedDeparture.line_ref
+        hdRef = null;
+        hdRef = newState.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
+        if (hdRef) {
+          // Without mutating state, remove the first element from hdRef.recents and replace it with anticipatedDeparture
+          itemsWithoutHdRef = null;
+          itemsWithoutHdRef = newState.items.filter((item) => item !== hdRef)
+          newRecents = [anticipatedDeparture, ...hdRef.recents.filter((hd) => !('anticipated' in hd))] // only allow a single anticipated departure
+          if (newRecents[0].vehicle_ref === newRecents[1].vehicle_ref || newRecents[0].vehicle_ref === newRecents[2].vehicle_ref) {
+            // If the real departure is present, don't add the anticipated departure
+            // console.log('shifting: ', [newRecents[0], newRecents[1]])
+            newRecents.shift()
+          }
+          newHdRef = Object.assign({}, hdRef, {recents: newRecents})
+        }
+        if (itemsWithoutHdRef) {
+          newState = {
+            items: [newHdRef, ...itemsWithoutHdRef]
+          }
+        }
+      })
       return Object.assign({}, state, newState)
     default:
     return state
