@@ -89,7 +89,7 @@ class BusStopDetailPage extends Component {
         previous_departure_id: null,
         block_ref: null,
         dated_vehicle_journey_ref: null,
-        interpolated: true,
+        interpolated: false,
         anticipated: true,
         direction_ref: null,
       }
@@ -145,7 +145,11 @@ class BusStopDetailPage extends Component {
       if (expectedDepartureTime === undefined) {
         minutesAwayText = "not provided"
       } else {
-        let expectedDepText = moment(expectedDepartureTime).format('LT')
+        var expectedDepText = moment(expectedDepartureTime).format('LT')
+        if (Date.parse(expectedDepartureTime) - new Date() < 10000) {
+          expectedDepText = moment(expectedDepartureTime).format('LTS')
+        }
+        // console.log(Date.parse(expectedDepartureTime) - new Date())
         minutesAwayText = moment(expectedDepartureTime).fromNow();
         minutesAwayText += ` (${expectedDepText})`
       }
