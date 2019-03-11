@@ -64,14 +64,6 @@ class BusStopDetailPage extends Component {
     })
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.historicalDepartures.items.length < 1 || prevProps.historicalDepartures.items.length < 1) return;
-  //   if (prevProps.historicalDepartures.items[0].recents[0] !== this.props.historicalDepartures.items[0].recents[0]) {
-  //     console.log('reinserting anticipated departures', this.props.anticipatedDepartures)
-  //     this.props.insertAnticipatedDepartures({anticipatedDepartures: this.props.anticipatedDepartures.items})
-  //   }
-  // }
-
   createAnticipatedDeparture = (vehicleRef) => {
     console.log('create anticipated departure!')
     // {
