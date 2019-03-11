@@ -13,13 +13,6 @@ import Loader from './Loader'
 
 class BusStopDetailPage extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentHeadway: 0,
-    }
-  }
-
   componentDidMount() {
 
     const routeId = this.props.match.params.id
@@ -120,14 +113,10 @@ class BusStopDetailPage extends Component {
 
   }
 
-  render() {
-    if (this.props.ui.loading && this.props.realTimeDetails.items.length === 0) {
-      return <Loader absolute />
-    }
+  getHeaderAndRealTimeData = () => {
 
     const routeId = this.props.match.params.id
     const stopId = this.props.match.params.stop
-    const loadingState = this.props.ui
 
     var routeData, routeName, stopName, routeDirection;
     var stopsAwayText, minutesAwayText, expectedDepartureTime, progressStatusText;
@@ -179,6 +168,24 @@ class BusStopDetailPage extends Component {
 
     }
 
+    return {
+      routeName,
+      routeId,
+      routeDirection,
+      stopId,
+      stopName,
+      stopsAwayText,
+      minutesAwayText,
+      progressStatusText,
+      anticipatedDepVehicleRef,
+    }
+  }
+
+  getDepartureData = () => {
+
+    const routeId = this.props.match.params.id
+    const stopId = this.props.match.params.stop
+
     // HISTORICAL DEPARTURE DATA
     var recents = []
     var yesterday = []
@@ -186,7 +193,7 @@ class BusStopDetailPage extends Component {
     var previousDepartures = []
     var recentVehicleRefs = []
     var previousVehicleRefs = []
-    var prevText, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
+    var yesterdayLabel, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
     var recentsRating, prevDeparturesRating, overallRating;
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
@@ -215,9 +222,61 @@ class BusStopDetailPage extends Component {
       previousHeadways.pop()
       previousVehicleRefs = hdRef.prev_departures.map((hd) => hd.vehicle_ref.split('_')[1])
       yesterday = previousTimestamps.map((timeStamp) => moment(timeStamp).format('LT'))
-      prevText = hdRef.prev_departure_text
+      yesterdayLabel = hdRef.prev_departure_text
 
     }
+
+    return {
+      recents,
+      recentDepText,
+      recentHeadways,
+      recentVehicleRefs,
+      recentDepartures,
+      previousDepartures,
+      yesterday,
+      previousHeadways,
+      previousVehicleRefs,
+      yesterdayLabel,
+      recentsRating,
+      prevDeparturesRating,
+      overallRating,
+    }
+  }
+
+  render() {
+    if (this.props.ui.loading && this.props.realTimeDetails.items.length === 0) {
+      return <Loader absolute />
+    }
+
+    const loadingState = this.props.ui
+    const {
+      routeName,
+      routeId,
+      routeDirection,
+      stopId,
+      stopName,
+      stopsAwayText,
+      minutesAwayText,
+      progressStatusText,
+      anticipatedDepVehicleRef,
+    } = this.getHeaderAndRealTimeData()
+
+    const {
+      recents,
+      recentDepText,
+      recentHeadways,
+      recentVehicleRefs,
+      recentDepartures,
+      previousDepartures,
+      yesterday,
+      previousHeadways,
+      previousVehicleRefs,
+      yesterdayLabel,
+      recentsRating,
+      prevDeparturesRating,
+      overallRating,
+    } = this.getDepartureData()
+
 
     return (
       <div className='bus-stop-detail'>
@@ -243,7 +302,7 @@ class BusStopDetailPage extends Component {
           yesterday={yesterday}
           previousHeadways={previousHeadways}
           previousVehicleRefs={previousVehicleRefs}
-          yesterdayLabel={prevText}
+          yesterdayLabel={yesterdayLabel}
           recentsRating={recentsRating}
           prevDeparturesRating={prevDeparturesRating}
           overallRating={overallRating}
