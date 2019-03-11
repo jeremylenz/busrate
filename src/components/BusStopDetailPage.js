@@ -15,12 +15,12 @@ class BusStopDetailPage extends Component {
 
   componentDidMount() {
 
-    const routeId = this.props.match.params.id
+    const lineRef = this.props.match.params.id
     const stopId = this.props.match.params.stop
 
     // If we're just loading the app from this page, get all our data.
     if (!this.props.stopLists.firstRequestSent) {
-      this.props.fetchStopList(routeId)
+      this.props.fetchStopList(lineRef)
     }
     if (!this.props.realTimeDetails.firstRequestSent) {
       this.props.fetchRealTimeDetail(stopId)
@@ -28,7 +28,7 @@ class BusStopDetailPage extends Component {
     if (!this.props.historicalDepartures.firstRequestSent) {
       this.props.fetchHistoricalDeparture({
       stopRef: stopId,
-      lineRef: routeId,
+      lineRef: lineRef,
       })
     }
     this.reinsertAnticipatedDepartures()
@@ -39,7 +39,7 @@ class BusStopDetailPage extends Component {
     // Historical departures: every minute (matches how often the API creates them)
     this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 60000, {
       stopRef: stopId,
-      lineRef: routeId,
+      lineRef: lineRef,
     })
     // have to put this in its own function so that this.props.anticipatedDepartures.items is up to date.
     this.getNextAnticipatedDepartures = setInterval(this.reinsertAnticipatedDepartures, 9000);
@@ -115,13 +115,13 @@ class BusStopDetailPage extends Component {
 
   getHeaderAndRealTimeData = () => {
 
-    const routeId = this.props.match.params.id
+    const lineRef = this.props.match.params.id
     const stopId = this.props.match.params.stop
 
     var routeData, routeName, stopName, routeDirection;
     var stopsAwayText, minutesAwayText, expectedDepartureTime, progressStatusText;
 
-    let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
+    let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === lineRef)
     if (!foundStopList) {
       // console.log('!foundStopList')
     } else {
@@ -144,8 +144,8 @@ class BusStopDetailPage extends Component {
     var anticipatedDepVehicleRef;
     // realTimeDetails: Filter to just the stopRef we care about
     let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => rtdRef.stopRef === stopId);
-    // Now find the first vehicle that matches our routeId
-    let foundRtdRef = rtdRefs.find((rtdRef) => rtdRef.lineRef === routeId);
+    // Now find the first vehicle that matches our lineRef
+    let foundRtdRef = rtdRefs.find((rtdRef) => rtdRef.lineRef === lineRef);
     if (!foundRtdRef) {
       // console.log('!foundRtdRef')
       stopsAwayText = "No vehicles found"
@@ -170,7 +170,7 @@ class BusStopDetailPage extends Component {
 
     return {
       routeName,
-      routeId,
+      lineRef,
       routeDirection,
       stopId,
       stopName,
@@ -183,7 +183,7 @@ class BusStopDetailPage extends Component {
 
   getDepartureData = () => {
 
-    const routeId = this.props.match.params.id
+    const lineRef = this.props.match.params.id
     const stopId = this.props.match.params.stop
 
     // HISTORICAL DEPARTURE DATA
@@ -196,7 +196,7 @@ class BusStopDetailPage extends Component {
     var yesterdayLabel, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
     var recentsRating, prevDeparturesRating, overallRating;
 
-    let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === routeId && dep.stop_ref === stopId)
+    let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopId)
     if (hdRef) {
       // Recent departure data
       recentDepartures = hdRef.recents
@@ -251,7 +251,7 @@ class BusStopDetailPage extends Component {
     const loadingState = this.props.ui
     const {
       routeName,
-      routeId,
+      lineRef,
       routeDirection,
       stopId,
       stopName,
@@ -283,7 +283,7 @@ class BusStopDetailPage extends Component {
         <BusRouteHeader
           loadingState={loadingState}
           routeName={routeName}
-          routeId={routeId}
+          routeId={lineRef}
           routeDirection={routeDirection}
           stopNum={stopId}
           stopName={stopName}
