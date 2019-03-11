@@ -16,31 +16,25 @@ class BusStopDetailPage extends Component {
   componentDidMount() {
 
     const lineRef = this.props.match.params.id
-    const stopId = this.props.match.params.stop
+    const stopRef = this.props.match.params.stop
 
     // If we're just loading the app from this page, get all our data.
     if (!this.props.stopLists.firstRequestSent) {
       this.props.fetchStopList(lineRef)
     }
     if (!this.props.realTimeDetails.firstRequestSent) {
-      this.props.fetchRealTimeDetail(stopId)
+      this.props.fetchRealTimeDetail(stopRef)
     }
     if (!this.props.historicalDepartures.firstRequestSent) {
-      this.props.fetchHistoricalDeparture({
-      stopRef: stopId,
-      lineRef: lineRef,
-      })
+      this.props.fetchHistoricalDeparture({ stopRef, lineRef })
     }
     this.reinsertAnticipatedDepartures()
 
     // Poll the API regularly to update data
     // Realtime data: every 9 seconds
-    this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 9000, stopId)
+    this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 9000, stopRef)
     // Historical departures: every minute (matches how often the API creates them)
-    this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 60000, {
-      stopRef: stopId,
-      lineRef: lineRef,
-    })
+    this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 60000, { stopRef, lineRef })
     // have to put this in its own function so that this.props.anticipatedDepartures.items is up to date.
     this.getNextAnticipatedDepartures = setInterval(this.reinsertAnticipatedDepartures, 9000);
   }
@@ -116,7 +110,7 @@ class BusStopDetailPage extends Component {
   getHeaderAndRealTimeData = () => {
 
     const lineRef = this.props.match.params.id
-    const stopId = this.props.match.params.stop
+    const stopRef = this.props.match.params.stop
 
     var routeData, routeName, stopName, routeDirection;
     var stopsAwayText, minutesAwayText, expectedDepartureTime, progressStatusText;
@@ -134,7 +128,7 @@ class BusStopDetailPage extends Component {
         routeName = routeRef.shortName
       }
       // get stop name
-      let stopRef = routeData.references.stops.find((stopRef) => stopRef.id === stopId)
+      let stopRef = routeData.references.stops.find((stopRef) => stopRef.id === stopRef)
       if (stopRef) {
         stopName = stopRef.name
       }
@@ -143,7 +137,7 @@ class BusStopDetailPage extends Component {
     // REAL-TIME DATA
     var anticipatedDepVehicleRef;
     // realTimeDetails: Filter to just the stopRef we care about
-    let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => rtdRef.stopRef === stopId);
+    let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => rtdRef.stopRef === stopRef);
     // Now find the first vehicle that matches our lineRef
     let foundRtdRef = rtdRefs.find((rtdRef) => rtdRef.lineRef === lineRef);
     if (!foundRtdRef) {
@@ -172,7 +166,7 @@ class BusStopDetailPage extends Component {
       routeName,
       lineRef,
       routeDirection,
-      stopId,
+      stopRef,
       stopName,
       stopsAwayText,
       minutesAwayText,
@@ -184,7 +178,7 @@ class BusStopDetailPage extends Component {
   getDepartureData = () => {
 
     const lineRef = this.props.match.params.id
-    const stopId = this.props.match.params.stop
+    const stopRef = this.props.match.params.stop
 
     // HISTORICAL DEPARTURE DATA
     var recents = []
@@ -196,7 +190,7 @@ class BusStopDetailPage extends Component {
     var yesterdayLabel, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
     var recentsRating, prevDeparturesRating, overallRating;
 
-    let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopId)
+    let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
     if (hdRef) {
       // Recent departure data
       recentDepartures = hdRef.recents
@@ -253,7 +247,7 @@ class BusStopDetailPage extends Component {
       routeName,
       lineRef,
       routeDirection,
-      stopId,
+      stopRef,
       stopName,
       stopsAwayText,
       minutesAwayText,
@@ -277,7 +271,6 @@ class BusStopDetailPage extends Component {
       overallRating,
     } = this.getDepartureData()
 
-
     return (
       <div className='bus-stop-detail'>
         <BusRouteHeader
@@ -285,7 +278,7 @@ class BusStopDetailPage extends Component {
           routeName={routeName}
           routeId={lineRef}
           routeDirection={routeDirection}
-          stopNum={stopId}
+          stopNum={stopRef}
           stopName={stopName}
         />
         <BusDepartureDetails
