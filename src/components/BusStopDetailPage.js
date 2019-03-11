@@ -118,9 +118,9 @@ class BusStopDetailPage extends Component {
         routeName = routeRef.shortName
       }
       // get stop name
-      let stopRef = routeData.references.stops.find((stopRef) => stopRef.id === stopRef)
-      if (stopRef) {
-        stopName = stopRef.name
+      let stopInfo = routeData.references.stops.find((stopObj) => stopObj.id === stopRef)
+      if (stopInfo) {
+        stopName = stopInfo.name
       }
     }
 
