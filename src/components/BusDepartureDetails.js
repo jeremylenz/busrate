@@ -54,8 +54,8 @@ class BusDepartureDetails extends React.Component {
     }
     if (prevState.lastKnownStopsAway !== this.state.lastKnownStopsAway) {
       // ["1 stop away", "< 1 stop away"]
-      console.log([prevState.lastKnownStopsAway, this.state.lastKnownStopsAway])
-      console.log(this.props.anticipatedDepVehicleRef)
+      // console.log([prevState.lastKnownStopsAway, this.state.lastKnownStopsAway])
+      // console.log(this.props.anticipatedDepVehicleRef)
       let prevStopsAway = prevState.lastKnownStopsAway
       let currentStopsAway = this.state.lastKnownStopsAway
       let orderedSequence = ["< 1 stop away", "approaching", "at stop"]
@@ -76,6 +76,7 @@ class BusDepartureDetails extends React.Component {
 
   render () {
     const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin, loadingState } = this.props
+    const vehicleNum = this.state.prevAnticipatedVehicleRef
     var historicalDeparturesLoading;
 
     historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
@@ -86,6 +87,7 @@ class BusDepartureDetails extends React.Component {
           stopsAway={stopsAway}
           minutesAway={minutesAway}
           progressStatus={progressStatus}
+          vehicleNum={vehicleNum}
         />
         {historicalDeparturesLoading &&
           <RoundRect className='loading'>
