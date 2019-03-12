@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
+import { fetchBusRoutes } from './../redux/actions/busRoutes'
 import { fetchHistoricalDeparture, insertAnticipatedDepartures } from './../redux/actions/historicalDepartures'
 import { addAnticipatedDeparture } from './../redux/actions/anticipatedDepartures'
 import { fetchStopList } from './../redux/actions/stopLists'
@@ -28,12 +29,15 @@ class BusStopDetailPage extends Component {
     if (!this.props.historicalDepartures.firstRequestSent) {
       this.props.fetchHistoricalDeparture({ stopRef, lineRef })
     }
+    if (this.props.busRoutes.items.length < 1) {
+      this.props.fetchBusRoutes()
+    }
 
     // Poll the API regularly to update data
     // Realtime data: every 9 seconds
     this.getNextRealtimeData = setInterval(this.props.fetchRealTimeDetail, 9000, stopRef)
     // Historical departures: every minute (matches how often the API creates them)
-    this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 10000, { stopRef, lineRef })
+    this.getNextHistoricalDepartures = setInterval(this.props.fetchHistoricalDeparture, 60000, { stopRef, lineRef })
   }
 
   componentWillUnmount() {
@@ -309,6 +313,7 @@ const mapStateToProps = (state) => ({
   historicalDepartures: state.historicalDepartures,
   ui: state.ui,
   anticipatedDepartures: state.anticipatedDepartures,
+  busRoutes: state.busRoutes,
 })
 
 const mapDispatchToProps = {
@@ -319,6 +324,7 @@ const mapDispatchToProps = {
   clearLoader,
   addAnticipatedDeparture,
   insertAnticipatedDepartures,
+  fetchBusRoutes,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BusStopDetailPage));
