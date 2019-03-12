@@ -79,7 +79,7 @@ class BusDepartureDetails extends React.Component {
     const vehicleNum = this.state.prevAnticipatedVehicleRef
     var historicalDeparturesLoading;
 
-    historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
+    historicalDeparturesLoading = (recents && recents.length === 0 && loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
 
     return (
       <>

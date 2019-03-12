@@ -59,32 +59,28 @@ class RatingDetails extends React.Component {
 
     return (
       <>
-        {!historicalDeparturesLoading &&
-          <>
-          <StyledDiv ref={this.scrollRef}>
-            {recentsRating &&
-              <p>Score right now: {recentsRating.busrate_score} / 100
-                {recentBunches > 0 &&
-                  <span> (Bus bunching count: {recentBunches})</span>
-                }
-              </p>
-            }
-            {prevDeparturesRating &&
-              <p>Previous: {prevDeparturesRating.busrate_score} / 100
-                {prevBunches > 0 &&
-                  <span> (Bus bunching count: {prevBunches})</span>
-                }
-              </p>
-            }
-            {overallRating &&
-              <>
-              <p>Overall rating: {overallRating.busrate_score} / 100</p>
-              <p>Based on {allowableHeadwayMin}-minute allowable wait time</p>
-              </>
-            }
-          </StyledDiv>
-          </>
-        }
+        <StyledDiv ref={this.scrollRef}>
+          {recentsRating &&
+            <p>Score right now: {recentsRating.busrate_score} / 100
+              {recentBunches > 0 &&
+                <span> (Bus bunching count: {recentBunches})</span>
+              }
+            </p>
+          }
+          {prevDeparturesRating &&
+            <p>Previous: {prevDeparturesRating.busrate_score} / 100
+              {prevBunches > 0 &&
+                <span> (Bus bunching count: {prevBunches})</span>
+              }
+            </p>
+          }
+          {overallRating &&
+            <>
+            <p>Overall rating: {overallRating.busrate_score} / 100</p>
+            <p>Based on {allowableHeadwayMin}-minute allowable wait time</p>
+            </>
+          }
+        </StyledDiv>
       </>
       )
     }
