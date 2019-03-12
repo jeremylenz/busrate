@@ -1,8 +1,6 @@
 import React from 'react';
-import Loader from './Loader'
 import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
 import RatingDetails from './RatingDetails'
-import RoundRect from './RoundRect'
 import RealTimeDetails from './RealTimeDetails'
 import HistoricalDepartures from './HistoricalDepartures'
 

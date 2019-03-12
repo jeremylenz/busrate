@@ -1,5 +1,4 @@
 import React from 'react';
-import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
 import RoundRect from './RoundRect'
 
 class RatingDetails extends React.Component {
@@ -22,12 +21,10 @@ class RatingDetails extends React.Component {
     if (this.state.hasError) {
       return <RoundRect>Score not available yet; check back soon!</RoundRect>
     }
-    const { loadingState, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin } = this.props
-    var historicalDeparturesLoading;
+    const { recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin } = this.props
 
     var recentBunches = 0, prevBunches = 0;
 
-    historicalDeparturesLoading = (loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
     if (recentsRating) {
       recentBunches = recentsRating.bunched_headways_count
     }
