@@ -1,28 +1,6 @@
 import React from 'react';
-import styled from 'styled-components'
 import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
-
-const StyledDiv = styled.div`
-  position: relative;
-  z-index: 1;
-  border: 3px #8994d4;
-  border-radius: 8px;
-  border-style: solid;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-bottom: 6px;
-  margin-bottom: 8px;
-  text-align: left;
-  font-size: 1.1em;
-  overflow-x: scroll;
-  overflow-y: visible;
-
-
-  &.loading {
-    padding-top: 60px;
-    padding-bottom: 15px;
-  }
-`
+import RoundRect from './RoundRect'
 
 class RatingDetails extends React.Component {
 
@@ -42,7 +20,7 @@ class RatingDetails extends React.Component {
 
   render () {
     if (this.state.hasError) {
-      return <StyledDiv>Score not available yet; check back soon!</StyledDiv>
+      return <RoundRect>Score not available yet; check back soon!</RoundRect>
     }
     const { loadingState, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin } = this.props
     var historicalDeparturesLoading;
@@ -59,7 +37,7 @@ class RatingDetails extends React.Component {
 
     return (
       <>
-        <StyledDiv ref={this.scrollRef}>
+        <RoundRect ref={this.scrollRef}>
           {recentsRating &&
             <p>Score right now: {recentsRating.busrate_score} / 100
               {recentBunches > 0 &&
@@ -80,7 +58,7 @@ class RatingDetails extends React.Component {
             <p>Based on {allowableHeadwayMin}-minute allowable wait time</p>
             </>
           }
-        </StyledDiv>
+        </RoundRect>
       </>
       )
     }
