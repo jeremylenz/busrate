@@ -18,13 +18,22 @@ class BusDepartureDetails extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    console.log('BusDepartureDetails unmounting!')
+  }
+
   getSnapshotBeforeUpdate(prevProps, prevState) {
     const scrollRef = this.scrollRef.current;
-    if (scrollRef && scrollRef.scrollLeft) {
+    if (scrollRef && scrollRef.scrollLeft) { // 0 is a falsey value in JS!
       // Before the component updates, capture the current scrollLeft value.
-      return scrollRef.scrollLeft
+      return scrollRef.scrollLeft;
     }
-    return null
+    if (this.minScrollLeft) {
+      let result = this.minScrollLeft
+      this.minScrollLeft = null
+      return result
+    }
+    return 0
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -34,7 +43,11 @@ class BusDepartureDetails extends React.Component {
       // If scrollLeft was anything but 0, this will preserve the current horizonal scroll position
       // and avoid auto-scrolling all the way to the left on every render!
       scrollRef.scrollLeft = snapshot;
-      // console.log(snapshot)
+      // If we try to set scrollLeft to a value outside of range, it is set to the maximum value which is probably 0.
+      if (scrollRef.scrollLeft !== snapshot && snapshot > 0) {
+        this.minScrollLeft = snapshot;
+        // console.log('setting minScrollLeft', snapshot)
+      }
     }
 
     // See if we should make an anticipated departure
@@ -89,28 +102,20 @@ class BusDepartureDetails extends React.Component {
           progressStatus={progressStatus}
           vehicleNum={vehicleNum}
         />
-        {historicalDeparturesLoading &&
-          <RoundRect className='loading'>
-            <Loader />
-          </RoundRect>
-        }
-        {!historicalDeparturesLoading &&
-          <>
-          <HistoricalDepartures
-            scrollRef={this.scrollRef}
-            recentDepText={recentDepText}
-            recentDepartures={recentDepartures}
-            recentHeadways={recentHeadways}
-            recents={recents}
-            recentVehicleRefs={recentVehicleRefs}
-            yesterdayLabel={yesterdayLabel}
-            previousDepartures={previousDepartures}
-            previousHeadways={previousHeadways}
-            yesterday={yesterday}
-            previousVehicleRefs={previousVehicleRefs}
-          />
-          </>
-        }
+        <HistoricalDepartures
+          scrollRef={this.scrollRef}
+          historicalDeparturesLoading={historicalDeparturesLoading}
+          recentDepText={recentDepText}
+          recentDepartures={recentDepartures}
+          recentHeadways={recentHeadways}
+          recents={recents}
+          recentVehicleRefs={recentVehicleRefs}
+          yesterdayLabel={yesterdayLabel}
+          previousDepartures={previousDepartures}
+          previousHeadways={previousHeadways}
+          yesterday={yesterday}
+          previousVehicleRefs={previousVehicleRefs}
+        />
         <RatingDetails
           loadingState={loadingState}
           recentsRating={recentsRating}
