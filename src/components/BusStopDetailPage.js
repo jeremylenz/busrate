@@ -270,9 +270,11 @@ class BusStopDetailPage extends Component {
       prevDeparturesRating,
       overallRating,
     } = this.getDepartureData()
-// "MTA_" + Math.round(Math.random() * 10000)
+
+    // "MTA_" + Math.round(Math.random() * 10000)
+    // onClick={() => this.createAnticipatedDeparture("MTA_" + Math.round(Math.random() * 10000))}
     return (
-      <div className='bus-stop-detail' onClick={() => this.createAnticipatedDeparture("MTA_" + Math.round(Math.random() * 10000))}>
+      <div className='bus-stop-detail'>
         <BusRouteHeader
           loadingState={loadingState}
           routeName={routeName}
