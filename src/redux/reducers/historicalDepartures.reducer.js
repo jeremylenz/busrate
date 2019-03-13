@@ -45,7 +45,7 @@ export const historicalDeparturesReducer = (state = historicalDeparturesState, a
           // Make an array of anticipated departures followed by real ones; no mixing
           // Find the position of the first real departure
           let firstRealDepartureIdx = hdRef.recents.findIndex((hd) => !('anticipated' in hd))
-          if (firstRealDepartureIdx === -1) firstRealDepartureIdx = 0
+          if (firstRealDepartureIdx === -1) firstRealDepartureIdx = hdRef.recents.length - 1;
           // Filter the real departures so there aren't any anticipated departures mixed in
           let realDepartures = hdRef.recents.slice(firstRealDepartureIdx).filter((hd) => !('anticipated' in hd))
           console.log({ realDepartures })
