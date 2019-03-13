@@ -50,8 +50,9 @@ export const historicalDeparturesReducer = (state = historicalDeparturesState, a
           let realDepartures = hdRef.recents.slice(firstRealDepartureIdx).filter((hd) => !('anticipated' in hd))
           // Gather the anticipated departures at the front
           let anticipatedDepartures = [anticipatedDeparture, ...hdRef.recents.slice(0, firstRealDepartureIdx)]
-          // Filter anticipated departures to not duplicate real ones
-          anticipatedDepartures = anticipatedDepartures.filter((hd) => !realDepartures.some((rd) => rd.vehicle_ref === hd.vehicle_ref))
+          // Filter anticipated departures to not duplicate real ones, by comparing vehicle_refs.
+          // Allow vehicle numbers to repeat after 20 minutes (1200000 milliseconds)
+          anticipatedDepartures = anticipatedDepartures.filter((hd) => !realDepartures.some((rd) => rd.vehicle_ref === hd.vehicle_ref && (Date.parse(hd.departure_time) - Date.parse(rd.departure_time) < 1200000)))
           // Assemble new list of recent departures
           newRecents = [...anticipatedDepartures, ...realDepartures].slice(0, 8) // don't display more than 8
           // Inject newRecents into newHdRef
