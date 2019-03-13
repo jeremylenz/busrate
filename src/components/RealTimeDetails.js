@@ -1,5 +1,6 @@
 import React from 'react'
 import RoundRect from './RoundRect'
+import RedDot from './RedDot'
 
 const RealTimeDetails = (props) => (
   <RoundRect className='bus-departure-details'>
@@ -8,6 +9,9 @@ const RealTimeDetails = (props) => (
     <p>{props.vehicleNum ? `Vehicle # ${props.vehicleNum.split("_")[1]} is ` : null}{props.stopsAway}</p>
     {props.progressStatus &&
       <p>{props.progressStatus}</p>
+    }
+    {props.showRedDot &&
+      <RedDot />
     }
     </>
   </RoundRect>

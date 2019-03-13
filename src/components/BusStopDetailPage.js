@@ -131,7 +131,7 @@ class BusStopDetailPage extends Component {
     }
 
     // REAL-TIME DATA
-    var anticipatedDepVehicleRef;
+    var anticipatedDepVehicleRef, rtdResponseTimestamp;
     // realTimeDetails: Filter to just the stopRef we care about
     let rtdRefs = this.props.realTimeDetails.items.filter((rtdRef) => rtdRef.stopRef === stopRef);
     // Now find the first vehicle that matches our lineRef
@@ -147,6 +147,7 @@ class BusStopDetailPage extends Component {
       expectedDepartureTime = foundRtdRef.expectedDepartureTime
       progressStatusText = foundRtdRef.progressStatus
       anticipatedDepVehicleRef = foundRtdRef.vehicleRef
+      rtdResponseTimestamp = foundRtdRef.responseTimestamp
 
       if (expectedDepartureTime === undefined) {
         minutesAwayText = "not provided"
@@ -172,6 +173,7 @@ class BusStopDetailPage extends Component {
       minutesAwayText,
       progressStatusText,
       anticipatedDepVehicleRef,
+      rtdResponseTimestamp
     }
   }
 
@@ -188,7 +190,7 @@ class BusStopDetailPage extends Component {
     var recentVehicleRefs = []
     var previousVehicleRefs = []
     var yesterdayLabel, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
-    var recentsRating, prevDeparturesRating, overallRating;
+    var recentsRating, prevDeparturesRating, overallRating, hdResponseTimestamp;
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
     if (hdRef) {
@@ -204,10 +206,11 @@ class BusStopDetailPage extends Component {
       recents = recentTimestamps.map((timeStamp) => moment(timeStamp).format('LT')) // '6:26 PM'
       recentDepText = moment(recentTimestamps[0]).fromNow() + ` (${recents[0]})`
 
-      // Ratings data
+      // Ratings & misc data
       recentsRating = hdRef.recents_rating
       prevDeparturesRating = hdRef.prev_departures_rating
       overallRating = hdRef.overall_rating
+      hdResponseTimestamp = hdRef.response_timestamp
 
       // Previous departure data
       previousDepartures = hdRef.prev_departures
@@ -234,6 +237,7 @@ class BusStopDetailPage extends Component {
       recentsRating,
       prevDeparturesRating,
       overallRating,
+      hdResponseTimestamp
     }
   }
 
@@ -253,6 +257,7 @@ class BusStopDetailPage extends Component {
       minutesAwayText,
       progressStatusText,
       anticipatedDepVehicleRef,
+      rtdResponseTimestamp,
     } = this.getHeaderAndRealTimeData()
 
     const {
@@ -269,6 +274,7 @@ class BusStopDetailPage extends Component {
       recentsRating,
       prevDeparturesRating,
       overallRating,
+      hdResponseTimestamp,
     } = this.getDepartureData()
 
     // "MTA_" + Math.round(Math.random() * 10000)
@@ -301,6 +307,8 @@ class BusStopDetailPage extends Component {
           recentsRating={recentsRating}
           prevDeparturesRating={prevDeparturesRating}
           overallRating={overallRating}
+          rtdResponseTimestamp={rtdResponseTimestamp}
+          hdResponseTimestamp={hdResponseTimestamp}
           allowableHeadwayMin={8}
           createAnticipatedDeparture={this.createAnticipatedDeparture}
           anticipatedDepVehicleRef={anticipatedDepVehicleRef}

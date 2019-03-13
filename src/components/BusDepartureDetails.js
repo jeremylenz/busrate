@@ -86,9 +86,17 @@ class BusDepartureDetails extends React.Component {
   }
 
   render () {
-    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin, loadingState } = this.props
+    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, hdResponseTimestamp, rtdResponseTimestamp, allowableHeadwayMin, loadingState } = this.props
     const vehicleNum = this.state.prevAnticipatedVehicleRef
     var historicalDeparturesLoading;
+    var staleRealTimeDetails, staleHistoricalDepartures;
+
+    // Show a red dot in the upper right corner if data is more than ~3 seconds late.
+    // console.log(Date.now() - Date.parse(hdResponseTimestamp))
+    staleHistoricalDepartures = (Date.now() - Date.parse(hdResponseTimestamp)) > 64000
+
+    // console.log(Date.now() - Date.parse(rtdResponseTimestamp))
+    staleRealTimeDetails = (Date.now() - Date.parse(rtdResponseTimestamp)) > 12000
 
     historicalDeparturesLoading = (recents && recents.length === 0 && loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
 
@@ -99,6 +107,7 @@ class BusDepartureDetails extends React.Component {
           minutesAway={minutesAway}
           progressStatus={progressStatus}
           vehicleNum={vehicleNum}
+          showRedDot={staleRealTimeDetails}
         />
         <HistoricalDepartures
           scrollRef={this.scrollRef}
@@ -113,6 +122,7 @@ class BusDepartureDetails extends React.Component {
           previousHeadways={previousHeadways}
           yesterday={yesterday}
           previousVehicleRefs={previousVehicleRefs}
+          showRedDot={staleHistoricalDepartures}
         />
         <RatingDetails
           loadingState={loadingState}
