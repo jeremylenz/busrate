@@ -70,9 +70,11 @@ class BusStopDetailPage extends Component {
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
     if (hdRef) {
-      let recentTimestamp = hdRef.recent_departure_times[0]
+      let recentTimestamp = hdRef.recents[0].departure_time
+      console.log({recentTimestamp})
       var currentHeadway = (new Date() - Date.parse(recentTimestamp)) / 1000
       currentHeadway = Math.round(currentHeadway)
+      console.log({currentHeadway})
     }
 
     console.log({
@@ -268,9 +270,9 @@ class BusStopDetailPage extends Component {
       prevDeparturesRating,
       overallRating,
     } = this.getDepartureData()
-
+// "MTA_" + Math.round(Math.random() * 10000)
     return (
-      <div className='bus-stop-detail'>
+      <div className='bus-stop-detail' onClick={() => this.createAnticipatedDeparture("MTA_" + Math.round(Math.random() * 10000))}>
         <BusRouteHeader
           loadingState={loadingState}
           routeName={routeName}

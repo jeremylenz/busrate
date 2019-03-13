@@ -39,18 +39,29 @@ export const historicalDeparturesReducer = (state = historicalDeparturesState, a
         hdRef = null;
         hdRef = newState.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
         if (hdRef) {
-          // Without mutating state, remove the first element from hdRef.recents and replace it with anticipatedDeparture
+          // Without mutating state, remove the first element from hdRef.recents and replace it with a new copy which includes the new anticipatedDeparture
           itemsWithoutHdRef = null;
           itemsWithoutHdRef = newState.items.filter((item) => item !== hdRef)
-          newRecents = [anticipatedDeparture, ...hdRef.recents.filter((hd) => !('anticipated' in hd))] // only allow a single anticipated departure
-          if (newRecents[0].vehicle_ref === newRecents[1].vehicle_ref || newRecents[0].vehicle_ref === newRecents[2].vehicle_ref) {
-            // If the real departure is present, don't add the anticipated departure
-            // console.log('shifting: ', [newRecents[0], newRecents[1]])
-            newRecents.shift()
-          }
+          // Make an array of anticipated departures followed by real ones; no mixing
+          // Find the position of the first real departure
+          let firstRealDepartureIdx = hdRef.recents.findIndex((hd) => !('anticipated' in hd))
+          if (firstRealDepartureIdx === -1) firstRealDepartureIdx = 0
+          // Filter the real departures so there aren't any anticipated departures mixed in
+          let realDepartures = hdRef.recents.slice(firstRealDepartureIdx).filter((hd) => !('anticipated' in hd))
+          console.log({ realDepartures })
+          // Gather the anticipated departures at the front
+          let anticipatedDepartures = [anticipatedDeparture, ...hdRef.recents.slice(0, firstRealDepartureIdx)]
+          console.log({ anticipatedDepartures })
+          // Filter anticipated departures to not duplicate real ones
+          anticipatedDepartures = anticipatedDepartures.filter((hd) => !realDepartures.some((rd) => rd.vehicle_ref === hd.vehicle_ref))
+          console.log({ anticipatedDepartures })
+          // Assemble new list of recent departures
+          newRecents = [...anticipatedDepartures, ...realDepartures].slice(0, 8) // don't display more than 8
+          console.log({ newRecents })
+
           newHdRef = Object.assign({}, hdRef, {recents: newRecents})
         }
-        if (itemsWithoutHdRef) {
+        if (hdRef && itemsWithoutHdRef) {
           newState = {
             items: [newHdRef, ...itemsWithoutHdRef]
           }
