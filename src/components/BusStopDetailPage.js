@@ -71,15 +71,9 @@ class BusStopDetailPage extends Component {
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
     if (hdRef) {
       let recentTimestamp = hdRef.recents[0].departure_time
-      console.log({recentTimestamp})
       var currentHeadway = (new Date() - Date.parse(recentTimestamp)) / 1000
       currentHeadway = Math.round(currentHeadway)
-      console.log({currentHeadway})
     }
-
-    console.log({
-      stopRef, lineRef, currentHeadway, vehicleRef
-    })
 
     this.props.addAnticipatedDeparture({
       anticipatedDeparture: {

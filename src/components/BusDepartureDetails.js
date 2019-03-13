@@ -79,7 +79,6 @@ class BusDepartureDetails extends React.Component {
           this.setState({
             prevAnticipatedVehicleRef: this.props.anticipatedDepVehicleRef,
           })
-          console.log('setting state', {prevAnticipatedVehicleRef: this.state.prevAnticipatedVehicleRef})
         }
       }
     }
