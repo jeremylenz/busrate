@@ -17,9 +17,15 @@ const RoundRect = styled.div`
 
   &.rating-details {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-direction: column;
     align-items: center;
+  }
+
+  @media only screen and (min-width: 600px) {
+    &.rating-details {
+      flex-direction: row;
+    }
   }
 
   &.loading {

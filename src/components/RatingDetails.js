@@ -10,50 +10,77 @@ const StyledCircle = styled.div`
   border-radius: 50%;
   border: 8px ${props => props.color};
   border-style: solid;
+  flex-shrink: 0;
   display: flex;
   text-align: center;
-  font-size: 2em;
+  font-size: 1.8em;
   font-weight: bold;
   color: black;
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
   margin-top: 10px;
-  margin-right: 15px;
 
   @media only screen and (min-width: 600px) {
-    font-size: 2.5em;
+    font-size: 2.4em;
     height: 100px;
     width: 100px;
   }
 `
 
 const ServiceQuality = styled.div`
-  font-size: 2em;
+  font-size: ${props => props.smaller ? '1.5em' : '2em'};
   color: ${props => props.color};
   font-weight: bold;
+  text-align: center;
 `
 
-const StyledDiv = styled.div`
-  margin-left: 10px;
-  margin-right: 10px;
-  padding-left: 10px;
+const ContentBox = styled.div`
+  max-width: 280px;
+`
+
+const Blurb = styled.p`
+  color: ${props => props.grey ? "#bbb" : "black"};
+  font-size: ${props => props.smaller ? '0.8em' : 'initial'};
+  margin-top: 5px;
+  margin-bottom: 2px;
 `
 
 const ScoreBox = styled.div`
   font-size: 1.4em;
-  width: 100px;
-  text-align: center;
   margin-right: 15px;
-  padding-left: 10px;
+  padding-left: 15px;
   padding-top: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `
 
 const Number = styled.span`
-  font-size: 2em;
+  font-size: ${props => props.smaller ? '1.4em' : '2em'};
   font-weight: bold;
   color: ${props => props.color || 'black'}
 `
+
+const ContentRoundRect = styled(ContentBox)`
+  border: 2px ${props => props.color};
+  color: black;
+  border-radius: 8px;
+  border-style: solid;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 8px;
+  margin-left: 7px;
+  margin-right: 7px;
+  margin-top: 8px;
+`
+
+const metricsColors = {
+  bestGreen: "#3de90b",
+  paleGreen: "#c6f007",
+  yellow: "#f79303", // old: e3e31a
+  red: "#f00",
+}
 
 function getServiceQualityDescription(score) {
   // Abysmal, Poor, Mediocre, Decent, Good, Very Good, Excellent
@@ -67,21 +94,32 @@ function getServiceQualityDescription(score) {
 }
 
 function getColorForScore(score) {
-  if (score < 30) return "red";
-  if (score < 60) return "#e3e31a"; // yellow
-  if (score < 75) return "blue";
-  return "#3ee90b"; //green
+  const { bestGreen, paleGreen, yellow, red } = metricsColors
+  if (score < 30) return red;
+  if (score < 60) return yellow;
+  if (score < 75) return paleGreen;
+  return bestGreen;
 }
 
 function getColorForBunchingPercent(score) {
-  if (score < 1.0) return "#3ee90b"; // green
-  if (score < 5.0) return "blue"; // blue
-  if (score < 15.0) return "#e3e31a"; // yellow
-  return "red"; // red
+  const { bestGreen, paleGreen, yellow, red } = metricsColors
+  if (score < 2.0) return bestGreen;
+  if (score < 5.0) return paleGreen;
+  if (score < 15.0) return yellow;
+  return red;
+}
+
+function getColorForWaitTime(headwayMin, allowableHeadwayMin) {
+  const waitTimeScore = headwayMin / allowableHeadwayMin
+  const { bestGreen, paleGreen, yellow, red } = metricsColors
+  if (waitTimeScore < 1) return bestGreen;
+  if (waitTimeScore < 2) return paleGreen;
+  if (waitTimeScore < 3) return yellow;
+  return red;
 }
 
 function getConsistencyDescription(standardDevSecs, avgHeadwaySecs) {
-  let consistencyScore = standardDevSecs / avgHeadwaySecs
+  const consistencyScore = standardDevSecs / avgHeadwaySecs
   if (consistencyScore < 0.4) return "Very Consistent";
   if (consistencyScore < 0.6) return "Somewhat Consistent";
   if (consistencyScore < 1) return "Relatively consistent";
@@ -90,18 +128,21 @@ function getConsistencyDescription(standardDevSecs, avgHeadwaySecs) {
 }
 
 function getColorForConsistencyScore(standardDevSecs, avgHeadwaySecs) {
-  let consistencyScore = standardDevSecs / avgHeadwaySecs
-  if (consistencyScore < 1) return "#3ee90b"; // green
-  if (consistencyScore < 1.5) return "blue"; // blue
-  if (consistencyScore < 2) return "#e3e31a"; // yellow
-  return "red";
+  const { bestGreen, paleGreen, yellow, red } = metricsColors
+  const consistencyScore = standardDevSecs / avgHeadwaySecs
+  if (consistencyScore < 1) return bestGreen;
+  if (consistencyScore < 1.5) return paleGreen;
+  if (consistencyScore < 2) return yellow;
+  return red;
 }
 
 const BusRateScore = (props) => {
   return (
     <>
       <ScoreBox>
+        <div style={{width: '100px'}}>
         BusRate Score
+        </div>
         <StyledCircle color={getColorForScore(props.score)}>
         {props.score}
         </StyledCircle>
@@ -110,47 +151,50 @@ const BusRateScore = (props) => {
   )
 }
 
-const ScoreDescription = (props) => {
-  const { rating, allowableHeadwayMin } = props
-  const busRateScore = rating.busrate_score
-  const avgHeadwaySecs = rating.average_headway
-  const standardDevSecs = rating.standard_deviation
-  const bunchingPercent = rating.percent_of_deps_bunched
-
-  return (
-    <>
-    <StyledDiv>
-      <ServiceQuality color={getColorForScore(busRateScore)}>
-        {getServiceQualityDescription(busRateScore)}
-      </ServiceQuality>
-      <p>Average wait time: <Number>{Math.round(moment.duration(avgHeadwaySecs, 'seconds').as('minutes'))}</Number> minutes</p>
-      <p>Allowable wait time: <Number>{allowableHeadwayMin}</Number> minutes</p>
-    </StyledDiv>
-    <StyledDiv>
-      Consistency:
-        <ServiceQuality color={getColorForConsistencyScore(standardDevSecs, avgHeadwaySecs)}>
-        {getConsistencyDescription(standardDevSecs, avgHeadwaySecs)}
-        </ServiceQuality>
-      <p>Bus Bunching: <Number color={getColorForBunchingPercent(bunchingPercent)}>{bunchingPercent}%</Number></p>
-    </StyledDiv>
-    </>
-  )
-}
-
 class RatingDetails extends React.Component {
 
   render () {
     const { recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin } = this.props
-
     if (!recentsRating) {
-      return <RoundRect>Score not available yet; check back soon!</RoundRect>
+      return <RoundRect>Loading BusRate Score...</RoundRect>
     }
+
+    const busRateScore = recentsRating.busrate_score
+    const avgHeadwaySecs = recentsRating.average_headway
+    const standardDevSecs = recentsRating.standard_deviation
+    const bunchingPercent = recentsRating.percent_of_deps_bunched
+    const actualHeadwayMin = Math.round(moment.duration(avgHeadwaySecs, 'seconds').as('minutes'))
+    const waitTimeColor = getColorForWaitTime(actualHeadwayMin, allowableHeadwayMin)
+    const consistencyScoreColor = getColorForConsistencyScore(standardDevSecs, avgHeadwaySecs)
+    const bunchingPercentColor = getColorForBunchingPercent(bunchingPercent)
+
 
     return (
       <>
         <RoundRect ref={this.scrollRef} className="rating-details">
           <BusRateScore score={recentsRating.busrate_score} />
-          <ScoreDescription rating={recentsRating} allowableHeadwayMin={allowableHeadwayMin}/>
+          <ContentBox>
+            <ServiceQuality color={getColorForScore(busRateScore)}>
+            {getServiceQualityDescription(busRateScore)}
+            </ServiceQuality>
+            <ContentRoundRect color={waitTimeColor}>
+              <Blurb>Average wait time: <Number color={waitTimeColor}>{actualHeadwayMin}</Number> minutes</Blurb>
+              <Blurb grey smaller>Allowable wait time: <Number smaller color={'#bbb'}>{allowableHeadwayMin}</Number> minutes</Blurb>
+            </ContentRoundRect>
+          </ContentBox>
+          <ContentBox>
+            <ContentRoundRect color={consistencyScoreColor}>
+              <Blurb grey smaller>Consistency:</Blurb>
+              <ServiceQuality smaller color={consistencyScoreColor}>
+              {getConsistencyDescription(standardDevSecs, avgHeadwaySecs)}
+              </ServiceQuality>
+            </ContentRoundRect>
+            <ContentRoundRect color={bunchingPercentColor}>
+              <Blurb>
+                Bus Bunching: <span style={{marginRight: '10px'}}></span><Number color={bunchingPercentColor}>{bunchingPercent}%</Number>
+              </Blurb>
+            </ContentRoundRect>
+          </ContentBox>
         </RoundRect>
       </>
       )
