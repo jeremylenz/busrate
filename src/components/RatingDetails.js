@@ -39,11 +39,22 @@ const ContentBox = styled.div`
   max-width: 280px;
 `
 
-const Blurb = styled.p`
+const Blurb = styled.span`
   color: ${props => props.grey ? "#bbb" : "black"};
   font-size: ${props => props.smaller ? '0.8em' : 'initial'};
   margin-top: 5px;
   margin-bottom: 2px;
+  flex-basis: 40%;
+`
+
+const Metric = styled.span`
+  flex-basis: 60%;
+`
+
+const MetricBox = styled.div`
+  display: flex;
+  justify-content: baseline;
+  flex-wrap: nowrap;
 `
 
 const ScoreBox = styled.div`
@@ -130,9 +141,9 @@ function getConsistencyDescription(standardDevSecs, avgHeadwaySecs) {
 function getColorForConsistencyScore(standardDevSecs, avgHeadwaySecs) {
   const { bestGreen, paleGreen, yellow, red } = metricsColors
   const consistencyScore = standardDevSecs / avgHeadwaySecs
-  if (consistencyScore < 1) return bestGreen;
-  if (consistencyScore < 1.5) return paleGreen;
-  if (consistencyScore < 2) return yellow;
+  if (consistencyScore < 0.4) return bestGreen;
+  if (consistencyScore < 0.6) return paleGreen;
+  if (consistencyScore < 1.5) return yellow;
   return red;
 }
 
@@ -178,8 +189,18 @@ class RatingDetails extends React.Component {
             {getServiceQualityDescription(busRateScore)}
             </ServiceQuality>
             <ContentRoundRect color={waitTimeColor}>
-              <Blurb>Average wait time: <Number color={waitTimeColor}>{actualHeadwayMin}</Number> minutes</Blurb>
-              <Blurb grey smaller>Allowable wait time: <Number smaller color={'#bbb'}>{allowableHeadwayMin}</Number> minutes</Blurb>
+              <MetricBox>
+                <Blurb>Average wait: </Blurb>
+                <Metric>
+                  <Number color={waitTimeColor}>{actualHeadwayMin}</Number> minutes
+                </Metric>
+              </MetricBox>
+              <MetricBox>
+                <Blurb grey smaller>Allowable wait: </Blurb>
+                <Metric>
+                  <Number smaller color={'#bbb'}>{allowableHeadwayMin}</Number> minutes
+                </Metric>
+              </MetricBox>
             </ContentRoundRect>
           </ContentBox>
           <ContentBox>
