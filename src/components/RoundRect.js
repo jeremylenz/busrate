@@ -15,6 +15,12 @@ const RoundRect = styled.div`
   overflow-x: scroll;
   overflow-y: visible;
 
+  &.rating-details {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+  }
 
   &.loading {
     padding-top: 60px;
