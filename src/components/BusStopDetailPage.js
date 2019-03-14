@@ -102,7 +102,7 @@ class BusStopDetailPage extends Component {
     const lineRef = this.props.match.params.id
     const stopRef = this.props.match.params.stop
 
-    var routeData, routeName, stopName, routeDirection;
+    var routeData, routeName, stopName, routeDirection, routeColor;
     var stopsAwayText, minutesAwayText, expectedDepartureTime, progressStatusText;
 
     let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === lineRef)
@@ -116,6 +116,7 @@ class BusStopDetailPage extends Component {
       let routeRef = routeData.references.routes.find((route) => route.id === id)
       if (routeRef) {
         routeName = routeRef.shortName
+        routeColor = routeRef.color
       }
       // get stop name
       let stopInfo = routeData.references.stops.find((stopObj) => stopObj.id === stopRef)
@@ -161,6 +162,7 @@ class BusStopDetailPage extends Component {
       routeName,
       lineRef,
       routeDirection,
+      routeColor,
       stopRef,
       stopName,
       stopsAwayText,
@@ -243,6 +245,7 @@ class BusStopDetailPage extends Component {
     const loadingState = this.props.ui
     const {
       routeName,
+      routeColor,
       lineRef,
       routeDirection,
       stopRef,
@@ -279,6 +282,7 @@ class BusStopDetailPage extends Component {
           loadingState={loadingState}
           routeName={routeName}
           routeId={lineRef}
+          routeColor={routeColor}
           routeDirection={routeDirection}
           stopNum={stopRef}
           stopName={stopName}

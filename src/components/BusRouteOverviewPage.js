@@ -116,11 +116,13 @@ class BusRouteOverviewPage extends Component {
     // ]
 
     const routeData = selectedStopList.references.routes.find((route) => route.id === routeId)
-    var routeName, routeDescription, routeLongName;
+    var routeName, routeDescription, routeColor, routeLongName;
     if (routeData !== undefined) {
       routeName = routeData.shortName;
       routeDescription = routeData.description;
       routeLongName = routeData.longName;
+      routeColor = routeData.color;
+      console.log(routeColor)
     }
 
 
@@ -139,7 +141,7 @@ class BusRouteOverviewPage extends Component {
 
     return (
       <div className='bus-route-overview'>
-        <BusRouteHeader routeName={routeName} routeId={routeId} routeDescription={routeDescription} routeLongName={routeLongName} />
+        <BusRouteHeader routeName={routeName} routeId={routeId} routeColor={routeColor} routeDescription={routeDescription} routeLongName={routeLongName} />
         {loading &&
           <StyledDiv className='bus-stop-list-container loading'>
             <Loader />
