@@ -131,19 +131,19 @@ function getColorForWaitTime(headwayMin, allowableHeadwayMin) {
 
 function getConsistencyDescription(standardDevSecs, avgHeadwaySecs) {
   const consistencyScore = standardDevSecs / avgHeadwaySecs
-  if (consistencyScore < 0.4) return "Very Consistent";
-  if (consistencyScore < 0.6) return "Somewhat Consistent";
-  if (consistencyScore < 1) return "Relatively consistent";
-  if (consistencyScore < 1.5) return "Inconsistent";
+  if (consistencyScore < 0.3) return "Very Consistent";
+  if (consistencyScore < 0.4) return "Fairly Consistent";
+  if (consistencyScore < 0.6) return "Not Very Consistent";
+  if (consistencyScore < 1) return "Inconsistent";
   return "Extremely Inconsistent";
 }
 
 function getColorForConsistencyScore(standardDevSecs, avgHeadwaySecs) {
   const { bestGreen, paleGreen, yellow, red } = metricsColors
   const consistencyScore = standardDevSecs / avgHeadwaySecs
-  if (consistencyScore < 0.4) return bestGreen;
-  if (consistencyScore < 0.6) return paleGreen;
-  if (consistencyScore < 1.5) return yellow;
+  if (consistencyScore < 0.3) return bestGreen;
+  if (consistencyScore < 0.4) return paleGreen;
+  if (consistencyScore < 1) return yellow;
   return red;
 }
 
