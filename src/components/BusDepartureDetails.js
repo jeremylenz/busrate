@@ -16,10 +16,6 @@ class BusDepartureDetails extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    console.log('BusDepartureDetails unmounting!')
-  }
-
   getSnapshotBeforeUpdate(prevProps, prevState) {
     const scrollRef = this.scrollRef.current;
     if (scrollRef && scrollRef.scrollLeft) { // 0 is a falsey value in JS!

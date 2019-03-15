@@ -122,7 +122,6 @@ class BusRouteOverviewPage extends Component {
       routeDescription = routeData.description;
       routeLongName = routeData.longName;
       routeColor = routeData.color;
-      console.log(routeColor)
     }
 
 
