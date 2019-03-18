@@ -162,6 +162,79 @@ const BusRateScore = (props) => {
   )
 }
 
+export class MiniRatingDetails extends React.Component {
+
+  render () {
+    // const { rating, allowableHeadwayMin } = this.props
+    const rating = {
+      average_headway: 453.55,
+      standard_deviation: 332.58,
+      bunched_headways_count: 2,
+      percent_of_deps_bunched: 22.2,
+      anti_bonus: 960,
+      allowable_total: 3360,
+      actual_total: 3715.363766721,
+      raw_score: 90,
+      busrate_score: 90,
+      current_headway: 251.363766721,
+      score_incorporates_current_headway: true,
+    }
+    const allowableHeadwayMin = 8
+    if (!rating) {
+      return <ContentRoundRect>Loading BusRate Score...</ContentRoundRect>
+    }
+
+    const busRateScore = rating.busrate_score
+    const avgHeadwaySecs = rating.average_headway
+    const standardDevSecs = rating.standard_deviation
+    const bunchingPercent = rating.percent_of_deps_bunched
+    const actualHeadwayMin = Math.round(moment.duration(avgHeadwaySecs, 'seconds').as('minutes'))
+    const waitTimeColor = getColorForWaitTime(actualHeadwayMin, allowableHeadwayMin)
+    const consistencyScoreColor = getColorForConsistencyScore(standardDevSecs, avgHeadwaySecs)
+    const bunchingPercentColor = getColorForBunchingPercent(bunchingPercent)
+
+    return (
+      <>
+        <ContentRoundRect>
+          <BusRateScore score={rating.busrate_score} />
+          <ContentBox>
+            <ServiceQuality color={getColorForScore(busRateScore)}>
+            {getServiceQualityDescription(busRateScore)}
+            </ServiceQuality>
+            <ContentRoundRect color={waitTimeColor}>
+              <MetricBox>
+                <Blurb>Average wait: </Blurb>
+                <Metric>
+                  <Number color={waitTimeColor}>{actualHeadwayMin}</Number> minutes
+                </Metric>
+              </MetricBox>
+              <MetricBox>
+                <Blurb grey smaller>Allowable wait: </Blurb>
+                <Metric>
+                  <Number smaller color={'#bbb'}>{allowableHeadwayMin}</Number> minutes
+                </Metric>
+              </MetricBox>
+            </ContentRoundRect>
+          </ContentBox>
+          <ContentBox>
+            <ContentRoundRect color={consistencyScoreColor}>
+              <Blurb grey smaller>Consistency:</Blurb>
+              <ServiceQuality smaller color={consistencyScoreColor}>
+              {getConsistencyDescription(standardDevSecs, avgHeadwaySecs)}
+              </ServiceQuality>
+            </ContentRoundRect>
+            <ContentRoundRect color={bunchingPercentColor}>
+              <Blurb>
+                Bus Bunching: <span style={{marginRight: '10px'}}></span><Number color={bunchingPercentColor}>{bunchingPercent}%</Number>
+              </Blurb>
+            </ContentRoundRect>
+          </ContentBox>
+        </ContentRoundRect>
+      </>
+    )
+  }
+}
+
 class RatingDetails extends React.Component {
 
   render () {

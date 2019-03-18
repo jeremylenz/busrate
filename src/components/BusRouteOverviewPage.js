@@ -5,6 +5,7 @@ import { STOP_LISTS } from './../redux/actions/stopLists'
 import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
 import { fetchStopList } from './../redux/actions/stopLists'
 import { withRouter } from 'react-router-dom'
+import { MiniRatingDetails } from './RatingDetails'
 import BusRouteHeader from './BusRouteHeader'
 import BusStopList from './BusStopList'
 import TerminalChooser from './TerminalChooser'
@@ -149,6 +150,7 @@ class BusRouteOverviewPage extends Component {
         {!loading &&
           <StyledDiv className='bus-stop-list-container'>
             <TerminalChooser terminals={terminals} selected={selectedDestinationName} handleTerminalSelection={this.handleTerminalSelection} />
+            <MiniRatingDetails />
             <BusStopList
               stopDataList={stopDataList}
               fetchRealTimeDetail={this.props.fetchRealTimeDetail}
