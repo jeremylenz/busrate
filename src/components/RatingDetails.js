@@ -90,8 +90,10 @@ const RatingBanner = styled.div`
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-evenly;
+  margin-right: 1em;
+  margin-bottom: 10px;
 
 `
 
@@ -106,7 +108,7 @@ const Bullet = styled.span`
 
 const BannerBlurb = styled.span`
   color: ${props => props.grey ? "#bbb" : props.color || "black"};
-  font-size: ${props => props.smaller ? '0.9em' : '1.1em'};
+  font-size: ${props => props.smaller ? '0.7em' : '0.9em'};
   margin-top: 5px;
   margin-bottom: 2px;
 `
@@ -224,10 +226,7 @@ export class MiniRatingDetails extends React.Component {
     return (
       <>
         <RatingBanner>
-          <span>
-            <BannerBlurb grey smaller>BusRate Score: </BannerBlurb>
-            <Number smaller color={getColorForScore(busRateScore)}>{busRateScore}</Number>
-          </span>
+          <Number smaller color={getColorForScore(busRateScore)}>{busRateScore}</Number>
           <Bullet />
           <BannerBlurb color={consistencyScoreColor}>
             {getConsistencyDescription(standardDevSecs, avgHeadwaySecs)}
@@ -235,7 +234,7 @@ export class MiniRatingDetails extends React.Component {
           <Bullet />
           <BannerBlurb smaller>
             <Number smaller color={waitTimeColor}>{actualHeadwayMin}</Number>
-            <span> min wait</span>
+            <span> min</span>
           </BannerBlurb>
         </RatingBanner>
       </>

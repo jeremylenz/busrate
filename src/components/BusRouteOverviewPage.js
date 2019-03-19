@@ -141,7 +141,9 @@ class BusRouteOverviewPage extends Component {
 
     return (
       <div className='bus-route-overview'>
-        <BusRouteHeader routeName={routeName} routeId={routeId} routeColor={routeColor} routeDescription={routeDescription} routeLongName={routeLongName} />
+        <BusRouteHeader routeName={routeName} routeId={routeId} routeColor={routeColor} routeDescription={routeDescription} routeLongName={routeLongName}>
+          <MiniRatingDetails />
+        </BusRouteHeader>
         {loading &&
           <StyledDiv className='bus-stop-list-container loading'>
             <Loader />
@@ -150,7 +152,6 @@ class BusRouteOverviewPage extends Component {
         {!loading &&
           <StyledDiv className='bus-stop-list-container'>
             <TerminalChooser terminals={terminals} selected={selectedDestinationName} handleTerminalSelection={this.handleTerminalSelection} />
-            <MiniRatingDetails />
             <BusStopList
               stopDataList={stopDataList}
               fetchRealTimeDetail={this.props.fetchRealTimeDetail}

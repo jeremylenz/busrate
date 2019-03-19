@@ -17,14 +17,21 @@ const StyledDiv = styled.div`
   }
 `
 
-const StyledP = styled.p`
-@media only screen and (min-width: 600px) {
-  font-size: 1.5em;
-}
-@media only screen and (max-width: 600px) {
-  font-size: 1.2em;
-}
-  font-style: italic;
+const StyledBigBlurb = styled.p`
+  margin-top: 10px;
+  margin-bottom: 10px;
+  @media only screen and (min-width: 600px) {
+    font-size: 1.5em;
+  }
+  @media only screen and (max-width: 600px) {
+    font-size: 1.2em;
+  }
+    font-style: italic;
+`
+
+const StyledBlurb = styled.p`
+  margin-top: 10px;
+  margin-bottom: 10px;
 `
 
 const StyledSpan = styled.span`
@@ -39,17 +46,18 @@ const BusRouteInfo = (props) => {
       {stopNum &&
         <>
         {routeDirection &&
-          <p>{routeDirection}</p>
+          <StyledBlurb>{routeDirection}</StyledBlurb>
         }
-          <p>{stopName}</p>
+          <StyledBlurb>{stopName}</StyledBlurb>
         </>
       }
       {routeLongName &&
-        <StyledP>{routeLongName}</StyledP>
+        <StyledBigBlurb>{routeLongName}</StyledBigBlurb>
       }
       {routeDescription &&
-        <StyledP>{routeDescription}</StyledP>
+        <StyledBigBlurb>{routeDescription}</StyledBigBlurb>
       }
+      {props.children}
       <Link to='/'><StyledSpan>{'<< New Search'}</StyledSpan></Link>
 
     </StyledDiv>
