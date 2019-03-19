@@ -9,10 +9,13 @@ class BusDepartureDetails extends React.Component {
   constructor(props) {
     super(props);
     this.scrollRef = React.createRef();  // Create a reference so that later, we can read & write scrollLeft
+    const { recentsRating } = this.props
 
     this.state = {
       lastKnownStopsAway: 'Unknown',
       prevAnticipatedVehicleRef: null,
+      selectedRating: recentsRating,
+      ratingDescription: 'Recent departures',
     }
   }
 
@@ -78,13 +81,48 @@ class BusDepartureDetails extends React.Component {
         }
       }
     }
+
+    if (!prevProps.recentsRating && !!this.props.recentsRating) {
+      this.rotateSelectedRating()
+    }
+  }
+
+  rotateSelectedRating = () => {
+    const { recentsRating, prevDeparturesRating, overallRating, weekdayRating, weekendRating, morningRushHourRating, eveningRushHourRating } = this.props
+    const ratings = [
+      recentsRating,
+      prevDeparturesRating,
+      overallRating,
+      weekdayRating,
+      weekendRating,
+      morningRushHourRating,
+      eveningRushHourRating].filter((rating) => !!rating)
+    const descriptions = [
+      'Recent departures',
+      'Previous Departures',
+      'All time',
+      'Weekdays',
+      'Weekends',
+      'Morning Rush Hours',
+      'Evening Rush Hours',
+    ]
+    let selectedRatingIdx = ratings.indexOf(this.state.selectedRating)
+    if (selectedRatingIdx < 0) selectedRatingIdx = ratings.length - 1;
+    let newSelectedRatingIdx = (selectedRatingIdx + 1) % ratings.length
+    this.setState({
+      selectedRating: ratings[newSelectedRatingIdx],
+      ratingDescription: descriptions[newSelectedRatingIdx],
+    })
   }
 
   render () {
-    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, hdResponseTimestamp, rtdResponseTimestamp, allowableHeadwayMin, loadingState } = this.props
+    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, hdResponseTimestamp, rtdResponseTimestamp, allowableHeadwayMin, loadingState } = this.props
+    var { selectedRating, ratingDescription } = this.state
     const vehicleNum = this.state.prevAnticipatedVehicleRef
     var historicalDeparturesLoading;
     var staleRealTimeDetails, staleHistoricalDepartures;
+
+    // if (!selectedRating) selectedRating = this.props.recentsRating;
 
     // Show a red dot in the upper right corner if data is more than ~3 seconds late.
     // console.log(Date.now() - Date.parse(hdResponseTimestamp))
@@ -121,10 +159,9 @@ class BusDepartureDetails extends React.Component {
         />
         <RatingDetails
           loadingState={loadingState}
-          rating={overallRating}
-          recentsRating={recentsRating}
-          prevDeparturesRating={prevDeparturesRating}
-          overallRating={overallRating}
+          rating={selectedRating}
+          ratingDescription={ratingDescription}
+          rotateSelectedRating={this.rotateSelectedRating}
           allowableHeadwayMin={allowableHeadwayMin}
         />
 

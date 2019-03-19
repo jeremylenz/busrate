@@ -176,8 +176,11 @@ const BusRateScore = (props) => {
   return (
     <>
       <ScoreBox>
-        <div style={{width: '100px'}}>
+        <div style={{width: '100px'}} onClick={props.rotateSelectedRating}>
           BusRate Score
+          <div style={{width: '100px', fontStyle: 'italic', fontSize: '0.6em', color: 'grey'}}>
+          {props.ratingDescription}
+          </div>
         </div>
         <StyledCircle color={getColorForScore(props.score)}>
           {props.score}
@@ -243,7 +246,7 @@ export class MiniRatingDetails extends React.Component {
 class RatingDetails extends React.Component {
 
   render () {
-    const { rating, allowableHeadwayMin } = this.props
+    const { rating, ratingDescription, rotateSelectedRating, allowableHeadwayMin } = this.props
     if (!rating) {
       return <RoundRect>Loading BusRate Score...</RoundRect>
     }
@@ -261,7 +264,7 @@ class RatingDetails extends React.Component {
     return (
       <>
         <RoundRect ref={this.scrollRef} className="rating-details">
-          <BusRateScore score={rating.busrate_score} />
+          <BusRateScore score={rating.busrate_score} ratingDescription={ratingDescription} rotateSelectedRating={rotateSelectedRating}/>
           <ContentBox>
             <ServiceQuality color={getColorForScore(busRateScore)}>
             {getServiceQualityDescription(busRateScore)}

@@ -186,7 +186,8 @@ class BusStopDetailPage extends Component {
     var recentVehicleRefs = []
     var previousVehicleRefs = []
     var yesterdayLabel, recentHeadways, previousHeadways, previousTimestamps, recentDepText;
-    var recentsRating, prevDeparturesRating, overallRating, hdResponseTimestamp;
+    var recentsRating, prevDeparturesRating, overallRating, weekdayRating, weekendRating, morningRushHourRating, eveningRushHourRating;
+    var hdResponseTimestamp;
 
     let hdRef = this.props.historicalDepartures.items.find((dep) => dep.line_ref === lineRef && dep.stop_ref === stopRef)
     if (hdRef) {
@@ -206,6 +207,10 @@ class BusStopDetailPage extends Component {
       recentsRating = hdRef.recents_rating
       prevDeparturesRating = hdRef.prev_departures_rating
       overallRating = hdRef.overall_rating
+      weekdayRating = hdRef.weekday_rating
+      weekendRating = hdRef.weekend_rating
+      morningRushHourRating = hdRef.morning_rush_hour_rating
+      eveningRushHourRating = hdRef.evening_rush_hour_rating
       hdResponseTimestamp = hdRef.response_timestamp
 
       // Previous departure data
@@ -233,6 +238,10 @@ class BusStopDetailPage extends Component {
       recentsRating,
       prevDeparturesRating,
       overallRating,
+      weekdayRating,
+      weekendRating,
+      morningRushHourRating,
+      eveningRushHourRating,
       hdResponseTimestamp
     }
   }
@@ -271,6 +280,10 @@ class BusStopDetailPage extends Component {
       recentsRating,
       prevDeparturesRating,
       overallRating,
+      weekdayRating,
+      weekendRating,
+      morningRushHourRating,
+      eveningRushHourRating,
       hdResponseTimestamp,
     } = this.getDepartureData()
 
@@ -305,6 +318,10 @@ class BusStopDetailPage extends Component {
           recentsRating={recentsRating}
           prevDeparturesRating={prevDeparturesRating}
           overallRating={overallRating}
+          weekdayRating={weekdayRating}
+          weekendRating={weekendRating}
+          morningRushHourRating={morningRushHourRating}
+          eveningRushHourRating={eveningRushHourRating}
           rtdResponseTimestamp={rtdResponseTimestamp}
           hdResponseTimestamp={hdResponseTimestamp}
           allowableHeadwayMin={8}
