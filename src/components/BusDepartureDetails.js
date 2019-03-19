@@ -121,6 +121,7 @@ class BusDepartureDetails extends React.Component {
         />
         <RatingDetails
           loadingState={loadingState}
+          rating={overallRating}
           recentsRating={recentsRating}
           prevDeparturesRating={prevDeparturesRating}
           overallRating={overallRating}

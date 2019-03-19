@@ -13,7 +13,7 @@ const StyledCircle = styled.div`
   flex-shrink: 0;
   display: flex;
   text-align: center;
-  font-size: 1.8em;
+  font-size: ${props => props.mini ? '1.3em' : '1.8em'};
   font-weight: bold;
   color: black;
   align-items: center;
@@ -58,7 +58,7 @@ const MetricBox = styled.div`
 `
 
 const ScoreBox = styled.div`
-  font-size: 1.4em;
+  font-size: ${props => props.mini ? '1em' : '1.4em'};
   margin-right: 15px;
   padding-left: 15px;
   padding-top: 5px;
@@ -84,6 +84,31 @@ const ContentRoundRect = styled(ContentBox)`
   margin-left: 7px;
   margin-right: 7px;
   margin-top: 8px;
+`
+
+const RatingBanner = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-evenly;
+
+`
+
+const Bullet = styled.span`
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 1.4em;
+  &::before {
+    content: "•"
+  }
+`
+
+const BannerBlurb = styled.span`
+  color: ${props => props.grey ? "#bbb" : props.color || "black"};
+  font-size: ${props => props.smaller ? '0.9em' : '1.1em'};
+  margin-top: 5px;
+  margin-bottom: 2px;
 `
 
 const metricsColors = {
@@ -152,10 +177,10 @@ const BusRateScore = (props) => {
     <>
       <ScoreBox>
         <div style={{width: '100px'}}>
-        BusRate Score
+          BusRate Score
         </div>
         <StyledCircle color={getColorForScore(props.score)}>
-        {props.score}
+          {props.score}
         </StyledCircle>
       </ScoreBox>
     </>
@@ -195,41 +220,21 @@ export class MiniRatingDetails extends React.Component {
 
     return (
       <>
-        <ContentRoundRect>
-          <BusRateScore score={rating.busrate_score} />
-          <ContentBox>
-            <ServiceQuality color={getColorForScore(busRateScore)}>
-            {getServiceQualityDescription(busRateScore)}
-            </ServiceQuality>
-            <ContentRoundRect color={waitTimeColor}>
-              <MetricBox>
-                <Blurb>Average wait: </Blurb>
-                <Metric>
-                  <Number color={waitTimeColor}>{actualHeadwayMin}</Number> minutes
-                </Metric>
-              </MetricBox>
-              <MetricBox>
-                <Blurb grey smaller>Allowable wait: </Blurb>
-                <Metric>
-                  <Number smaller color={'#bbb'}>{allowableHeadwayMin}</Number> minutes
-                </Metric>
-              </MetricBox>
-            </ContentRoundRect>
-          </ContentBox>
-          <ContentBox>
-            <ContentRoundRect color={consistencyScoreColor}>
-              <Blurb grey smaller>Consistency:</Blurb>
-              <ServiceQuality smaller color={consistencyScoreColor}>
-              {getConsistencyDescription(standardDevSecs, avgHeadwaySecs)}
-              </ServiceQuality>
-            </ContentRoundRect>
-            <ContentRoundRect color={bunchingPercentColor}>
-              <Blurb>
-                Bus Bunching: <span style={{marginRight: '10px'}}></span><Number color={bunchingPercentColor}>{bunchingPercent}%</Number>
-              </Blurb>
-            </ContentRoundRect>
-          </ContentBox>
-        </ContentRoundRect>
+        <RatingBanner>
+          <span>
+            <BannerBlurb grey smaller>BusRate Score: </BannerBlurb>
+            <Number smaller color={getColorForScore(busRateScore)}>{busRateScore}</Number>
+          </span>
+          <Bullet />
+          <BannerBlurb color={consistencyScoreColor}>
+            {getConsistencyDescription(standardDevSecs, avgHeadwaySecs)}
+          </BannerBlurb>
+          <Bullet />
+          <BannerBlurb smaller>
+            <Number smaller color={waitTimeColor}>{actualHeadwayMin}</Number>
+            <span> min wait</span>
+          </BannerBlurb>
+        </RatingBanner>
       </>
     )
   }
@@ -238,15 +243,15 @@ export class MiniRatingDetails extends React.Component {
 class RatingDetails extends React.Component {
 
   render () {
-    const { recentsRating, prevDeparturesRating, overallRating, allowableHeadwayMin } = this.props
-    if (!recentsRating) {
+    const { rating, allowableHeadwayMin } = this.props
+    if (!rating) {
       return <RoundRect>Loading BusRate Score...</RoundRect>
     }
 
-    const busRateScore = recentsRating.busrate_score
-    const avgHeadwaySecs = recentsRating.average_headway
-    const standardDevSecs = recentsRating.standard_deviation
-    const bunchingPercent = recentsRating.percent_of_deps_bunched
+    const busRateScore = rating.busrate_score
+    const avgHeadwaySecs = rating.average_headway
+    const standardDevSecs = rating.standard_deviation
+    const bunchingPercent = rating.percent_of_deps_bunched
     const actualHeadwayMin = Math.round(moment.duration(avgHeadwaySecs, 'seconds').as('minutes'))
     const waitTimeColor = getColorForWaitTime(actualHeadwayMin, allowableHeadwayMin)
     const consistencyScoreColor = getColorForConsistencyScore(standardDevSecs, avgHeadwaySecs)
@@ -256,7 +261,7 @@ class RatingDetails extends React.Component {
     return (
       <>
         <RoundRect ref={this.scrollRef} className="rating-details">
-          <BusRateScore score={recentsRating.busrate_score} />
+          <BusRateScore score={rating.busrate_score} />
           <ContentBox>
             <ServiceQuality color={getColorForScore(busRateScore)}>
             {getServiceQualityDescription(busRateScore)}
