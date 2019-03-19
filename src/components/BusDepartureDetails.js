@@ -119,7 +119,6 @@ class BusDepartureDetails extends React.Component {
     const ratings = this.getRatingsFromProps()
 
     if (!ratings[idx]) {
-      console.log('no rating')
       return;
     }
 
