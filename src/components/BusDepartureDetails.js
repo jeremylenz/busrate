@@ -9,12 +9,12 @@ class BusDepartureDetails extends React.Component {
   constructor(props) {
     super(props);
     this.scrollRef = React.createRef();  // Create a reference so that later, we can read & write scrollLeft
-    const { recentsRating } = this.props
 
     this.state = {
       lastKnownStopsAway: 'Unknown',
       prevAnticipatedVehicleRef: null,
-      selectedRating: recentsRating,
+      selectedRatingIdx: 0,
+      selectedRating: null,
       ratingDescription: 'Recent departures',
     }
   }
@@ -31,6 +31,10 @@ class BusDepartureDetails extends React.Component {
       return result
     }
     return 0
+  }
+
+  componentDidMount() {
+    this.updateSelectedRating(0)
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -83,20 +87,12 @@ class BusDepartureDetails extends React.Component {
     }
 
     if (!prevProps.recentsRating && !!this.props.recentsRating) {
-      this.rotateSelectedRating()
+      this.updateSelectedRating(this.state.selectedRatingIdx)
     }
   }
 
-  rotateSelectedRating = () => {
+  getRatingsFromProps = () => {
     const { recentsRating, prevDeparturesRating, overallRating, weekdayRating, weekendRating, morningRushHourRating, eveningRushHourRating } = this.props
-    const ratings = [
-      recentsRating,
-      prevDeparturesRating,
-      overallRating,
-      weekdayRating,
-      weekendRating,
-      morningRushHourRating,
-      eveningRushHourRating].filter((rating) => !!rating)
     const descriptions = [
       'Recent departures',
       'Previous Departures',
@@ -106,13 +102,40 @@ class BusDepartureDetails extends React.Component {
       'Morning Rush Hours',
       'Evening Rush Hours',
     ]
-    let selectedRatingIdx = ratings.indexOf(this.state.selectedRating)
-    if (selectedRatingIdx < 0) selectedRatingIdx = ratings.length - 1;
-    let newSelectedRatingIdx = (selectedRatingIdx + 1) % ratings.length
+    return [
+      recentsRating,
+      prevDeparturesRating,
+      overallRating,
+      weekdayRating,
+      weekendRating,
+      morningRushHourRating,
+      eveningRushHourRating].map((rating, idx) => ({
+        rating: rating,
+        description: descriptions[idx],
+      })).filter((obj) => !!obj.rating)
+  }
+
+  updateSelectedRating = (idx) => {
+    const ratings = this.getRatingsFromProps()
+
+    if (!ratings[idx]) {
+      console.log('no rating')
+      return;
+    }
+
     this.setState({
-      selectedRating: ratings[newSelectedRatingIdx],
-      ratingDescription: descriptions[newSelectedRatingIdx],
+      selectedRating: ratings[idx].rating,
+      ratingDescription: ratings[idx].description,
     })
+  }
+
+  rotateSelectedRating = () => {
+    const { selectedRatingIdx } = this.state
+    const ratingsLength = this.getRatingsFromProps().length
+    const newSelectedRatingIdx = (selectedRatingIdx + 1) % ratingsLength
+    this.setState({
+      selectedRatingIdx: newSelectedRatingIdx,
+    }, () => this.updateSelectedRating(newSelectedRatingIdx));
   }
 
   render () {
