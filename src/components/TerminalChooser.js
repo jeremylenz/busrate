@@ -9,16 +9,23 @@ const StyledDiv = styled.div`
   text-align: center;
   background-color: white;
 
-  border-width: 2px 1px 2px 2px;
-  border-radius: 8px 0 0 8px;
   border-style: solid;
   border-color: #6262e0
   padding: 5px;
 
-  & + div {
-    border-style: solid;
-    border-radius: 0 8px 8px 0;
+  &:first-child {
+    border-width: 2px 1px 2px 2px;
+    border-radius: 8px 0 0 8px;
+  }
+
+  &:last-child {
     border-width: 2px 2px 2px 1px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  &:only-child {
+    border-width: 2px;
+    border-radius: 8px;
   }
 
   &.selected {
