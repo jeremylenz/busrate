@@ -68,14 +68,16 @@ const StyledTooltip = styled.span`
   position: absolute;
   visibility: hidden;
   width: 150px;
-  background-color: #555;
-  color: #fff;
+  background-color: white;
+  color: black;
   text-align: center;
   border-radius: 6px;
+  border-style: solid;
+  border-color: #2634a7;
   padding: 5px 0;
   z-index: 99;
   bottom: 125%;
-  left: -30%;
+  left: ${props => props.nudgedLeft ? '45px' : '-30%'};
   margin-left: -50px;
   opacity: 0;
   transition: opacity 0.3s;
@@ -84,11 +86,11 @@ const StyledTooltip = styled.span`
     content: "";
     position: absolute;
     top: 100%;
-    left: 50%;
+    left: ${props => props.nudgedLeft ? '12%' : '50%'};
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #555 transparent transparent transparent;
+    border-color: #2634a7 transparent transparent transparent;
   }
 
 `
@@ -132,6 +134,7 @@ const DepartureGraph = (props) => {
         if (!headway) hwWidth = 8;
         let crowdDots = false
         let lastHeadway = (idx === departures.length - 1)
+        let firstHeadway = (idx === 0)
         if (headway < 3 && idx > 0) {
           crowdDots = true
           hwWidth = 8;
@@ -146,7 +149,7 @@ const DepartureGraph = (props) => {
               </StyledDepartureHeadway>
             }
             <StyledDepartureDot onClick={doNothing} key={Date.now()} className={getDotClassName(departure)}>
-              <StyledTooltip>
+              <StyledTooltip nudgedLeft={firstHeadway}>
                 <div>
                   {times[idx]}<br />
                   Vehicle # {vehicleRefs[idx]}<br />
