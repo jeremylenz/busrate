@@ -184,7 +184,7 @@ const BusRateScore = (props) => {
           {props.ratingDescription}
           </div>
         </div>
-        <StyledCircle color={getColorForScore(props.score)}>
+        <StyledCircle onClick={props.rotateSelectedRating} color={getColorForScore(props.score)}>
           {props.score}
         </StyledCircle>
       </ScoreBox>
