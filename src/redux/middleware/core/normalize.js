@@ -2,8 +2,8 @@ import {dataNormalized} from '../../actions/data'
 // import {addRealTimeDetail} from '../../actions/realTimeDetails'
 
 function normalizeData(action) {
+  // After normalizing, data will look like this:
   // {
-  //   Siri: {xxx},
   //   stopsAwayText: '2 stops away',
   //   ExpectedDepartureTime: 'xxx',
   //   stopRef: 'xxx',
@@ -63,7 +63,7 @@ export const normalizeMiddleware = ({dispatch}) => (next) => (action) => {
     // Now we have an array of one or more normalized realTimeDetails
     rtdItems.forEach((rtdItem) => {
       // Add each to redux store along with the entire API response (action.payload)
-      const normalizedRtd = Object.assign({}, action.payload, rtdItem)
+      const normalizedRtd = Object.assign({}, rtdItem)
 
       const normalizedAction = {
         type: action.type,

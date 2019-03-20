@@ -221,7 +221,6 @@ export class MiniRatingDetails extends React.Component {
     const actualHeadwayMin = Math.round(moment.duration(avgHeadwaySecs, 'seconds').as('minutes'))
     const waitTimeColor = getColorForWaitTime(actualHeadwayMin, allowableHeadwayMin)
     const consistencyScoreColor = getColorForConsistencyScore(standardDevSecs, avgHeadwaySecs)
-    const bunchingPercentColor = getColorForBunchingPercent(bunchingPercent)
 
     return (
       <>
