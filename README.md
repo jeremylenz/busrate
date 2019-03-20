@@ -49,13 +49,13 @@ _Constants:_ Since the BusRate API handles communication with MTA BusTime, you d
 
 * __Expected departure__ - real time data for the _next_ vehicle departure from that stop.
 * __Historical departures__ - The last 8 departures _for that bus line_ are listed on a graph, along with previous departures.  For weekdays, the previous departures will be for the same time the previous business day.  For weekends, previous departures will be listed for the same time period a week ago.
-* If other bus lines also depart from the same bus stop, they will be filtered out and not shown.  The departures you see will be _only_ for the selected bus line.
-* Realtime data will automatically update from the BusTime API every 9 seconds.
-* Historical data will automatically update every 60 seconds.
-* If you lose your connection and BusRate isn't able to update data, you'll see a small red dot in the upper right corner of the section with stale data.  This dot will disappear once updated data is received.
-* Once a bus departs, BusRate will immediately show the departure as a white dot.  Once the API actually creates the departure in the database, it will turn from white to yellow -- this should happen within the next 2 minutes or so.
-* If a driver skips over a stop, or the back end has momentary problems, the departure may not be recorded properly.  Every so often, the system checks for missing departures.  If a vehicle has recorded departures at both a previous and subsequent stop on the route, the system will insert "interpolated" departure.  (These dots will be grey.)
-* If you hover your mouse over a departure dot, you can see useful data about that particular departure: time, vehicle number, headway (wait time since the last departure), and whether the departure is interpolated, etc.
+  * If other bus lines also depart from the same bus stop, they will be filtered out and not shown.  The departures you see will be _only_ for the selected bus line.
+  * Realtime data will automatically update from the BusTime API every 9 seconds.
+  * Historical data will automatically update every 60 seconds.
+  * If you lose your connection and BusRate isn't able to update data, you'll see a small red dot in the upper right corner of the section with stale data.  This dot will disappear once updated data is received.
+  * Once a bus departs, BusRate will immediately show the departure as a white dot.  Once the API actually creates the departure in the database, it will turn from white to yellow -- this should happen within the next 2 minutes or so.
+  * If a driver skips over a stop, or the back end has momentary problems, the departure may not be recorded properly.  Every so often, the system checks for missing departures.  If a vehicle has recorded departures at both a previous and subsequent stop on the route, the system will insert "interpolated" departures.  (These dots will be grey.)
+  * If you hover your mouse over a departure dot, you can see useful data about that particular departure: time, vehicle number, headway (wait time since the last departure), and whether the departure is interpolated, etc.
 * __BusRate Score__ - A score on a 0-100 scale, where 0 is Abysmal and 100 is Excellent.  Also shows several other stats that make up the score, including average wait time, consistency, and bus bunching info.  By default, the score is for the 8 recent departures displayed on screen.  Click on the score itself to cycle through scores for previous departures, weekdays, weekends, rush hours, and all-time score for this particular stop.
 
 ## Future
