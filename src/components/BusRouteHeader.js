@@ -7,7 +7,9 @@ const BusRouteHeader = (props) => {
   return (
     <div className='bus-route-header'>
       <BusRouteName routeName={routeName} routeId={routeId} loadingState={loadingState} routeColor={routeColor} />
-      <BusRouteInfo routeDirection={routeDirection} stopNum={stopNum} stopName={stopName} routeDescription={routeDescription} routeLongName={routeLongName} />
+      <BusRouteInfo routeDirection={routeDirection} stopNum={stopNum} stopName={stopName} routeDescription={routeDescription} routeLongName={routeLongName}>
+        {props.children}
+      </BusRouteInfo>
     </div>
   )
 };

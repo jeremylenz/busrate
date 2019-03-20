@@ -18,3 +18,4 @@ export const LIST_OF_MTA_BUS_ROUTES_URL = `${OUR_API_URL}/mta/routes`
 export const LIST_OF_STOPS_FOR_ROUTE_URL = `${OUR_API_URL}/mta/stoplists/`
 export const VEHICLES_FOR_STOP_URL = `${OUR_API_URL}/mta/vehicles_for_stop/`
 export const BUS_STOPS_URL = `${OUR_API_URL}/bus_stops`
+export const RATING_URL = `${OUR_API_URL}/ratings`

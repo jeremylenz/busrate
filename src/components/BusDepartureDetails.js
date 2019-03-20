@@ -13,6 +13,9 @@ class BusDepartureDetails extends React.Component {
     this.state = {
       lastKnownStopsAway: 'Unknown',
       prevAnticipatedVehicleRef: null,
+      selectedRatingIdx: 0,
+      selectedRating: null,
+      ratingDescription: 'Recent departures',
     }
   }
 
@@ -28,6 +31,10 @@ class BusDepartureDetails extends React.Component {
       return result
     }
     return 0
+  }
+
+  componentDidMount() {
+    this.updateSelectedRating(0)
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -78,13 +85,66 @@ class BusDepartureDetails extends React.Component {
         }
       }
     }
+
+    if (!prevProps.recentsRating && !!this.props.recentsRating) {
+      this.updateSelectedRating(this.state.selectedRatingIdx)
+    }
+  }
+
+  getRatingsFromProps = () => {
+    const { recentsRating, prevDeparturesRating, overallRating, weekdayRating, weekendRating, morningRushHourRating, eveningRushHourRating } = this.props
+    const descriptions = [
+      'Recent departures',
+      'Previous Departures',
+      'All time',
+      'Weekdays',
+      'Weekends',
+      'Morning Rush Hours',
+      'Evening Rush Hours',
+    ]
+    return [
+      recentsRating,
+      prevDeparturesRating,
+      overallRating,
+      weekdayRating,
+      weekendRating,
+      morningRushHourRating,
+      eveningRushHourRating].map((rating, idx) => ({
+        rating: rating,
+        description: descriptions[idx],
+      })).filter((obj) => !!obj.rating)
+  }
+
+  updateSelectedRating = (idx) => {
+    const ratings = this.getRatingsFromProps()
+
+    if (!ratings[idx]) {
+      return;
+    }
+
+    this.setState({
+      selectedRating: ratings[idx].rating,
+      ratingDescription: ratings[idx].description,
+    })
+  }
+
+  rotateSelectedRating = () => {
+    const { selectedRatingIdx } = this.state
+    const ratingsLength = this.getRatingsFromProps().length
+    const newSelectedRatingIdx = (selectedRatingIdx + 1) % ratingsLength
+    this.setState({
+      selectedRatingIdx: newSelectedRatingIdx,
+    }, () => this.updateSelectedRating(newSelectedRatingIdx));
   }
 
   render () {
-    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, recentsRating, prevDeparturesRating, overallRating, hdResponseTimestamp, rtdResponseTimestamp, allowableHeadwayMin, loadingState } = this.props
+    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, hdResponseTimestamp, rtdResponseTimestamp, allowableHeadwayMin, loadingState } = this.props
+    var { selectedRating, ratingDescription } = this.state
     const vehicleNum = this.state.prevAnticipatedVehicleRef
     var historicalDeparturesLoading;
     var staleRealTimeDetails, staleHistoricalDepartures;
+
+    // if (!selectedRating) selectedRating = this.props.recentsRating;
 
     // Show a red dot in the upper right corner if data is more than ~3 seconds late.
     // console.log(Date.now() - Date.parse(hdResponseTimestamp))
@@ -121,9 +181,9 @@ class BusDepartureDetails extends React.Component {
         />
         <RatingDetails
           loadingState={loadingState}
-          recentsRating={recentsRating}
-          prevDeparturesRating={prevDeparturesRating}
-          overallRating={overallRating}
+          rating={selectedRating}
+          ratingDescription={ratingDescription}
+          rotateSelectedRating={this.rotateSelectedRating}
           allowableHeadwayMin={allowableHeadwayMin}
         />
 
