@@ -2,7 +2,7 @@
 
 Welcome to BusRate NYC!  This is an app designed to help provide insights about __bus performance__ in the New York City MTA bus system.
 
-<img width="816" alt="BusRate screen shot" src="https://user-images.githubusercontent.com/22042343/54376898-6bbc1500-465a-11e9-9110-828ae86fe92d.png">
+<img width="816" alt="BusRate screen shot" src="https://user-images.githubusercontent.com/22042343/54717612-eab7be80-4b2e-11e9-9073-9589b7d590bb.png">
 
 ## Basic idea
 
@@ -43,7 +43,7 @@ _Constants:_ Since the BusRate API handles communication with MTA BusTime, you d
 
 1. Start typing the name of your favorite NYC bus route.  For example, `M60` for the M60 Select Bus Service to LaGuardia Airport.
 2. Click or tap the bus route you want.  You'll see the two terminals (directions the bus can go in) along with a list of stops.  Click the direction and stop you're interested in.
-3. You'll see a page with two sections:
+3. You'll see a page with three sections:
 
 -----
 
@@ -52,20 +52,24 @@ _Constants:_ Since the BusRate API handles communication with MTA BusTime, you d
 * If other bus lines also depart from the same bus stop, they will be filtered out and not shown.  The departures you see will be _only_ for the selected bus line.
 * Realtime data will automatically update from the BusTime API every 9 seconds.
 * Historical data will automatically update every 60 seconds.
-* Once a bus departs, you should be able to see the historical departure within the next 2 minutes or so.
+* If you lose your connection and BusRate isn't able to update data, you'll see a small red dot in the upper right corner of the section with stale data.  This dot will disappear once updated data is received.
+* Once a bus departs, BusRate will immediately show the departure as a white dot.  Once the API actually creates the departure in the database, it will turn from white to yellow -- this should happen within the next 2 minutes or so.
+* If a driver skips over a stop, or the back end has momentary problems, the departure may not be recorded properly.  Every so often, the system checks for missing departures.  If a vehicle has recorded departures at both a previous and subsequent stop on the route, the system will insert "interpolated" departure.  (These dots will be grey.)
+* If you hover your mouse over a departure dot, you can see useful data about that particular departure: time, vehicle number, headway (wait time since the last departure), and whether the departure is interpolated, etc.
+* __BusRate Score__ - A score on a 0-100 scale, where 0 is Abysmal and 100 is Excellent.  Also shows several other stats that make up the score, including average wait time, consistency, and bus bunching info.  By default, the score is for the 8 recent departures displayed on screen.  Click on the score itself to cycle through scores for previous departures, weekdays, weekends, rush hours, and all-time score for this particular stop.
 
 ## Future
 
 Now that we have historical departure data, there's a ton of interesting stuff that can be done with it.  I may work on one or more of these in the future:
 
-* Bus bunching data (both real-time and historical)
-* Historical trip duration from stop to stop
-* Average headways for this bus line - overall; for certain time periods; per hour; etc.
-* Schedule adherence / comparison
-* Generate a "score" for each bus based on consistency and low headways
-* Machine learning predictions of future headways
-* Rate the accuracy of realtime data by comparing it to when the bus actually arrived
-* If you have more ideas, please feel free to share!  (@jeremy646 on Twitter)
+- [x] * Bus bunching data (both real-time and historical)
+- [ ] Historical trip duration from stop to stop
+- [x] Average headways for this bus line - overall; for certain time periods; per hour; etc.
+- [ ] Schedule adherence / comparison
+- [x] Generate a "score" for each bus based on consistency and low headways
+- [ ] Machine learning predictions of future headways
+- [ ] Rate the accuracy of realtime data by comparing it to when the bus actually arrived
+- [x] If you have more ideas, please feel free to share!  (@jeremy646 on Twitter)
 
 ## Technical details about the React app
 
@@ -74,9 +78,9 @@ Now that we have historical departure data, there's a ton of interesting stuff t
 * Custom CSS; no frameworks used
 * `styled-components` library is used to style each React component
 * CSS Grid is used in `index.css` to describe the basic layout of the app
-* CSS Flexbox is used in `DepartureGraph.js` to make the visual departure graphs
+* CSS Flexbox is used in `DepartureGraph.js` to make the visual departure graphs; also in Ratings details
 * Keyframes are used in `Loader.js` which is a basic CSS loader/spinner
-* Media queries are used in `index.css` to provide a fully responsive design
+* Media queries are used to provide a fully responsive design
 
 ### Redux
 
