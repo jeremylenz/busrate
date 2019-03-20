@@ -6,6 +6,7 @@ import {stopListsReducer} from './reducers/stopLists.reducer';
 import {realTimeDetailsReducer} from './reducers/realTimeDetails.reducer';
 import {historicalDeparturesReducer} from './reducers/historicalDepartures.reducer'
 import {anticipatedDeparturesReducer} from './reducers/anticipatedDepartures.reducer'
+import {ratingsReducer} from './reducers/ratings.reducer'
 
 import {uiReducer} from './reducers/ui.reducer'
 
@@ -14,6 +15,7 @@ import {stopListsMiddleware} from './middleware/feature/stopLists';
 import {realTimeDetailsMiddleware} from './middleware/feature/realTimeDetails'
 import {historicalDeparturesMiddleware} from './middleware/feature/historicalDepartures'
 import {anticipatedDeparturesMiddleware} from './middleware/feature/anticipatedDepartures'
+import {ratingsMiddleware} from './middleware/feature/ratings'
 
 import {apiMiddleware} from './middleware/core/api';
 import {normalizeMiddleware} from './middleware/core/normalize'
@@ -27,6 +29,7 @@ const rootReducer = combineReducers({
   realTimeDetails: realTimeDetailsReducer,
   historicalDepartures: historicalDeparturesReducer,
   anticipatedDepartures: anticipatedDeparturesReducer,
+  ratings: ratingsReducer,
 })
 
 // create the feature middleware array
@@ -37,6 +40,7 @@ const featureMiddleware = [
   realTimeDetailsMiddleware,
   historicalDeparturesMiddleware,
   anticipatedDeparturesMiddleware,
+  ratingsMiddleware,
 ];
 
 const coreMiddleware = [

@@ -4,6 +4,7 @@ import { fetchRealTimeDetail } from './../redux/actions/realTimeDetails'
 import { STOP_LISTS } from './../redux/actions/stopLists'
 import { fetchHistoricalDeparture } from './../redux/actions/historicalDepartures'
 import { fetchStopList } from './../redux/actions/stopLists'
+import { fetchRatingForRoute } from './../redux/actions/ratings'
 import { withRouter } from 'react-router-dom'
 import { MiniRatingDetails } from './RatingDetails'
 import BusRouteHeader from './BusRouteHeader'
@@ -54,6 +55,11 @@ class BusRouteOverviewPage extends Component {
     if (!selectedStopList) {
       this.props.fetchStopList(routeId)
     }
+
+    this.props.fetchRatingForRoute({
+      lineRef: routeId,
+      directionRef: this.state.selectedDestination,
+    })
   }
 
   handleTerminalSelection = (terminalName) => {
@@ -71,10 +77,20 @@ class BusRouteOverviewPage extends Component {
         pathname: this.props.location.pathname,
         search: newSearch
       });
+      this.checkRating(newTerminal);
       return {
         selectedDestination: newTerminal
       };
     });
+  }
+
+  checkRating = (directionRef) => {
+    // See if we have a rating for this line and direction.  If not, fetch it.
+    let lineRef = this.props.match.params.id
+    let trackingKey = `${lineRef} - ${directionRef}`
+    if (!this.props.ratings[trackingKey]) {
+      this.props.fetchRatingForRoute({lineRef, directionRef})
+    }
   }
 
   render() {
@@ -138,11 +154,13 @@ class BusRouteOverviewPage extends Component {
       selectedDestinationName = stopDataList.destination
     }
 
+    // Rating data
+    const rating = this.props.ratings[`${routeId} - ${this.state.selectedDestination}`]
 
     return (
       <div className='bus-route-overview'>
         <BusRouteHeader routeName={routeName} routeId={routeId} routeColor={routeColor} routeDescription={routeDescription} routeLongName={routeLongName}>
-          <MiniRatingDetails />
+          <MiniRatingDetails rating={rating} allowableHeadwayMin={8}/>
         </BusRouteHeader>
         {loading &&
           <StyledDiv className='bus-stop-list-container loading'>
@@ -169,6 +187,7 @@ const mapStateToProps = (state) => {
   return {
     stopLists: state.stopLists,
     ui: state.ui,
+    ratings: state.ratings,
   }
 };
 
@@ -176,6 +195,7 @@ const mapDispatchToProps = {
   fetchRealTimeDetail,
   fetchHistoricalDeparture,
   fetchStopList,
+  fetchRatingForRoute,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BusRouteOverviewPage));

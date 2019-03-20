@@ -195,23 +195,23 @@ const BusRateScore = (props) => {
 export class MiniRatingDetails extends React.Component {
 
   render () {
-    // const { rating, allowableHeadwayMin } = this.props
-    const rating = {
-      average_headway: 453.55,
-      standard_deviation: 332.58,
-      bunched_headways_count: 2,
-      percent_of_deps_bunched: 22.2,
-      anti_bonus: 960,
-      allowable_total: 3360,
-      actual_total: 3715.363766721,
-      raw_score: 90,
-      busrate_score: 90,
-      current_headway: 251.363766721,
-      score_incorporates_current_headway: true,
-    }
-    const allowableHeadwayMin = 8
+    const { rating, allowableHeadwayMin } = this.props
+    // const rating = {
+    //   average_headway: 453.55,
+    //   standard_deviation: 332.58,
+    //   bunched_headways_count: 2,
+    //   percent_of_deps_bunched: 22.2,
+    //   anti_bonus: 960,
+    //   allowable_total: 3360,
+    //   actual_total: 3715.363766721,
+    //   raw_score: 90,
+    //   busrate_score: 90,
+    //   current_headway: 251.363766721,
+    //   score_incorporates_current_headway: true,
+    // }
+    // const allowableHeadwayMin = 8
     if (!rating) {
-      return <ContentRoundRect>Loading BusRate Score...</ContentRoundRect>
+      return <RatingBanner><BannerBlurb>Loading BusRate Score...</BannerBlurb></RatingBanner>
     }
 
     const busRateScore = rating.busrate_score
