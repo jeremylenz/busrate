@@ -67,14 +67,17 @@ const StyledTooltip = styled.span`
   font-family: 'Asap';
   position: absolute;
   visibility: hidden;
-  width: 150px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  width: 185px;
   background-color: white;
   color: black;
-  text-align: center;
   border-radius: 6px;
   border-style: solid;
   border-color: #2634a7;
-  padding: 5px 0;
+  padding: 5px;
   z-index: 99;
   bottom: 125%;
   left: ${props => props.nudgedLeft ? '45px' : '-30%'};
@@ -86,13 +89,25 @@ const StyledTooltip = styled.span`
     content: "";
     position: absolute;
     top: 100%;
-    left: ${props => props.nudgedLeft ? '12%' : '50%'};
+    left: ${props => props.nudgedLeft ? '9%' : '36%'};
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
     border-color: #2634a7 transparent transparent transparent;
   }
 
+`
+
+const StyledTooltipLeft = styled.span`
+  flex-basis: 55%;
+  font-size: 0.7em;
+  color: '#eee';
+`
+
+const StyledTooltipRight = styled.span`
+  flex-basis: 45%;
+  font-size: 0.8em;
+  color: black;
 `
 
 function doNothing() {
@@ -129,6 +144,9 @@ const DepartureGraph = (props) => {
   return (
     <StyledDepartureGraph className={gsClassName}>
       {departures.map((departure, idx) => {
+        let departureType = 'actual';
+        if (departure.interpolated) departureType = 'interpolated';
+        if (departure.anticipated) departureType = 'anticipated';
         let headway = headways[idx]
         let hwWidth = headway * 8
         if (!headway) hwWidth = 8;
@@ -150,14 +168,15 @@ const DepartureGraph = (props) => {
             }
             <StyledDepartureDot onClick={doNothing} key={Date.now()} className={getDotClassName(departure)}>
               <StyledTooltip nudgedLeft={firstHeadway}>
-                <div>
-                  {times[idx]}<br />
-                  Vehicle # {vehicleRefs[idx]}<br />
-                  Headway: {dotsFirst ? `${headway || "~"} min` : `${headways[idx + 1] || "~"} min`}<br />
-                  {departure.interpolated &&
-                    "Interpolated"
-                  }
-                </div>
+                <StyledTooltipLeft>departed</StyledTooltipLeft>
+                <StyledTooltipRight>{times[idx]}</StyledTooltipRight>
+                <StyledTooltipLeft>vehicle #</StyledTooltipLeft>
+                <StyledTooltipRight>{vehicleRefs[idx]}</StyledTooltipRight>
+                <StyledTooltipLeft>headway</StyledTooltipLeft>
+                <StyledTooltipRight>{dotsFirst ? `${headway || "~"} min` : `${headways[idx + 1] || "~"} min`}</StyledTooltipRight>
+                <StyledTooltipLeft>type</StyledTooltipLeft>
+                <StyledTooltipRight>{departureType}</StyledTooltipRight>
+
               </StyledTooltip>
             </StyledDepartureDot>
             {dotsFirst && !lastHeadway &&
