@@ -104,6 +104,14 @@ const Bullet = styled.span`
   &::before {
     content: "•"
   }
+  &.extra {
+    display: none;
+  }
+  @media only screen and (min-width: 600px) {
+    &.extra{
+      display: initial;
+    }
+  }
 `
 
 const BannerBlurb = styled.span`
@@ -111,6 +119,14 @@ const BannerBlurb = styled.span`
   font-size: ${props => props.smaller ? '0.7em' : '0.9em'};
   margin-top: 5px;
   margin-bottom: 2px;
+  &.extra {
+    display: none;
+  }
+  @media only screen and (min-width: 600px) {
+    &.extra{
+      display: initial;
+    }
+  }
 `
 
 const metricsColors = {
@@ -234,6 +250,10 @@ export class MiniRatingDetails extends React.Component {
           <BannerBlurb smaller>
             <Number smaller color={waitTimeColor}>{actualHeadwayMin}</Number>
             <span> min</span>
+          </BannerBlurb>
+          <Bullet className='extra'/>
+          <BannerBlurb smaller className='extra'>
+            <Number smaller color={getColorForBunchingPercent(bunchingPercent)}>{bunchingPercent}%</Number>
           </BannerBlurb>
         </RatingBanner>
       </>
