@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const RoundRect = styled.div`
   position: relative;
@@ -33,6 +33,6 @@ const RoundRect = styled.div`
     padding-top: 60px;
     padding-bottom: 15px;
   }
-`
+`;
 
 export default RoundRect;

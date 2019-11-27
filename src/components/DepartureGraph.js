@@ -15,7 +15,7 @@ const StyledDepartureGraph = styled.div`
     background-color: #d8d8d8;
     color: #797878;
   }
-`
+`;
 const StyledDepartureDot = styled.div`
   font-family: 'Asap';
   position: relative;
@@ -44,7 +44,7 @@ const StyledDepartureDot = styled.div`
     background-color: #fdfdfd;
     color: #797878;
   }
-`
+`;
 const StyledDepartureHeadway = styled.div`
   font-family: 'Asap';
   height: 25px;
@@ -57,11 +57,11 @@ const StyledDepartureHeadway = styled.div`
   margin-right: -5px;
   text-align: center;
   z-index: 1;
-`
+`;
 
 const StyledDiv = styled.div`
   margin-top: 2px;
-`
+`;
 
 const StyledTooltip = styled.span`
   font-family: 'Asap';
@@ -96,19 +96,19 @@ const StyledTooltip = styled.span`
     border-color: #2634a7 transparent transparent transparent;
   }
 
-`
+`;
 
 const StyledTooltipLeft = styled.span`
   flex-basis: 55%;
   font-size: 0.7em;
   color: '#eee';
-`
+`;
 
 const StyledTooltipRight = styled.span`
   flex-basis: 45%;
   font-size: 0.8em;
   color: black;
-`
+`;
 
 function doNothing() {
   // When using the -webkit-overflow-scrolling: touch CSS property to provide momentum scrolling on iOS Safari,
@@ -120,25 +120,25 @@ function doNothing() {
 
 function getDotClassName(departure) {
   if (departure.interpolated) {
-    return "grayscale"
+    return 'grayscale';
   }
   if (departure.anticipated) {
-    return "white"
+    return 'white';
   }
-  return ""
+  return '';
 }
 
 const DepartureGraph = (props) => {
   // headways = [5, 6, 15, 22, 8] - minutes of wait time in between each departure
   // times = ['6:56pm', '6:33pm', ...]
 
-  const { departures, headways, times, vehicleRefs, grayscale } = props
-  const gsClassName = grayscale ? "grayscale" : ""
-  var { dotsFirst } = props
+  const { departures, headways, times, vehicleRefs, grayscale } = props;
+  const gsClassName = grayscale ? 'grayscale' : '';
+  var { dotsFirst } = props;
   if (!headways) return null;
   if (!dotsFirst && headways[0] < 3) {
     dotsFirst = true;
-    headways.shift()
+    headways.shift();
   }
 
   return (
@@ -147,14 +147,14 @@ const DepartureGraph = (props) => {
         let departureType = 'actual';
         if (departure.interpolated) departureType = 'interpolated';
         if (departure.anticipated) departureType = 'anticipated';
-        let headway = headways[idx]
-        let hwWidth = headway * 8
+        let headway = headways[idx];
+        let hwWidth = headway * 8;
         if (!headway) hwWidth = 8;
-        let crowdDots = false
-        let lastHeadway = (idx === departures.length - 1)
-        let firstHeadway = (idx === 0)
+        let crowdDots = false;
+        let lastHeadway = (idx === departures.length - 1);
+        let firstHeadway = (idx === 0);
         if (headway < 3 && idx > 0) {
-          crowdDots = true
+          crowdDots = true;
           hwWidth = 8;
         }
         return (
@@ -173,7 +173,7 @@ const DepartureGraph = (props) => {
                 <StyledTooltipLeft>vehicle #</StyledTooltipLeft>
                 <StyledTooltipRight>{vehicleRefs[idx]}</StyledTooltipRight>
                 <StyledTooltipLeft>headway</StyledTooltipLeft>
-                <StyledTooltipRight>{dotsFirst ? `${headway || "~"} min` : `${headways[idx + 1] || "~"} min`}</StyledTooltipRight>
+                <StyledTooltipRight>{dotsFirst ? `${headway || '~'} min` : `${headways[idx + 1] || '~'} min`}</StyledTooltipRight>
                 <StyledTooltipLeft>type</StyledTooltipLeft>
                 <StyledTooltipRight>{departureType}</StyledTooltipRight>
 
@@ -187,11 +187,11 @@ const DepartureGraph = (props) => {
               </StyledDepartureHeadway>
             }
           </React.Fragment>
-        )
+        );
       })}
     </StyledDepartureGraph>
-  )
+  );
 
-}
+};
 
 export default DepartureGraph;

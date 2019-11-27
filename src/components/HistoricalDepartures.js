@@ -1,14 +1,14 @@
-import React from 'react'
-import RoundRect from './RoundRect'
-import RedDot from './RedDot'
-import DepartureGraph from './DepartureGraph'
-import Loader from './Loader'
+import React from 'react';
+import RoundRect from './RoundRect';
+import RedDot from './RedDot';
+import DepartureGraph from './DepartureGraph';
+import Loader from './Loader';
 
 const HistoricalDepartures = (props) => {
-  const { historicalDeparturesLoading } = props
+  const { historicalDeparturesLoading } = props;
   return (
     <div style={{position: 'relative', zIndex: 2}}>
-      <RoundRect ref={props.scrollRef} className={props.historicalDeparturesLoading ? "loading" : ""}>
+      <RoundRect ref={props.scrollRef} className={props.historicalDeparturesLoading ? 'loading' : ''}>
         {!historicalDeparturesLoading &&
           <>
             <p>Most recent departure: {props.recentDepText}</p>
@@ -28,7 +28,7 @@ const HistoricalDepartures = (props) => {
         <RedDot />
       }
     </div>
-    )
-}
+  );
+};
 
 export default HistoricalDepartures;

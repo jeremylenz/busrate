@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { fetchBusRoutes } from '../redux/actions/busRoutes'
-import { fetchStopList } from '../redux/actions/stopLists'
-import Search, { createFilter } from 'react-search-input'
-import SearchResultsList from './SearchResultsList'
-import styled from 'styled-components'
-import Loader from './Loader'
+import { connect } from 'react-redux';
+import { fetchBusRoutes } from '../redux/actions/busRoutes';
+import { fetchStopList } from '../redux/actions/stopLists';
+import Search, { createFilter } from 'react-search-input';
+import SearchResultsList from './SearchResultsList';
+import styled from 'styled-components';
+import Loader from './Loader';
 
 const StyledSearch = styled(Search)`
   padding: 10px 10px;
@@ -34,20 +34,20 @@ const StyledSearch = styled(Search)`
     outline: none;
   }
 
-`
+`;
 
 class BusRouteSearchPage extends Component {
 
   constructor () {
-    super()
+    super();
     this.state = {
       searchTerm: '',
-    }
+    };
   }
 
   componentDidMount() {
     if (this.props.busRoutes.items.length < 1) {
-      this.props.fetchBusRoutes()
+      this.props.fetchBusRoutes();
     }
 
   }
@@ -55,26 +55,26 @@ class BusRouteSearchPage extends Component {
   handleChange = (searchTerm) => {
     this.setState({
       searchTerm
-    })
+    });
   }
 
   fetchStopList = (routeId) => {
-    let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId)
+    let foundStopList = this.props.stopLists.items.find((stopList) => stopList.data && stopList.data.entry.routeId === routeId);
     if (!foundStopList) {
-      this.props.fetchStopList(routeId)
+      this.props.fetchStopList(routeId);
     }
   }
 
 
   render() {
     if (this.props.ui.loading) {
-      return <Loader absolute />
+      return <Loader absolute />;
     }
-    const { searchTerm } = this.state
-    const routeList = this.props.busRoutes.items || []
-    const results = routeList.filter(createFilter(searchTerm, ['shortName', 'longName']))
-    const display = (results.length > 0 && !!searchTerm)
-    const placeholderText = window.screen.width > 600 ? 'Enter bus route...' : 'bus route...'
+    const { searchTerm } = this.state;
+    const routeList = this.props.busRoutes.items || [];
+    const results = routeList.filter(createFilter(searchTerm, ['shortName', 'longName']));
+    const display = (results.length > 0 && !!searchTerm);
+    const placeholderText = window.screen.width > 600 ? 'Enter bus route...' : 'bus route...';
 
     return (
       <>
@@ -97,9 +97,9 @@ const mapStateToProps = (state) => {
     busRoutes: state.busRoutes,
     stopLists: state.stopLists,
     ui: state.ui,
-  }
+  };
 };
 
-const mapDispatchToProps = { fetchBusRoutes, fetchStopList }
+const mapDispatchToProps = { fetchBusRoutes, fetchStopList };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BusRouteSearchPage);

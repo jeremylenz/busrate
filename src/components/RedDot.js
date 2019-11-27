@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const RedDot = styled.div`
   height: 4px;
@@ -11,6 +11,6 @@ const RedDot = styled.div`
   border-radius: 50%;
   border-style: solid;
 
-`
+`;
 
 export default RedDot;

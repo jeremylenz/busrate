@@ -11,12 +11,12 @@ export const fetchStopList = (routeId) => {
   return {
     type: FETCH_STOP_LIST,
     payload: routeId,
-  }
-}
+  };
+};
 
 export const addStopList = ({stopList}) => {
   return {
     type: ADD_STOP_LIST,
     payload: stopList
-  }
-}
+  };
+};

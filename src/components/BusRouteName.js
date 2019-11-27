@@ -1,11 +1,11 @@
 import React from 'react';
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const StyledCircle = styled.div`
   height: 150px;
   width: 150px;
-  background-color: ${props => props.routeColor ? `#${props.routeColor}` : "#b159aa"};
+  background-color: ${props => props.routeColor ? `#${props.routeColor}` : '#b159aa'};
   border-radius: 50%;
   border: 3px black;
   border-style: solid;
@@ -27,18 +27,18 @@ const StyledCircle = styled.div`
     height: 100px;
     width: 100px;
   }
-`
+`;
 
 const StyledDiv = styled.div`
   text-shadow: 1px 1px 1px #000000;
-`
+`;
 
 const BusRouteName = (props) => (
-    <StyledCircle className='bus-route-name' routeColor={props.routeColor}>
-      <StyledDiv classname='bus-route-name-text'>
-        <Link to={`/buses/${props.routeId}`}>{props.routeName}</Link>
-      </StyledDiv>
-    </StyledCircle>
+  <StyledCircle className='bus-route-name' routeColor={props.routeColor}>
+    <StyledDiv classname='bus-route-name-text'>
+      <Link to={`/buses/${props.routeId}`}>{props.routeName}</Link>
+    </StyledDiv>
+  </StyledCircle>
 );
 
 export default BusRouteName;

@@ -1,8 +1,8 @@
 import React from 'react';
-import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures'
-import RatingDetails from './RatingDetails'
-import RealTimeDetails from './RealTimeDetails'
-import HistoricalDepartures from './HistoricalDepartures'
+import { HISTORICAL_DEPARTURES } from './../redux/actions/historicalDepartures';
+import RatingDetails from './RatingDetails';
+import RealTimeDetails from './RealTimeDetails';
+import HistoricalDepartures from './HistoricalDepartures';
 
 class BusDepartureDetails extends React.Component {
 
@@ -16,25 +16,25 @@ class BusDepartureDetails extends React.Component {
       selectedRatingIdx: 0,
       selectedRating: null,
       ratingDescription: 'Recent departures',
-    }
+    };
   }
 
-  getSnapshotBeforeUpdate(prevProps, prevState) {
+  getSnapshotBeforeUpdate() {
     const scrollRef = this.scrollRef.current;
     if (scrollRef && scrollRef.scrollLeft) { // 0 is a falsey value in JS!
       // Before the component updates, capture the current scrollLeft value.
       return scrollRef.scrollLeft;
     }
     if (this.minScrollLeft) {
-      let result = this.minScrollLeft
-      this.minScrollLeft = null
-      return result
+      let result = this.minScrollLeft;
+      this.minScrollLeft = null;
+      return result;
     }
-    return 0
+    return 0;
   }
 
   componentDidMount() {
-    this.updateSelectedRating(0)
+    this.updateSelectedRating(0);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -56,43 +56,43 @@ class BusDepartureDetails extends React.Component {
     // we can create an 'anticipated' departure which will live in our Redux store but nowhere else.
     // This way we can display departures immediately, instead of after 2+ minutes.
 
-    if (this.props.stopsAway !== "Unknown" && this.props.stopsAway !== "No vehicles found" && prevProps.stopsAway !== this.props.stopsAway) {
+    if (this.props.stopsAway !== 'Unknown' && this.props.stopsAway !== 'No vehicles found' && prevProps.stopsAway !== this.props.stopsAway) {
       this.setState({
         lastKnownStopsAway: this.props.stopsAway,
       });
       if (!this.state.prevAnticipatedVehicleRef) {
         this.setState({
           prevAnticipatedVehicleRef: this.props.anticipatedDepVehicleRef,
-        })
+        });
       }
     }
     if (prevState.lastKnownStopsAway !== this.state.lastKnownStopsAway) {
       // ["1 stop away", "< 1 stop away"]
       // console.log([prevState.lastKnownStopsAway, this.state.lastKnownStopsAway])
       // console.log(this.props.anticipatedDepVehicleRef)
-      let prevStopsAway = prevState.lastKnownStopsAway
-      let currentStopsAway = this.state.lastKnownStopsAway
-      let orderedSequence = ["< 1 stop away", "approaching", "at stop"]
+      let prevStopsAway = prevState.lastKnownStopsAway;
+      let currentStopsAway = this.state.lastKnownStopsAway;
+      let orderedSequence = ['< 1 stop away', 'approaching', 'at stop'];
       if (orderedSequence.includes(prevStopsAway)) {
-        let prevIndex = orderedSequence.indexOf(prevStopsAway) // 0, 1, or 2
-        let currIndex = orderedSequence.indexOf(currentStopsAway) // 0, 1, 2, or -1 if not found
+        let prevIndex = orderedSequence.indexOf(prevStopsAway); // 0, 1, or 2
+        let currIndex = orderedSequence.indexOf(currentStopsAway); // 0, 1, 2, or -1 if not found
         if (currIndex < prevIndex) {
           // then we can assume currentStopsAway and prevStopsAway refer to different vehicles; therefore, create the anticipated departure.
-          this.props.createAnticipatedDeparture(this.state.prevAnticipatedVehicleRef)
+          this.props.createAnticipatedDeparture(this.state.prevAnticipatedVehicleRef);
           this.setState({
             prevAnticipatedVehicleRef: this.props.anticipatedDepVehicleRef,
-          })
+          });
         }
       }
     }
 
     if (!prevProps.recentsRating && !!this.props.recentsRating) {
-      this.updateSelectedRating(this.state.selectedRatingIdx)
+      this.updateSelectedRating(this.state.selectedRatingIdx);
     }
   }
 
   getRatingsFromProps = () => {
-    const { recentsRating, prevDeparturesRating, overallRating, weekdayRating, weekendRating, morningRushHourRating, eveningRushHourRating } = this.props
+    const { recentsRating, prevDeparturesRating, overallRating, weekdayRating, weekendRating, morningRushHourRating, eveningRushHourRating } = this.props;
     const descriptions = [
       'Recent departures',
       'Previous Departures',
@@ -101,7 +101,7 @@ class BusDepartureDetails extends React.Component {
       'Weekends',
       'Morning Rush Hours',
       'Evening Rush Hours',
-    ]
+    ];
     return [
       recentsRating,
       prevDeparturesRating,
@@ -110,13 +110,13 @@ class BusDepartureDetails extends React.Component {
       weekendRating,
       morningRushHourRating,
       eveningRushHourRating].map((rating, idx) => ({
-        rating: rating,
-        description: descriptions[idx],
-      })).filter((obj) => !!obj.rating)
+      rating: rating,
+      description: descriptions[idx],
+    })).filter((obj) => !!obj.rating);
   }
 
   updateSelectedRating = (idx) => {
-    const ratings = this.getRatingsFromProps()
+    const ratings = this.getRatingsFromProps();
 
     if (!ratings[idx]) {
       return;
@@ -125,22 +125,22 @@ class BusDepartureDetails extends React.Component {
     this.setState({
       selectedRating: ratings[idx].rating,
       ratingDescription: ratings[idx].description,
-    })
+    });
   }
 
   rotateSelectedRating = () => {
-    const { selectedRatingIdx } = this.state
-    const ratingsLength = this.getRatingsFromProps().length
-    const newSelectedRatingIdx = (selectedRatingIdx + 1) % ratingsLength
+    const { selectedRatingIdx } = this.state;
+    const ratingsLength = this.getRatingsFromProps().length;
+    const newSelectedRatingIdx = (selectedRatingIdx + 1) % ratingsLength;
     this.setState({
       selectedRatingIdx: newSelectedRatingIdx,
     }, () => this.updateSelectedRating(newSelectedRatingIdx));
   }
 
   render () {
-    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, hdResponseTimestamp, rtdResponseTimestamp, allowableHeadwayMin, loadingState } = this.props
-    var { selectedRating, ratingDescription } = this.state
-    const vehicleNum = this.state.prevAnticipatedVehicleRef
+    const { recentDepartures, previousDepartures, stopsAway, minutesAway, progressStatus, recents, recentDepText, recentHeadways, recentVehicleRefs, yesterday, previousHeadways, previousVehicleRefs, yesterdayLabel, hdResponseTimestamp, rtdResponseTimestamp, allowableHeadwayMin, loadingState } = this.props;
+    var { selectedRating, ratingDescription } = this.state;
+    const vehicleNum = this.state.prevAnticipatedVehicleRef;
     var historicalDeparturesLoading;
     var staleRealTimeDetails, staleHistoricalDepartures;
 
@@ -148,12 +148,12 @@ class BusDepartureDetails extends React.Component {
 
     // Show a red dot in the upper right corner if data is more than ~3 seconds late.
     // console.log(Date.now() - Date.parse(hdResponseTimestamp))
-    staleHistoricalDepartures = (Date.now() - Date.parse(hdResponseTimestamp)) > 64000
+    staleHistoricalDepartures = (Date.now() - Date.parse(hdResponseTimestamp)) > 64000;
 
     // console.log(Date.now() - Date.parse(rtdResponseTimestamp))
-    staleRealTimeDetails = (Date.now() - Date.parse(rtdResponseTimestamp)) > 12000
+    staleRealTimeDetails = (Date.now() - Date.parse(rtdResponseTimestamp)) > 12000;
 
-    historicalDeparturesLoading = (recents && recents.length === 0 && loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES))
+    historicalDeparturesLoading = (recents && recents.length === 0 && loadingState.loading && loadingState.features.has(HISTORICAL_DEPARTURES));
 
     return (
       <>
@@ -188,8 +188,8 @@ class BusDepartureDetails extends React.Component {
         />
 
       </>
-      )
-    }
+    );
+  }
 
 }
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from 'styled-components';
 
 const spin = keyframes`
   0% {transform: rotate(0deg);}
   100% {transform: rotate(360deg);}
-  `
+  `;
 
 const StyledDiv = styled.div`
   position: relative;
@@ -24,7 +24,7 @@ const StyledDiv = styled.div`
   &.abs {
     position: absolute;
   }
-`
+`;
 
 const Loader = (props) => (
   <StyledDiv className={props.absolute ? 'abs loader' : 'loader'} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const StyledDiv = styled.div`
   cursor: pointer;
@@ -40,34 +40,34 @@ const StyledDiv = styled.div`
   @media only screen and (max-width: 600px) {
     font-size: 1em;
   }
-`
+`;
 const StyledFlexContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: stretch;
   position: sticky;
   top: 0;
-`
+`;
 
 const TerminalChooser = (props) => {
 
-  const { terminals, selected, handleTerminalSelection } = props
+  const { terminals, selected, handleTerminalSelection } = props;
 
 
   return (
     <>
       <StyledFlexContainer>
-      {terminals.map((terminal) => {
-        let termClass = 'bus-terminal'
-        if (terminal === selected) termClass += ' selected'
-        return (
+        {terminals.map((terminal) => {
+          let termClass = 'bus-terminal';
+          if (terminal === selected) termClass += ' selected';
+          return (
             <StyledDiv key={terminal} className={termClass} onClick={() => handleTerminalSelection(terminal)}>{terminal}</StyledDiv>
-        )
-      })
-      }
+          );
+        })
+        }
       </StyledFlexContainer>
     </>
-  )
+  );
 
 };
 

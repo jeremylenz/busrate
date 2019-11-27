@@ -12,8 +12,8 @@ export const addAnticipatedDeparture = ({anticipatedDeparture, stopRef, lineRef}
     type: ADD_ANTICIPATED_DEPARTURE,
     payload: anticipatedDeparture,
     meta: {stopRef, lineRef},
-  }
-}
+  };
+};
 
 // export const purgeAnticipatedDepartures = ({stopRef, lineRef}) => {
 //   return {

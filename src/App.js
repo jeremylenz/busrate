@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import BusStopDetailPage from './components/BusStopDetailPage.js'
-import BusRouteSearchPage from './components/BusRouteSearchPage.js'
-import BusRouteOverviewPage from './components/BusRouteOverviewPage.js'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { store } from './redux/store.js'
+import BusStopDetailPage from './components/BusStopDetailPage.js';
+import BusRouteSearchPage from './components/BusRouteSearchPage.js';
+import BusRouteOverviewPage from './components/BusRouteOverviewPage.js';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './redux/store.js';
 
 class App extends Component {
 

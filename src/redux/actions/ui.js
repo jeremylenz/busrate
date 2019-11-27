@@ -10,13 +10,13 @@ export const setLoader = ({feature}) => {
     type: `${feature} ${SET_LOADER}`,
     payload: true,
     meta: {feature},
-  }
-}
+  };
+};
 
 export const clearLoader = ({feature}) => {
   return {
     type: `${feature} ${CLEAR_LOADER}`,
     payload: false,
     meta: {feature},
-  }
-}
+  };
+};

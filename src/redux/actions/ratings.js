@@ -13,28 +13,28 @@ export const fetchRatingForRoute = ({lineRef, directionRef}) => {
   return {
     type: FETCH_RATING_FOR_ROUTE,
     meta: {lineRef, directionRef},
-  }
-}
+  };
+};
 
 export const fetchRatingForStop = ({lineRef, stopRef}) => {
   return {
     type: FETCH_RATING_FOR_STOP,
     meta: {lineRef, stopRef},
-  }
-}
+  };
+};
 
 export const setRatingForRoute = ({lineRef, directionRef, rating}) => {
   return {
     type: SET_RATING_FOR_ROUTE,
     meta: {lineRef, directionRef},
     payload: rating,
-  }
-}
+  };
+};
 
 export const setRatingForStop = ({lineRef, stopRef, rating}) => {
   return {
     type: SET_RATING_FOR_STOP,
     meta: {lineRef, stopRef},
     payload: rating,
-  }
-}
+  };
+};

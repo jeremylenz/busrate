@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom'
-import styled from 'styled-components'
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
 const StyledDiv = styled.div`
   border: 3px solid;
@@ -11,7 +11,7 @@ const StyledDiv = styled.div`
   padding-right: 15px;
   padding-top: 15px;
   padding-bottom: 15px;
-`
+`;
 
 const SearchResult = styled.div`
   padding-left: 10px;
@@ -33,14 +33,14 @@ const SearchResult = styled.div`
     font-size: 1.5em;
   }
 
-`
+`;
 
 
 class SearchResultsList extends React.Component {
 
   handleClick = (routeId) => {
-    this.props.fetchStopList(routeId)
-    this.props.history.push(`/buses/${routeId}`)
+    this.props.fetchStopList(routeId);
+    this.props.history.push(`/buses/${routeId}`);
   }
 
   render() {
@@ -50,19 +50,19 @@ class SearchResultsList extends React.Component {
       <StyledDiv className='search-results'>
         {display &&
           results.map((result, index) =>
-          (
-            <SearchResult className='search-result' key={result.id} onClick={() => this.handleClick(result.id)}>
-              <br></br>
-              <p tabIndex={0} title={result.id}>{result.shortName}
-                <span> - {result.longName}</span>
-              </p>
-              <br></br>
-              {index < results.length - 1 &&
+            (
+              <SearchResult className='search-result' key={result.id} onClick={() => this.handleClick(result.id)}>
+                <br></br>
+                <p tabIndex={0} title={result.id}>{result.shortName}
+                  <span> - {result.longName}</span>
+                </p>
+                <br></br>
+                {index < results.length - 1 &&
                 <hr></hr>
-              }
-            </SearchResult>
-          )
-        )}
+                }
+              </SearchResult>
+            )
+          )}
       </StyledDiv>
     );
   }
