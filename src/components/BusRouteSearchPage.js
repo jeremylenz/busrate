@@ -67,6 +67,7 @@ class BusRouteSearchPage extends Component {
 
 
   render() {
+    // console.log(this.props)
     if (this.props.ui.loading) {
       return <Loader absolute />;
     }
@@ -93,6 +94,7 @@ class BusRouteSearchPage extends Component {
 }
 
 const mapStateToProps = (state) => {
+  // console.log({state})
   return {
     busRoutes: state.busRoutes,
     stopLists: state.stopLists,

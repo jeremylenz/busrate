@@ -22,7 +22,7 @@ import {normalizeMiddleware} from './middleware/core/normalize';
 
 // shape the state structure
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   busRoutes: busRoutesReducer,
   stopLists: stopListsReducer,
   ui: uiReducer,
