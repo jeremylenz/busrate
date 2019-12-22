@@ -14,3 +14,8 @@ export function renderWithRedux(
     store,
   };
 }
+
+export function setWindowWidth(widthInPx) {
+  global.innerWidth = widthInPx || 1024;
+  global.dispatchEvent(new Event('resize'));
+}

@@ -75,7 +75,7 @@ class BusRouteSearchPage extends Component {
     const routeList = this.props.busRoutes.items || [];
     const results = routeList.filter(createFilter(searchTerm, ['shortName', 'longName']));
     const display = (results.length > 0 && !!searchTerm);
-    const placeholderText = window.screen.width > 600 ? 'Enter bus route...' : 'bus route...';
+    const placeholderText = window.innerWidth > 600 ? 'Enter bus route...' : 'bus route...';
 
     return (
       <>
