@@ -18,9 +18,8 @@ test('displays search page', async () => {
 });
 
 test('displays shorter placeholder text when viewport is smaller', async () => {
-  const { findByPlaceholderText } = renderWithRedux(<App />, { initialState });
+  const { queryByPlaceholderText } = renderWithRedux(<App />, { initialState });
   setWindowWidth(375);
-  expect(window.innerWidth).toEqual(375);
-  const inputElement = await findByPlaceholderText('Enter bus route...');
+  const inputElement = queryByPlaceholderText('Enter bus route...');
   expect(inputElement).not.toBeInTheDocument();
 });
