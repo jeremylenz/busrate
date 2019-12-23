@@ -1,3 +1,4 @@
+/* eslint-env commonjs, jest */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { rootReducer as reducer } from '../redux/store.js';
