@@ -48,12 +48,13 @@ const coreMiddleware = [
   normalizeMiddleware,
 ];
 
+export const allMiddleware = [...featureMiddleware, ...coreMiddleware];
+
 // compose the middleware with additional (optional) enhancers
 // also add Redux Devtools Extension hookup
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(
-  applyMiddleware(...featureMiddleware, ...coreMiddleware),
+  applyMiddleware(...allMiddleware),
 );
-
 export const store = createStore(rootReducer, {}, enhancer);

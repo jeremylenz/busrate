@@ -1,9 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-// import { render } from '@testing-library/react';
-import App from '../App';
-import { renderWithRedux, setWindowWidth } from './testHelpers';
-// import { MemoryRouter } from 'react-router-dom';
+// import { prettyDOM } from '@testing-library/react';
+import BusRouteSearchPage from '../components/BusRouteSearchPage';
+import { renderWithReduxAndRouter, setWindowWidth } from './testHelpers';
+import { MemoryRouter } from 'react-router-dom';
 
 const initialState = {
   busRoutes: { items: [] },
@@ -13,15 +13,16 @@ const initialState = {
 // jest.mock('../redux/middleware/core/api.js');
 
 test('displays search page', async () => {
-  const { findByPlaceholderText } = renderWithRedux(<App />, { initialState });
+  const { findByPlaceholderText } = renderWithReduxAndRouter(<BusRouteSearchPage />, { initialState, wrapper: MemoryRouter });
   setWindowWidth(1024);
   const inputElement = await findByPlaceholderText('Enter bus route...');
+  // console.log(prettyDOM(document.querySelector('body')))
   expect(inputElement).toBeInTheDocument();
 });
 
 test('displays shorter placeholder text when viewport is smaller', async () => {
   setWindowWidth(375);
-  const { queryByPlaceholderText } = renderWithRedux(<App />, { initialState });
+  const { queryByPlaceholderText } = renderWithReduxAndRouter(<BusRouteSearchPage />, { initialState });
   const inputElement = queryByPlaceholderText('Enter bus route...');
   expect(inputElement).not.toBeInTheDocument();
 });
