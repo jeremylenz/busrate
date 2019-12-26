@@ -14,27 +14,29 @@ const checkResponse = (response) => {
   }
 };
 
-export const apiMiddleware = ({dispatch}) => (next) => (action) => {
+export const apiMiddleware = ({dispatch}) => next => async (action) => {
   next(action);
 
-  if(action.type.includes(API_REQUEST)) {
+  if (action.type.includes(API_REQUEST)) {
     const { url, method, feature } = action.meta;
     var uri = encodeURI(url);
     // console.log('Real API Middleware');
     // console.log(uri)
     next(setLoader({feature}));
 
-    fetch(uri, { method })
-      .then((response) => checkResponse(response))
-    // .then((response) => response.json())
-      .then((response) => dispatch(apiSuccess({response, feature})))
-      .catch((error) => dispatch(apiError({error, feature})));
-
+    try {
+      const response = await fetch(uri, { method });
+      const parsedResponse = await checkResponse(response);
+      dispatch(apiSuccess({response: parsedResponse, feature}));
+    } catch (error) {
+      dispatch(apiError({error, feature}));
+    }
     // console.log(`${action.type} action`)
   }
 
-  if(action.type.includes(API_SUCCESS) || action.type.includes(API_ERROR)) {
+  if (action.type.includes(API_SUCCESS) || action.type.includes(API_ERROR)) {
     const { feature } = action.meta;
     next(clearLoader({feature}));
   }
+
 };
