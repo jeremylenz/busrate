@@ -20,7 +20,7 @@ export const apiMiddleware = ({dispatch}) => (next) => (action) => {
   if(action.type.includes(API_REQUEST)) {
     const { url, method, feature } = action.meta;
     var uri = encodeURI(url);
-    console.log('Real API Middleware');
+    // console.log('Real API Middleware');
     // console.log(uri)
     next(setLoader({feature}));
 

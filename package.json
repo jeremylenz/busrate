@@ -21,6 +21,7 @@
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
     "jest": "23.6.0",
+    "jest-fetch-mock": "^3.0.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
     "mini-css-extract-plugin": "0.4.3",
@@ -85,12 +86,14 @@
     ],
     "resolver": "jest-pnp-resolver",
     "setupFiles": [
-      "react-app-polyfill/jsdom"
+      "react-app-polyfill/jsdom",
+      "./setupJest.js"
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx}"
     ],
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
     "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
